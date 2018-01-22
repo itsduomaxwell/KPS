@@ -60,7 +60,7 @@ end
 
 
 
--- FakeAchievement
+-- FAKEACHIEVEMENT
 -- /run fakeAchievement(11907)
 
 
