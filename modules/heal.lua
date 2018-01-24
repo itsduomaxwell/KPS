@@ -356,6 +356,18 @@ kps.RaidStatus.prototype.isDiseaseDispellable = kps.utils.cachedValue(function()
 end)
 
 --[[[
+@function `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
+]]--
+
+kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.absorptionHeal then return unit end
+    end
+    return nil
+end)
+
+
+--[[[
 @function `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
 ]]--
 
@@ -419,28 +431,6 @@ end
 
 kps.RaidStatus.prototype.hasRaidBuffLowestHealth = kps.utils.cachedValue(function()
     return unitBuffLowestHealth
-end)
-
---[[[
-@function `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
-]]--
-
-kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.absorptionHeal then return unit end
-    end
-    return nil
-end)
-
---[[[
-@function `heal.hasBossdebuff` - Returns the raid unit with an Damaging Boss Debuff
-]]--
-
-kps.RaidStatus.prototype.hasBossDebuff = kps.utils.cachedValue(function()
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.bossDebuff then return unit end
-    end
-    return nil
 end)
 
 --[[[

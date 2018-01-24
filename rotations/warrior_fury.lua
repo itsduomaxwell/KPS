@@ -53,17 +53,17 @@ kps.rotations.register("WARRIOR","FURY",
 
     -- TRINKETS
     -- "Souhait ardent de Kil'jaeden" 144259
-    {{"macro"}, 'player.hasTrinket(1) == 147007 player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
-    {{"macro"}, 'player.hasTrinket(1) == 147007 player.useTrinket(1) and target.isElite' , "/use 14" },
-    {{"macro"}, 'player.hasTrinket(1) == 147007 player.useTrinket(1) and target.hp > player.hp' , "/use 14" },
+    {{"macro"}, 'player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
+    {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
+    {{"macro"}, 'player.useTrinket(1) and target.hp > player.hp' , "/use 14" },
 
     -- Cooldowns
-    {spells.avatar, 'spells.battleCry.cooldown < 10 and not player.isMoving and target.isAttackable and target.distance < 10 and player.hasBuff(spells.frothingBerserker)' , "target" , "avatar_BERSERKER" }, -- 90 sec cd
+    {spells.avatar, 'spells.battleCry.cooldown < 9 and not player.isMoving and target.isAttackable and target.distance < 10 and player.hasBuff(spells.frothingBerserker)' , "target" , "avatar_BERSERKER" }, -- 90 sec cd
     {spells.avatar, 'spells.battleCry.cooldown == 0 and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
     -- Rampage can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first
     -- "Berserker écumant" "Frothing Berserker" -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
     {spells.rampage, 'player.rage == 100 and not player.hasBuff(spells.battleCry) and target.isAttackable and target.distance < 10' , "target" , "rampage_RAGE" },
-    {spells.battleCry, 'not player.isMoving and player.rage < 85 and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
+    {spells.battleCry, 'kps.cooldowns and not player.isMoving and player.rage < 85 and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
         {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
         {spells.rampage , 'true', "target" , "rampage_battleCry" }, -- get enraged
@@ -73,7 +73,7 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
     }},
 
-    -- Meat Cleave -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
+    -- Meat Cleaver -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {{"nested"}, 'kps.multiTarget', {
         {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and target.distance < 10' , "target" },
         {spells.rampage, 'player.hasBuff(spells.frothingBerserker)' , "target" },
@@ -83,12 +83,17 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.ragingBlow, 'player.hasBuff(spells.enrage) and player.plateCount <= 3' , "target" },
         {spells.whirlwind, 'target.distance < 10' , "target" },
     }},
+    
+    {{"nested"}, 'target.hp < 0.20', {
+        {spells.bloodthirst },
+        {spells.odynsFury, 'player.hasBuff(spells.enrage) and ' , "target", "odynsFury_enrage" },
+        {spells.execute, 'true' , "target", "execute_enrage" },
+        {spells.ragingBlow },
+        {spells.furiousSlash },
+    }},
 
-    {spells.odynsFury, 'player.hasBuff(spells.enrage) and target.hp < 0.20' , "target", "odynsFury_enrage" },
-    {spells.execute, 'player.hasBuff(spells.enrage) and target.hp < 0.20' , "target", "execute_enrage" },
     {spells.ragingBlow, 'player.hasBuff(spells.enrage)' , "target", "ragingBlow_enrage" },
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and focus.isAttackable and target.distance < 10' , "target" , "whirlwind_focus" },
-    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and player.plateCount >= 3 and target.distance < 10' , "target" , "whirlwind_plateCount" },
     {spells.bloodthirst },
     {spells.ragingBlow },
     {spells.furiousSlash },

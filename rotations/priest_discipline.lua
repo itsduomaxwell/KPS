@@ -91,6 +91,7 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1)' , "/target ".."player".."\n".."/use 14".."\n".."/targetlasttarget" },
     -- "Velen's Future Sight" 144258
     {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.78) >= 3' , "/use 14" },
+    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.lowestInRaid.hp < 0.40 ' , "/use 14" },
     
     {spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
     {spells.powerWordSolace, 'player.hasTalent(4,1) and focustarget.isAttackable' , "focustarget" },
@@ -148,8 +149,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.purgeTheWicked, 'player.hasTalent(6,1) and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
     
     -- "Borrowed Time" "Sursis"  -- Applying Atonement to a target reduces the cast time of your next Smite or Light's Wrath by 5%, or causes your next Penance to channel 5% faster
-    {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.90) >= heal.countLossInRange(0.90) and heal.countLossInRange(0.90) > 0 and target.isAttackable' , "target" , "smite_count" },
-    {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.90) >= heal.countLossInRange(0.90) and heal.countLossInRange(0.90) > 0 and focustarget.isAttackable' , "focustarget" , "smite_count" },
+    {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > 0 and target.isAttackable' , "target" , "smite_count" },
+    {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > 0 and focustarget.isAttackable' , "focustarget" , "smite_count" },
 
     {spells.shadowMend, 'not player.isMoving and player.hp < 0.40 and not spells.shadowMend.isRecastAt("player")' , "player" },    
     {spells.shadowMend, 'not player.isMoving and heal.aggroTankTarget.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.aggroTankTarget.unit)' , kps.heal.aggroTankTarget },
@@ -160,9 +161,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.plea, 'heal.lowestTankInRaid.myBuffDuration(spells.atonement) < 2' , kps.heal.lowestTankInRaid },
     {spells.plea, 'focus.isFriend and not focus.hasBuff(spells.atonement) and focus.hp < 1' , "focus" },
     {spells.plea, 'not player.hasBuff(spells.atonement) and player.hp < 1' , "player" },
-    {spells.plea, 'not heal.lowestInRaid.hasBuff(spells.atonement) and heal.lowestInRaid.hp < threshold()' , kps.heal.lowestInRaid , "plea_lowest_threshold" },
-    {spells.plea, 'not heal.hasDamage.hasBuff(spells.atonement) and heal.hasDamage.hp < 0.90 and heal.hasRaidBuffCount(spells.atonement) < 5' , kps.heal.lowestInRaid , "plea_lowest_count" },
     {spells.plea, 'not heal.lowestInRaid.hasBuff(spells.atonement) and heal.lowestInRaid.hp < 0.90 and heal.hasRaidBuffCount(spells.atonement) < 5' , kps.heal.lowestInRaid , "plea_lowest_count" },
+    {spells.plea, 'not heal.hasDamage.hasBuff(spells.atonement) and heal.hasDamage.hp < 0.90 and heal.hasRaidBuffCount(spells.atonement) < 5' , kps.heal.lowestInRaid , "plea_lowest_count" },
 
     {spells.smite, 'not player.isMoving and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.90 and target.isAttackable' , "target" , "smite_lowest_buff" },
     {spells.smite, 'not player.isMoving and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.90 and focustarget.isAttackable' , "focustarget" , "smite_lowest_buff" },

@@ -286,12 +286,12 @@ local function roundValue(num, idp)
     else return math.ceil(num * mult - 0.5) / mult end
 end
 
-local updateIntervalSlider = addSlider("Slider1", toggleAnchor, 0, 25, 0.1 , 0.1, 0.1 ,1.5,"0.1","1.5","IntervalUpdate")
-
-updateIntervalSlider:SetScript("OnValueChanged", function(self)
-    kps.config.updateInterval = roundValue(updateIntervalSlider:GetValue(),2)
-    print("updateInterval: ",kps.config.updateInterval)
-end)
+--local updateIntervalSlider = addSlider("Slider1", toggleAnchor, 0, 25, 0.1 , 0.1, 0.1 ,1.5,"0.1","1.5","IntervalUpdate")
+--
+--updateIntervalSlider:SetScript("OnValueChanged", function(self)
+--    kps.config.updateInterval = roundValue(updateIntervalSlider:GetValue(),2)
+--    print("updateInterval: ",kps.config.updateInterval)
+--end)
 
 
 --local updateThresholdSlider = addSlider("Slider2", toggleAnchor, 0,-55, 0.70 , 0.05, 0.30 ,1.00,"0.30","1.00","ThresholdUpdate")

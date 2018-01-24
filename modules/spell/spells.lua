@@ -130,33 +130,9 @@ kps.spells.battlerez.eternalGuardian = kps.Spell.fromId(126393) -- Eternal Guard
 -- Healing Absorption Debuff
 kps.spells.absorptionHeal = {}
 kps.spells.absorptionHeal.spearOfAnguish = kps.Spell.fromId(235933) -- Spear of Anguish -- Lance d'angoisse -- TOS Hote desolé Moteur des ames
-kps.spells.absorptionHeal.EmbraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse -- Etreinte de l'éclipse -- TOS Soeurs de la lune
+kps.spells.absorptionHeal.embraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse -- Etreinte de l'éclipse -- TOS Soeurs de la lune
 
--- TOS Boss Debuff Heavy Damage
-kps.spells.bossDebuff = {}
--- Goroth
-kps.spells.bossDebuff.shatteringStar = kps.Spell.fromId(233279) 
-kps.spells.bossDebuff.burningArmor = kps.Spell.fromId(231363)
--- Harjatan
-kps.spells.bossDebuff.jaggedAbrasion = kps.Spell.fromId(231770) 
--- Sisters of the Moon
-kps.spells.bossDebuff.lunarFire = kps.Spell.fromId(239264) 
-kps.spells.bossDebuff.rapidShot = kps.Spell.fromId(236603)
--- Mistress Sassz'ine
-kps.spells.bossDebuff.burdenOfPain = kps.Spell.fromId(230201) 
--- The Desolate Host
-kps.spells.bossDebuff.wither = kps.Spell.fromId(236131)
-kps.spells.bossDebuff.tormentedCries = kps.Spell.fromId(235989)
-kps.spells.bossDebuff.shatteringScream = kps.Spell.fromId(236515) 
--- Maiden of Vigilance
-kps.spells.bossDebuff.hammerOfCreation = kps.Spell.fromId(235569) 
-kps.spells.bossDebuff.hammerOfObliteration = kps.Spell.fromId(235573)
--- Fallen Avatar
-kps.spells.bossDebuff.darkMark = kps.Spell.fromId(239739)
-kps.spells.bossDebuff.shadowyBlades = kps.Spell.fromId(236604)
-kps.spells.bossDebuff.desolate = kps.Spell.fromId(236494)
--- Kil'jaeden
-
-
+kps.spells.immuneHeal = {}
+kps.spells.immuneHeal.misery = kps.Spell.fromId(243961) -- Misery -- Varimathras -- prevents all healing effects for 7 sec. In addition, all Physical damage taken is increased by 200%.
 
 

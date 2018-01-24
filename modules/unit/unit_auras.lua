@@ -346,11 +346,8 @@ function Unit.absorptionHeal(self)
     return false
 end
 
---[[[
-@function `<UNIT>.bossDebuff` - returns true if the unit has a Boss Debuff with Heavy Damage
-]]--
-function Unit.bossDebuff(self)
-    for _,spell in pairs(kps.spells.bossDebuff) do
+function Unit.immuneHeal(self)
+    for _,spell in pairs(kps.spells.immuneHeal) do
         if self.hasDebuff(spell) then return true end
     end
     return false
