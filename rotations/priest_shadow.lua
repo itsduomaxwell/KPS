@@ -26,7 +26,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {{"macro"}, 'keys.ctrl', "/cast [@cursor] "..MassDispel },
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
-    {spells.dispersion, 'player.isMovingFor(1.2) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 27' , "target", "DISPERSION_BUFF" },
+    {spells.dispersion, 'player.isMovingFor(1.2) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 25' , "target", "DISPERSION_BUFF" },
     {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp == 1 and player.insanity == 100' , "/cancelaura "..Dispersion },
     --"Fade" 586
     {spells.fade, 'player.isTarget' },
@@ -42,18 +42,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and heal.lowestTankInRaid.hp < 0.55' },
     -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
     {spells.shadowMend, 'not player.isMoving and not spells.shadowMend.lastCasted(4) and not player.hasBuff(spells.voidform) and player.hp < 0.40 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
-
-    --{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
-    {{"nested"}, 'player.hasBuff(spells.voidform)',{
-        {spells.voidEruption, 'true' , "target" },
-        {spells.voidEruption, 'true' , env.VoidBoltTarget },
-        {spells.voidTorrent, 'not player.isMoving and spells.mindbender.cooldown < kps.gcd' },
-        {spells.voidTorrent, 'not player.isMoving and player.buffStacks(spells.voidform) > 7 and player.insanity > 55' },
-    }},
-
-    -- "Shadow Word: Death" 32379
-    {spells.shadowWordDeath, 'mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" },
-    {spells.shadowWordDeath, 'target.hp < 0.20' , "target" },
      -- "Levitate" 1706
     {spells.levitate, 'player.isFallingFor(1.6) and not player.hasBuff(spells.levitate)' , "player" },
     {spells.levitate, 'player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },
@@ -75,26 +63,44 @@ kps.rotations.register("PRIEST","SHADOW",{
         {spells.purifyDisease, 'player.isDispellable("Disease")' , "player" },
         {spells.purifyDisease, 'heal.isDiseaseDispellable ~= nil' , kps.heal.isDiseaseDispellable},
     }},
-    
+
+    --{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
+    {{"nested"}, 'player.hasBuff(spells.voidform)',{
+        {spells.voidEruption, 'true' , "target" },
+        {spells.voidEruption, 'true' , env.VoidBoltTarget },
+        {spells.voidTorrent, 'not player.isMoving and spells.mindbender.cooldown < kps.gcd' },
+        {spells.voidTorrent, 'not player.isMoving and player.buffStacks(spells.voidform) > 5 and player.insanity > 55' },
+    }},
+     -- "Void Eruption" 228260
+    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform) and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4',{
+        {spells.voidEruption, 'player.insanity == 100 and not focus.exists'},
+        {spells.voidEruption, 'player.insanity == 100 and focus.exists and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) > 4'},
+        {spells.voidEruption, 'player.insanity > 64 and player.hasTalent(7,1) and not focus.exists'},
+        {spells.voidEruption, 'player.insanity > 64 and player.hasTalent(7,1) and focus.exists and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) > 4'},
+    }},
+    -- "Shadow Word: Death" 32379
+    {spells.shadowWordDeath, 'mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" },
+    {spells.shadowWordDeath, 'target.hp < 0.20' , "target" },
+
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
     {{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
     {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform)' , "/use 14"},
     -- "Infusion de puissance" -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
-    {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 27 and player.insanity > 55' },
+    {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 25 and player.insanity > 55' },
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
     {spells.shadowfiend, 'not player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.haste > 55' , "target" },
-    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 27 and player.insanity < 80' , "target" },
-    
+    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 25 and player.insanity < 80' , "target" },
+
     -- "Mindblast" is highest priority spell out of voidform
     --{{"macro"}, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity < 65' , "target" },
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and not player.hasTalent(7,1) and player.insanity < 100' , "target" },
-    {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and player.haste > 55' , "target" , "MINDBLAST" },
+    {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and player.haste > 50' , "target" , "MINDBLAST" },
     {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and not spells.mindBlast.isRecastAt("target")' , "target" },
-
-    -- MultiTarget
-    {spells.mindFlay, 'kps.multiTarget and player.hasBuff(spells.voidform) and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
     
+        -- MultiTarget
+    {spells.mindFlay, 'kps.multiTarget and player.hasBuff(spells.voidform) and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
+
     {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
@@ -102,12 +108,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
     {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
     
-    -- "Void Eruption" 228260
-    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform)',{
-        {spells.voidEruption , 'player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-        {spells.voidEruption , 'player.hasTalent(7,1) and player.insanity >= 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-    }},
-
     {spells.mindFlay, 'not player.isMoving' , "target" },
     {spells.mindFlay, 'not player.isMoving and focus.isAttackable' , "focus" },
 

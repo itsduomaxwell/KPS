@@ -129,6 +129,7 @@ kps.spells.battlerez.eternalGuardian = kps.Spell.fromId(126393) -- Eternal Guard
 
 -- Healing Absorption Debuff
 kps.spells.absorptionHeal = {}
+kps.spells.absorptionHeal.necroticEmbrace = kps.Spell.fromId(244093)-- Necrotic Embrace Varimathras corrupts a random player, inflicting 1500000 Shadow damage after 6 sec. When Necrotic Embrace expires, it spreads to all players within 10 yards.
 kps.spells.absorptionHeal.spearOfAnguish = kps.Spell.fromId(235933) -- Spear of Anguish -- Lance d'angoisse -- TOS Hote desolé Moteur des ames
 kps.spells.absorptionHeal.embraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse -- Etreinte de l'éclipse -- TOS Soeurs de la lune
 

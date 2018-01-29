@@ -90,6 +90,9 @@ spells.group("bloodlust","Bloodlust")
 spells.bloodlust.add_all_spells([2825, 32182, 80353, 90355, 146555])
 
 spells.group("absorptionHeal","Absorption Heal")
-spells.absorptionHeal.add_all_spells([235933, 233263])
+spells.absorptionHeal.add_all_spells([235933, 233263,244093])
+
+spells.group("immuneHeal","Immune Heal")
+spells.immuneHeal.add_all_spells([243961])
 
 print(spells)

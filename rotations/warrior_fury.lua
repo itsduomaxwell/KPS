@@ -86,7 +86,7 @@ kps.rotations.register("WARRIOR","FURY",
     
     {{"nested"}, 'target.hp < 0.20', {
         {spells.bloodthirst },
-        {spells.odynsFury, 'player.hasBuff(spells.enrage) and ' , "target", "odynsFury_enrage" },
+        {spells.odynsFury, 'player.hasBuff(spells.enrage)' , "target", "odynsFury_enrage" },
         {spells.execute, 'true' , "target", "execute_enrage" },
         {spells.ragingBlow },
         {spells.furiousSlash },
