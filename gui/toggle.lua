@@ -264,20 +264,20 @@ end)
 
 
 function addSlider(sliderName, parentObj, xPos, yPos, defaultVal, stepSize, minVal, maxVal, lowText, HighText, title)
-	local sliderObj = CreateFrame("Slider",sliderName,parentObj,"OptionsSliderTemplate") --frameType, frameName, frameParent, frameTemplate 
+    local sliderObj = CreateFrame("Slider",sliderName,parentObj,"OptionsSliderTemplate") --frameType, frameName, frameParent, frameTemplate 
 
-	sliderObj:SetScale(1)
-	sliderObj:SetMinMaxValues(minVal,maxVal)
-	sliderObj.minValue, sliderObj.maxValue = sliderObj:GetMinMaxValues()
-	sliderObj:SetValue(defaultVal)
-	sliderObj:SetValueStep(stepSize)
-	sliderObj:EnableMouse(true)
-	sliderObj:SetPoint("TOPLEFT", parentObj, xPos, yPos)
-	getglobal(sliderObj:GetName() .. 'Low'):SetText(lowText)
-	getglobal(sliderObj:GetName() .. 'High'):SetText(HighText)
-	getglobal(sliderObj:GetName() .. 'Text'):SetText(title)
-	sliderObj:Show()
-	return sliderObj
+    sliderObj:SetScale(1)
+    sliderObj:SetMinMaxValues(minVal,maxVal)
+    sliderObj.minValue, sliderObj.maxValue = sliderObj:GetMinMaxValues()
+    sliderObj:SetValue(defaultVal)
+    sliderObj:SetValueStep(stepSize)
+    sliderObj:EnableMouse(true)
+    sliderObj:SetPoint("TOPLEFT", parentObj, xPos, yPos)
+    getglobal(sliderObj:GetName() .. 'Low'):SetText(lowText)
+    getglobal(sliderObj:GetName() .. 'High'):SetText(HighText)
+    getglobal(sliderObj:GetName() .. 'Text'):SetText(title)
+    sliderObj:Show()
+    return sliderObj
 end
 
 local function roundValue(num, idp)
