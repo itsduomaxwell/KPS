@@ -169,19 +169,23 @@ Members:
     * lowest tank in raid
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
  * `heal.averageHealthRaid` - Returns the average hp incoming for all raid members
- * `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health (default 0.80)
- * `heal.countLossInDistance` - Returns the count for all raid members below threshold health (default 0.80) in a distance (default 10 yards)
+ * `heal.countLossInRange(<PCT>)` - Returns the count for all raid members below threshold health e.g. heal.countLossInRange(0.90)
+ * `heal.countLossInDistance(<PCT>,<DIST>)` - Returns the count for all raid members below threshold health (default countInRange) in a distance (default 10 yards) e.g. heal.countLossInRange(0.90)
  * `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankTarget`!
- * `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
+ * `heal.aggroTankFocus` - Returns the tank with highest aggro on the current focus (*not* the unit with the highest aggro!). If there is no tank in the focus thread list, the `heal.defaultTank` is returned instead.
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
  * `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
  * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
  * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
- * `heal.hasBuffCountStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasBuffCountStacks(spells.prayerOfMending) < 10
- * `heal.hasBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasBuffCount(spells.atonement)
  * `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
+ * `heal.hasBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasBuffStacks(spells.prayerOfMending) < 10
+ * `heal.hasBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasBuffCount(spells.atonement)
+ * `heal.hasBuffCountHealth(<BUFF>,<PCT>)` -  Returns the buff count for a specific Buff below a pct health on raid e.g. heal.hasBuffCountHealth(spells.atonement,0.90)
+ * `heal.hasBuffCountLowestHealth(<BUFF>)` - Returns the lowest health unit for a specific Buff on raid e.g. heal.hasBuffCountLowestHealth(spells.atonement) < 0.90
+ * `heal.hasNotBuffAtonement(<BUFF>)` - Returns the lowest health unit without Atonement Buff on raid e.g. heal.hasNotBuffLowestHealth.hp < 0.90
+ * `heal.hasDamage` - Returns the raid unit with incomingDamage > incomingHeal
 
 
 #### Keys
@@ -354,7 +358,6 @@ Members:
  * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.masteryEchoOfLight)
  * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
  * `<UNIT>.absorptionHeal` - returns true if the unit has a Healing Absorption Debuff
- * `<UNIT>.bossDebuff` - returns true if the unit has a Boss Debuff with Heavy Damage
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell
