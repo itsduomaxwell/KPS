@@ -80,7 +80,7 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" },
         {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
         {spells.odynsFury, 'player.hasBuff(spells.enrage)' , "target" },
-        {spells.ragingBlow, 'player.hasBuff(spells.enrage) and player.plateCount <= 3' , "target" },
+        {spells.ragingBlow, 'player.hasBuff(spells.enrage) and player.plateCount < 4' , "target" },
         {spells.whirlwind, 'target.distance < 10' , "target" },
     }},
     
