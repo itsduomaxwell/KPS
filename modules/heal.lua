@@ -239,7 +239,7 @@ end)
 @function `heal.countLossInDistance(<PCT>,<DIST>)` - Returns the count for all raid members below threshold health (default countInRange) in a distance (default 10 yards) e.g. heal.countLossInRange(0.90)
 ]]--
 
-local countInDistance = function(health,distance)
+local countHealthDistance = function(health,distance)
     if distance == nil then distance = 10 end
     if health == nil then health = 2 end
     local count = 0
@@ -252,7 +252,7 @@ local countInDistance = function(health,distance)
 end
 
 kps.RaidStatus.prototype.countLossInDistance = kps.utils.cachedValue(function()
-    return countInDistance
+    return countHealthDistance
 end)
 
 --[[[
@@ -461,6 +461,21 @@ kps.RaidStatus.prototype.hasNotBuffAtonement = kps.utils.cachedValue(function()
     return unithasNotBuffLowestHealth(kps.spells.priest.atonement)
 end)
 
+local countNotBuffDistance = function(spell,distance)
+    if distance == nil then distance = 10 end
+    local count = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and not unit.hasBuff(spell) and unit.distance < distance then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+kps.RaidStatus.prototype.countNotBuffAtonementDistance = kps.utils.cachedValue(function()
+    return countNotBuffDistance(kps.spells.priest.atonement,30)
+end)
+
 --[[[
 @function `heal.hasDamage` - Returns the raid unit with incomingDamage > incomingHeal
 ]]--
@@ -529,10 +544,9 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 --print("|cffff8000CountLossDistance_90:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
 print("|cffff8000CountLoss_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
 
-local spell = kps.Spell.fromId(81749)
-local buff = kps.spells.priest.atonement
+local spell = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
 print("|cffff8000AtonementCount_90:|cffffffff",kps["env"].heal.hasBuffCountHealth(spell,0.90),"|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasBuffCountHealth(spell))
---print("|cffff8000Atonement_LowestHealth:|cffffffff", kps["env"].heal.hasBuffCountLowestHealth(spell))
+print("|cffff8000NotAtonement:|cffffffff", kps["env"].heal.countNotBuffAtonementDistance)
 
 --print("updateInterval:",kps.config.updateInterval)
 

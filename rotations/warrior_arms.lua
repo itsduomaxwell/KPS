@@ -51,17 +51,17 @@ kps.rotations.register("WARRIOR","ARMS",
     -- Cooldowns
     {{"nested"}, 'kps.cooldowns', {
         {spells.battleCry, 'target.myDebuffDuration(spells.colossusSmash) >= 5 and player.myBuffDuration(spells.shatteredDefenses) >= 5'},
-        {spells.bladestorm, 'player.hasBuff(spells.battleCry)'},
         {spells.avatar, 'player.hasBuff(spells.battleCry)'},
     }},
     
     -- MultiTarget -- talent Sweeping Strikes is highly recommended. Mortal Strike and Execute hit 2 additional nearby targets.
     {{"nested"}, 'kps.multiTarget', {
         {spells.warbreaker},
+        {spells.battleCry},
         {spells.bladestorm},
-        {spells.mortalStrike, 'player.hastalent(1,3)' },
+        {spells.mortalStrike },
         {spells.cleave},
-        {spells.whirlwind, 'player.hasBuff(spells.cleave)'},
+        {spells.whirlwind},
     }},
 
     -- Single Target
@@ -73,7 +73,7 @@ kps.rotations.register("WARRIOR","ARMS",
         {spells.mortalStrike, 'player.hasBuff(spells.shatteredDefenses) and player.buffStacks(spells.executionersPrecision) == 2'},
         {spells.execute},
     }},
-    
+
     -- After using Colossus Smash, your next Mortal Strike or Execute gains 50% increased critical strike chance
     {spells.mortalStrike, 'player.hasBuff(spells.shatteredDefenses)'},
     {spells.colossusSmash, 'not player.hasBuff(spells.shatteredDefenses)'},
