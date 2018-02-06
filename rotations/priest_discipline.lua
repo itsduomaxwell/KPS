@@ -97,6 +97,11 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
     {spells.powerWordSolace, 'player.hasTalent(4,1) and focustarget.isAttackable' , "focustarget" },
 
+    {spells.mindbender, 'player.hasTalent(4,3) and heal.hasBuffCountHealth(spells.atonement,0.82) >= 4 and target.isAttackable' , "target" },
+    {spells.mindbender, 'player.hasTalent(4,3) and heal.hasBuffLowestHealth(spells.atonement) < 0.55 and focustarget.isAttackable' , "focustarget" },
+    {spells.shadowfiend, 'not player.hasTalent(4,3) and heal.hasBuffCountHealth(spells.atonement,0.82) >= 4 and target.isAttackable' , "target" },
+    {spells.shadowfiend, 'not player.hasTalent(4,3) and heal.hasBuffLowestHealth(spells.atonement) < 0.55 and focustarget.isAttackable' , "focustarget" },
+
     --PARTY GROUPHEAL
     {{"nested"}, 'not player.isInRaid' ,{
         {spells.lightsWrath, 'not player.isMoving and spells.evangelism.lastCasted(4) and heal.hasBuffCountHealth(spells.atonement,0.82) >= 3 and target.isAttackable' , "target" },
@@ -125,39 +130,36 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.evangelism, 'player.hasTalent(7,3) and spells.powerWordRadiance.lastCasted(4)' },
     {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.lastCasted(4) and heal.hasBuffCountHealth(spells.atonement,0.82) >= 4 and target.isAttackable' , "target" },
     {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.lastCasted(4) and heal.hasBuffCountHealth(spells.atonement,0.82) >= 4 and focustarget.isAttackable' , "focustarget" },
-    
-    -- SCHIELD
-    {spells.clarityOfWill, 'player.hasTalent(5,2) not player.isMoving and heal.lowestTankInRaid.immuneHeal and not heal.lowestTankInRaid.hasBuff(spells.clarityOfWill)' , kps.heal.lowestTankInRaid , "clarityOfWill_Immune" },
-    {spells.clarityOfWill, 'player.hasTalent(5,2) not player.isMoving and heal.aggroTankTarget.immuneHeal and not heal.aggroTankTarget.hasBuff(spells.clarityOfWill)' , kps.heal.aggroTankTarget , "clarityOfWill_Immune" },
-    {spells.clarityOfWill, 'player.hasTalent(5,2) not player.isMoving and player.immuneHeal and not player.hasBuff(spells.clarityOfWill)' , "player" , "clarityOfWill_Immune" },
-    {spells.clarityOfWill, 'player.hasTalent(5,2) not player.isMoving and mouseover.immuneHeal and not mouseover.hasBuff(spells.clarityOfWill)' , "mouseover" , "clarityOfWill_Immune" },
 
-    {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield) and player.hp < threshold()' , "player" },
-    {spells.powerWordShield, 'not heal.aggroTankTarget.hasBuff(spells.powerWordShield)' , kps.heal.aggroTankTarget },  
-    {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestTankInRaid },
-    {spells.powerWordShield, 'focus.isFriend and not focus.hasBuff(spells.powerWordShield) and focus.hp < threshold()' , "focus" },
-    {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < threshold()' , kps.heal.lowestInRaid },
-    
-    {spells.powerWordShield, 'player.hasBuff(spells.rapture) and not heal.aggroTankTarget.hasBuff(spells.powerWordShield)' , kps.heal.aggroTankTarget }, 
-    {spells.powerWordShield, 'player.hasBuff(spells.rapture) and not heal.aggroTankTarget.hasBuff(spells.powerWordShield)' , kps.heal.aggroTankTarget },  
-    {spells.powerWordShield, 'player.hasBuff(spells.rapture) and not heal.lowestInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestInRaid },
-    {spells.powerWordShield, 'player.hasBuff(spells.rapture) and not heal.hasNotBuffAtonement.hasBuff(spells.powerWordShield)' , kps.heal.hasNotBuffAtonement },
-    {spells.rapture, 'spells.powerWordRadiance.charges == 0 and spells.powerWordRadiance.cooldown > 4 and spells.lightsWrath.cooldown > 4 and heal.countLossInRange(0.82) * 2 > heal.countInRange ' },
-
-    {spells.penance, 'heal.aggroTankTarget.hp < 0.40' , kps.heal.aggroTankTarget },
-    {spells.penance, 'heal.lowestTankInRaid.hp < 0.40' , kps.heal.lowestTankInRaid },
-    {spells.penance, 'player.hp < 0.40' , "player" },
+    {{"nested"}, 'not player.isInRaid' ,{
+        {spells.penance, 'heal.aggroTankTarget.hp < 0.40' , kps.heal.aggroTankTarget },
+        {spells.penance, 'heal.lowestTankInRaid.hp < 0.40' , kps.heal.lowestTankInRaid },
+        {spells.penance, 'player.hp < 0.40' , "player" },
+    }},
     -- "Purge the Wicked" Spreads to an additional nearby enemy when you cast Penance on the target.
     {spells.purgeTheWicked, 'player.hasTalent(6,1) and target.isAttackable and target.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("target")' , "target" },
     {spells.penance, 'heal.hasBuffLowestHealth(spells.atonement) < 0.90 and target.isAttackable' , "target" },
     {spells.purgeTheWicked, 'player.hasTalent(6,1) and focustarget.isAttackable and focustarget.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("focustarget")' , "focustarget" }, 
     {spells.penance, 'heal.hasBuffLowestHealth(spells.atonement) < 0.90 and focustarget.isAttackable' , "focustarget" },
     {spells.purgeTheWicked, 'player.hasTalent(6,1) and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
-
-    {spells.mindbender, 'player.hasTalent(4,3) and heal.hasBuffCountHealth(spells.atonement,0.82) >= 4 and target.isAttackable' , "target" },
-    {spells.mindbender, 'player.hasTalent(4,3) and heal.hasBuffLowestHealth(spells.atonement) < 0.55 and focustarget.isAttackable' , "focustarget" },
-    {spells.shadowfiend, 'not player.hasTalent(4,3) and heal.hasBuffCountHealth(spells.atonement,0.82) >= 4 and target.isAttackable' , "target" },
-    {spells.shadowfiend, 'not player.hasTalent(4,3) and heal.hasBuffLowestHealth(spells.atonement) < 0.55 and focustarget.isAttackable' , "focustarget" },
+    
+    -- SCHIELD
+    {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield) and player.hp < threshold()' , "player" },
+    {spells.powerWordShield, 'not heal.aggroTankTarget.hasBuff(spells.powerWordShield)' , kps.heal.aggroTankTarget },  
+    {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestTankInRaid },
+    {spells.powerWordShield, 'focus.isFriend and not focus.hasBuff(spells.powerWordShield) and focus.hp < threshold()' , "focus" },
+    {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < threshold()' , kps.heal.lowestInRaid },
+    
+    {spells.clarityOfWill, 'player.hasTalent(5,2) not player.isMoving and heal.lowestTankInRaid.immuneHeal and not heal.lowestTankInRaid.hasBuff(spells.clarityOfWill)' , kps.heal.lowestTankInRaid , "clarityOfWill_Immune" },
+    {spells.clarityOfWill, 'player.hasTalent(5,2) not player.isMoving and heal.aggroTankTarget.immuneHeal and not heal.aggroTankTarget.hasBuff(spells.clarityOfWill)' , kps.heal.aggroTankTarget , "clarityOfWill_Immune" },
+    {spells.clarityOfWill, 'player.hasTalent(5,2) not player.isMoving and player.immuneHeal and not player.hasBuff(spells.clarityOfWill)' , "player" , "clarityOfWill_Immune" },
+    {spells.clarityOfWill, 'player.hasTalent(5,2) not player.isMoving and mouseover.immuneHeal and not mouseover.hasBuff(spells.clarityOfWill)' , "mouseover" , "clarityOfWill_Immune" },
+    
+    {spells.powerWordShield, 'player.hasBuff(spells.rapture) and not heal.aggroTankTarget.hasBuff(spells.powerWordShield)' , kps.heal.aggroTankTarget }, 
+    {spells.powerWordShield, 'player.hasBuff(spells.rapture) and not heal.aggroTankTarget.hasBuff(spells.powerWordShield)' , kps.heal.aggroTankTarget },  
+    {spells.powerWordShield, 'player.hasBuff(spells.rapture) and not heal.lowestInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestInRaid },
+    {spells.powerWordShield, 'player.hasBuff(spells.rapture) and not heal.hasNotBuffAtonement.hasBuff(spells.powerWordShield)' , kps.heal.hasNotBuffAtonement },
+    {spells.rapture, 'spells.powerWordRadiance.charges == 0 and spells.powerWordRadiance.cooldown > 4 and spells.lightsWrath.cooldown > 4 and heal.countLossInRange(0.82) * 2 > heal.countInRange ' },
 
     -- MOUSEOVER
     {{"nested"}, 'kps.defensive and mouseover.isFriend' , {
@@ -170,7 +172,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.shadowMend, 'not player.isMoving and mouseover.hp < 0.40 and not spells.shadowMend.isRecastAt("mouseover")' , "mouseover" },
     }},
 
-    {spells.shadowMend, 'not player.isMoving and not player.isInRaid and heal.lowestInRaid.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid },
     {spells.plea, 'not heal.aggroTankTarget.hasBuff(spells.atonement)' , kps.heal.aggroTankTarget , "plea_aggro" },
     {spells.plea, 'not heal.lowestTankInRaid.hasBuff(spells.atonement)' , kps.heal.lowestTankInRaid , "plea_tank" },
     {spells.plea, 'not player.hasBuff(spells.atonement) and player.hp < 0.90' , "player" , "plea_player" },
@@ -198,16 +199,18 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.smite, 'not player.isMoving and heal.hasBuffLowestHealth(spells.atonement) < 0.90 and focustarget.isAttackable' , "focustarget" , "smite_buff" },
         {spells.smite, 'not player.isMoving and heal.aggroTankTarget.hasBuff(spells.atonement) and heal.aggroTankTarget.incomingDamage > heal.aggroTankTarget.incomingHeal and target.isAttackable' , "target" , "smite_aggro" },
         {spells.smite, 'not player.isMoving and heal.aggroTankTarget.hasBuff(spells.atonement) and heal.aggroTankTarget.incomingDamage > heal.aggroTankTarget.incomingHeal and focustarget.isAttackable' , "focustarget" , "smite_aggro" },
-        {spells.smite, 'kps.smite and not player.isMoving and heal.lowestInRaid.hasBuff(spells.atonement) and target.isAttackable' , "target" , "smite_lowest" },
-        {spells.smite, 'kps.smite and not player.isMoving and heal.lowestInRaid.hasBuff(spells.atonement) and focustarget.isAttackable' , "focustarget" , "smite_lowest" },
     }},
 
+    {spells.shadowMend, 'not player.isMoving and not player.isInRaid and heal.lowestInRaid.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid },
     {spells.shadowMend, 'not player.isMoving and heal.aggroTankTarget.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.aggroTankTarget.unit)' , kps.heal.aggroTankTarget },
     {spells.shadowMend, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid },
     {spells.shadowMend, 'not player.isMoving and player.hp < 0.40 and not spells.shadowMend.isRecastAt("player")' , "player" },  
 
     {spells.plea, 'not heal.lowestInRaid.hasBuff(spells.atonement) and heal.lowestInRaid.hp < 0.82' , kps.heal.lowestInRaid , "plea_lowest" },
     {spells.plea, 'heal.hasNotBuffAtonement.hp < 0.82' , kps.heal.hasNotBuffAtonement , "plea_lowest_unbuff" },
+    
+    {spells.smite, 'kps.smite and not player.isMoving and target.isAttackable' , "target" , "smite_count" },
+    {spells.smite, 'kps.smite and not player.isMoving and focustarget.isAttackable' , "focustarget" , "smite_count" },
 
 }
 ,"priest_discipline")
