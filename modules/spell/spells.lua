@@ -132,6 +132,7 @@ kps.spells.absorptionHeal = {}
 kps.spells.absorptionHeal.necroticEmbrace = kps.Spell.fromId(244093)-- Necrotic Embrace Varimathras corrupts a random player, inflicting 1500000 Shadow damage after 6 sec. When Necrotic Embrace expires, it spreads to all players within 10 yards.
 kps.spells.absorptionHeal.spearOfAnguish = kps.Spell.fromId(235933) -- Spear of Anguish -- Lance d'angoisse -- TOS Hote desolé Moteur des ames
 kps.spells.absorptionHeal.embraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse -- Etreinte de l'éclipse -- TOS Soeurs de la lune
+kps.spells.absorptionHeal.embraceOfTheEclipse = kps.Spell.fromId(248396) -- Fléau de l’âme -- Soulblight -- Argus -- Inflicts 1004625 Shadow damage every 2 sec. for 8 sec and creates a pool of Death Fog at the affected player's location when it expires.
 
 kps.spells.immuneHeal = {}
 kps.spells.immuneHeal.misery = kps.Spell.fromId(243961) -- Misery -- Varimathras -- prevents all healing effects for 7 sec. In addition, all Physical damage taken is increased by 200%.

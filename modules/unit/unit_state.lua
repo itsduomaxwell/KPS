@@ -74,7 +74,7 @@ end
 @function `<UNIT>.inVehicle` - returns true if the given unit is inside a vehicle.
 ]]--
 function Unit.inVehicle(self)
-    return UnitInVehicle(self.unit)==true -- UnitInVehicle - 1 if the unit is in a vehicle, otherwise nil
+    return UnitInVehicle(self.unit) == true -- UnitInVehicle - 1 if the unit is in a vehicle, otherwise nil
 end
 
 --[[[
@@ -82,8 +82,7 @@ end
 ]]--
 local SpiritofRedemption = kps.Spell.fromId(20711)
 function Unit.isHealable(self)
-    if unit == "player" and UnitHasBuff(SpiritofRedemption,"player") then return false end -- "Spirit of Redemption" 
-    if UnitIsUnit("player",self.unit) and not UnitIsDeadOrGhost("player") then return true end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
+    if self.unit == "player" and not UnitIsDeadOrGhost("player") and not UnitHasBuff(SpiritofRedemption,"player") then return true end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
     if not Unit.exists(self) then return false end
     if Unit.inVehicle(self) then return false end
     if not Unit.lineOfSight(self) then return false end
@@ -137,6 +136,16 @@ end
 
 function Unit.isTankInRaid(self)
     if UnitGroupRolesAssigned(self.unit) == "TANK" then return true end
+    return false
+end
+
+function Unit.isHealerInRaid(self)
+    if UnitGroupRolesAssigned(self.unit) == "HEALER" then return true end
+    return false
+end
+
+function Unit.isDamagerInRaid(self)
+    if UnitGroupRolesAssigned(self.unit) == "DAMAGER" then return true end
     return false
 end 
 

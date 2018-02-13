@@ -80,7 +80,6 @@ kps.spells.priest.greaterHeal = kps.Spell.fromId(215960)
 kps.spells.priest.guardianAngel = kps.Spell.fromId(200209)
 kps.spells.priest.guardianSpirit = kps.Spell.fromId(47788)
 kps.spells.priest.guardiansOfTheLight = kps.Spell.fromId(196437)
-kps.spells.priest.guidingHand = kps.Spell.fromId(242622) -- Guiding Hand used by trinket "The Deceiver's Grand Design"
 kps.spells.priest.hallowedGround = kps.Spell.fromId(196429)
 kps.spells.priest.halo = kps.Spell.fromId(120517)
 kps.spells.priest.heal = kps.Spell.fromId(2060)
@@ -235,3 +234,7 @@ kps.spells.priest.willOfTheConclave = kps.Spell.fromId(241148)
 kps.spells.priest.wordsOfHealing = kps.Spell.fromId(196430)
 -- "Vide mental" "Empty Mind" Artifact buff -- Mind Flay damage increases the damage of your next Mind Blast by 3% and its Insanity generation by 1. Stacks up to 10 times.
 kps.spells.priest.emptyMind = kps.Spell.fromId(247226)
+-- "Exaucements" "Answered Prayers" -- Prayer of Healing increases the healing done by your next Flash Heal, Binding Heal or Heal by 60%
+kps.spells.priest.answeredPrayers = kps.Spell.fromId(253437)
+-- "Espoir impérissable" "Everlasting Hope" -- increase the healing amount of your next Prayer of Healing spell by 30%.
+kps.spells.priest.everlastingHope = kps.Spell.fromId(253443)

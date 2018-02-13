@@ -155,16 +155,16 @@ end)
 ]]--
 kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     -- If we're below 30% - always heal us first!
-    if kps.env.player.hpIncoming < 0.5 then return kps["env"].player end
+    if kps.env.player.hpIncoming < 0.55 then return kps["env"].player end
     -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
-    if kps["env"].focus.isHealable and kps["env"].focus.hpIncoming < 0.5 then return kps["env"].focus end
+    if kps["env"].focus.isHealable and kps["env"].focus.hpIncoming < 0.55 then return kps["env"].focus end
     -- MAYBE we also focused an enemy so we can heal it's target...
-    if not kps["env"].focus.isHealable and kps["env"].focustarget.isHealable and kps["env"].focustarget.hpIncoming < 0.5 then return kps["env"].focustarget end
+    if not kps["env"].focus.isHealable and kps["env"].focustarget.isHealable and kps["env"].focustarget.hpIncoming < 0.55 then return kps["env"].focustarget end
     -- Now do the same for target...
-    if kps["env"].target.isHealable and kps["env"].target.hpIncoming < 0.5 then return kps["env"].target end
-    if not kps["env"].target.isHealable and kps["env"].targettarget.isHealable and kps["env"].targettarget.hpIncoming < 0.5 then return kps["env"].targettarget end
+    if kps["env"].target.isHealable and kps["env"].target.hpIncoming < 0.55 then return kps["env"].target end
+    if not kps["env"].target.isHealable and kps["env"].targettarget.isHealable and kps["env"].targettarget.hpIncoming < 0.55 then return kps["env"].targettarget end
     -- Nothing selected - get lowest Tank if it is NOT the player and lower than 50%
-    if kps.RaidStatus.prototype.lowestTankInRaid().unit ~= "player" and kps.RaidStatus.prototype.lowestTankInRaid().hpIncoming < 0.5 then return  kps.RaidStatus.prototype.lowestTankInRaid() end
+    if kps.RaidStatus.prototype.lowestTankInRaid().unit ~= "player" and kps.RaidStatus.prototype.lowestTankInRaid().hpIncoming < 0.55 then return  kps.RaidStatus.prototype.lowestTankInRaid() end
     -- Neither player, not focus/target nor tank are critical - heal lowest raid member
     return kps.RaidStatus.prototype.lowestInRaid()
 end)
@@ -179,14 +179,14 @@ end)
 ]]--
 kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
     -- If we're below 30% - always heal us first!
-    if kps.env.player.hpIncoming < 0.5 then return kps["env"].player end
+    if kps.env.player.hpIncoming < 0.55 then return kps["env"].player end
     -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
-    if kps["env"].focus.isHealable and kps["env"].focus.hpIncoming < 0.5 then return kps["env"].focus end
+    if kps["env"].focus.isHealable and kps["env"].focus.hpIncoming < 0.55 then return kps["env"].focus end
     -- MAYBE we also focused an enemy so we can heal it's target...
-    if not kps["env"].focus.isHealable and kps["env"].focustarget.isHealable and kps["env"].focustarget.hpIncoming < 0.5 then return kps["env"].focustarget end
+    if not kps["env"].focus.isHealable and kps["env"].focustarget.isHealable and kps["env"].focustarget.hpIncoming < 0.55 then return kps["env"].focustarget end
     -- Now do the same for target...
-    if kps["env"].target.isHealable and kps["env"].target.hpIncoming < 0.5 then return kps["env"].target end
-    if not kps["env"].target.isHealable and kps["env"].targettarget.isHealable and kps["env"].targettarget.hpIncoming < 0.5 then return kps["env"].targettarget end
+    if kps["env"].target.isHealable and kps["env"].target.hpIncoming < 0.55 then return kps["env"].target end
+    if not kps["env"].target.isHealable and kps["env"].targettarget.isHealable and kps["env"].targettarget.hpIncoming < 0.55 then return kps["env"].targettarget end
     -- Nothing selected - get lowest Tank if it is NOT the player and lower than 50%
     return kps.RaidStatus.prototype.lowestTankInRaid()
 end)
@@ -518,10 +518,10 @@ kps.heal = kps.RaidStatus.new(false)
 function kpsTest()
 
 --for name, unit in pairs(raidStatus) do
---    print("|cffffffffName: ",name,"Unit: ",unit.unit,"Guid: ",unit.guid)
---    print("|cffff8000TARGET: ",unit.isTarget)
---    print("|cff1eff00HEAL: ",unit.incomingHeal)
---    print("|cFFFF0000DMG: ",unit.incomingDamage)
+--print("|cffffffffName: ",name,"Unit: ",unit.unit,"Guid: ",unit.guid)
+--print("|cffff8000isHealable: ",unit.isHealable)
+--print("|cff1eff00HEAL: ",unit.incomingHeal)
+--print("|cFFFF0000DMG: ",unit.incomingDamage)
 --end
 
 print("|cff1eff00LOWEST|cffffffff", kps["env"].heal.lowestInRaid.name,"/",kps["env"].heal.lowestInRaid.hp)
