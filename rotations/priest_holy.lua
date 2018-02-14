@@ -14,7 +14,7 @@ local MassDispel = spells.massDispel.name
 local AngelicFeather = spells.angelicFeather.name
 
 kps.runAtEnd(function()
-   kps.gui.addCustomToggle("PRIEST","HOLY", "MouseOver", "Interface\\Icons\\priest_spell_leapoffaith_a", "MouseOver")
+   kps.gui.addCustomToggle("PRIEST","HOLY", "mouseOver", "Interface\\Icons\\priest_spell_leapoffaith_a", "mouseOver")
 end)
 
 -- kps.cooldowns for dispel
@@ -138,7 +138,7 @@ kps.rotations.register("PRIEST","HOLY",{
     {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.72 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
     {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.aggroTankTarget.incomingDamage > heal.aggroTankTarget.incomingHeal and heal.aggroTankTarget.hp < 0.72 and not heal.aggroTankTarget.hasBuff(spells.lightOfTuure)' , kps.heal.aggroTankTarget},
     {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and player.hp < 0.55 and not player.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
-    -- kps.lastCast["name"] ne fonctionne pas si lastcast etait une macro 'kps.lastCast["name"] == spells.prayerOfHealing' or 'spells.prayerOfHealing.lastCasted(4)'
+    -- kps.lastCast["name"] ne fonctionne pas si lastCast etait une macro 'kps.lastCast["name"] == spells.prayerOfHealing' or 'spells.prayerOfHealing.lastCasted(4)'
     -- "Exaucements" "Answered Prayers" -- Prayer of Healing increases the healing done by your next Flash Heal, Binding Heal or Heal by 60%
     {{"nested"}, 'not player.isMoving and player.hasBuff(spells.answeredPrayers)' , {
         {spells.flashHeal, 'holyWordSerenityOnCD()' , kps.heal.lowestInRaid , "FLASH_SERENITY" },
@@ -191,7 +191,7 @@ kps.rotations.register("PRIEST","HOLY",{
     --{spells.circleOfHealing, 'player.isMoving and heal.countLossInRange(0.82) >= 4 and player.isInRaid' },
 
     -- MOUSEOVER
-    {{"nested"}, 'kps.MouseOver and mouseover.isFriend' , {
+    {{"nested"}, 'kps.mouseOver and mouseover.isFriend' , {
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },
         {spells.holyWordSerenity, 'mouseover.hp < 0.55' , "mouseover" },
         {spells.flashHeal, 'not player.isMoving and mouseover.hp < 0.72' , "mouseover" },

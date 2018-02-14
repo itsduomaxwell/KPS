@@ -22,7 +22,7 @@ kps.runAtEnd(function()
 end)
 
 kps.runAtEnd(function()
-   kps.gui.addCustomToggle("PRIEST","HOLY", "MouseOver", "Interface\\Icons\\priest_spell_leapoffaith_a", "MouseOver")
+   kps.gui.addCustomToggle("PRIEST","HOLY", "mouseOver", "Interface\\Icons\\priest_spell_leapoffaith_a", "mouseOver")
 end)
 
 
@@ -158,7 +158,7 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.rapture, 'spells.powerWordRadiance.charges == 0 and spells.powerWordRadiance.cooldown > 4 and spells.lightsWrath.cooldown > 4 and heal.countLossInRange(0.82) * 2 > heal.countInRange ' },
 
     -- MOUSEOVER
-    {{"nested"}, 'kps.MouseOver and mouseover.isFriend' , {
+    {{"nested"}, 'kps.mouseOver and mouseover.isFriend' , {
         {spells.painSuppression, 'mouseover.hp < 0.30' , "mouseover" },
         {spells.powerWordShield, 'mouseover.immuneHeal and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
         {spells.powerWordShield, 'player.hasBuff(spells.rapture) and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
