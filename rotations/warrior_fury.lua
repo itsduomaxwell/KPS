@@ -18,6 +18,8 @@ end)
 kps.rotations.register("WARRIOR","FURY",
 {
 
+    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
+
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
         env.TargetMouseover,
@@ -28,6 +30,9 @@ kps.rotations.register("WARRIOR","FURY",
 
     {spells.berserkerRage, 'not player.hasFullControl' },
     {spells.berserkerRage, 'kps.berserker and player.hasTalent(3,2) and not player.hasBuff(spells.enrage)' },
+    -- Charge enemy
+    {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
+    {spells.charge, 'kps.defensive and target.isAttackable and target.distance > 10' },
 
     -- interrupts
     {{"nested"}, 'kps.interrupt and target.distance < 10',{
@@ -35,67 +40,71 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
 
-    -- Charge enemy
-    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
-    {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
-    {spells.charge, 'kps.defensive and target.isAttackable and target.distance > 10' },
-
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
-    {spells.intimidatingShout, 'player.plateCount >= 3' },
-    {spells.intimidatingShout, 'target.isElite' , "target" , "intimidatingShout" },
-    {spells.intimidatingShout, 'player.incomingDamage > player.hpMax * 0.10' },
+    {spells.bloodthirst, 'player.hasBuff(spells.enragedRegeneration)' },
+    {spells.enragedRegeneration, 'spells.bloodthirst.cooldown < kps.gcd and player.hp < 0.70' },
+    {spells.commandingShout, 'player.hp < 0.60' },
     {spells.stoneform, 'player.isDispellable("Disease")' , "player" },
     {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
-    {spells.bloodthirst, 'player.hasBuff(spells.enragedRegeneration)' },
-    {spells.enragedRegeneration, 'player.hp < 0.70' },
-    {spells.commandingShout, 'player.hp < 0.60' },
+
+    {spells.intimidatingShout, 'not player.isInRaid and player.plateCount > 3' },
+    {spells.intimidatingShout, 'not player.isInRaid and player.incomingDamage > player.hpMax * 0.10' },
+    --{spells.piercingHowl, 'not player.isInRaid and player.plateCount > 3' },
 
     -- TRINKETS
     -- "Souhait ardent de Kil'jaeden" 144259
-    {{"macro"}, 'player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
+    {{"macro"}, 'player.useTrinket(1) and player.plateCount > 3' , "/use 14" },
     {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
-    {{"macro"}, 'player.useTrinket(1) and target.hp > player.hp' , "/use 14" },
-
-    -- Cooldowns
-    {spells.avatar, 'spells.battleCry.cooldown < 9 and not player.isMoving and target.isAttackable and target.distance < 10 and player.hasBuff(spells.frothingBerserker)' , "target" , "avatar_BERSERKER" }, -- 90 sec cd
-    {spells.avatar, 'spells.battleCry.cooldown == 0 and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
-    -- Rampage can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first
-    -- "Berserker écumant" "Frothing Berserker" -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
-    {spells.rampage, 'player.rage == 100 and not player.hasBuff(spells.battleCry) and target.isAttackable and target.distance < 10' , "target" , "rampage_RAGE" },
-    {spells.battleCry, 'kps.cooldowns and not player.isMoving and player.rage < 85 and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
+    
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
         {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
-        {spells.rampage , 'true', "target" , "rampage_battleCry" }, -- get enraged
+        {spells.rampage , 'true', "target" , "rampage_battleCry" },
         {spells.odynsFury , 'player.hasBuff(spells.enrage)', "target" , "odynsFury_battleCry" }, -- 45 sec cd
         {spells.bloodthirst , 'true', "target" , "bloodthirst_battleCry" },
         {spells.whirlwind, 'kps.multiTarget and target.distance < 10' , "target" , "whirlwind_battleCry" },
         {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
     }},
+    
+    {{"nested"}, 'spells.battleCry.cooldown < kps.gcd', {
+        {spells.avatar, 'not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
+        {spells.bloodbath, 'not player.isMoving and target.isAttackable and target.distance < 10' }, -- 30 sec cd
+        {spells.rampage, 'true' , "target" , "rampage_DUMP_RAGE" },
+    }},
+
+    {spells.battleCry, 'kps.cooldowns and not player.isMoving and spells.ragingBlow.cooldown < kps.gcd and player.rage < 70 and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
 
     -- Meat Cleaver -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {{"nested"}, 'kps.multiTarget', {
         {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and target.distance < 10' , "target" },
-        {spells.rampage, 'player.hasBuff(spells.frothingBerserker)' , "target" },
-        {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" },
-        {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
+        {spells.whirlwind, 'player.hasTalent(3,1) and player.hasBuff(spells.wreckingBall) and target.distance < 10' , "target" },
         {spells.odynsFury, 'player.hasBuff(spells.enrage)' , "target" },
-        {spells.ragingBlow, 'player.hasBuff(spells.enrage) and player.plateCount < 4' , "target" },
+        {spells.rampage, 'player.hasBuff(spells.meatCleaver)' },
+        {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
+        {spells.ragingBlow, 'player.hasBuff(spells.enrage) and player.plateCount < 4' },
         {spells.whirlwind, 'target.distance < 10' , "target" },
     }},
     
     {{"nested"}, 'target.hp < 0.20', {
+        {spells.execute, 'player.hasBuff(spells.enrage)' , "target" },
         {spells.bloodthirst },
-        {spells.odynsFury, 'player.hasBuff(spells.enrage)' , "target", "odynsFury_enrage" },
-        {spells.execute, 'true' , "target", "execute_enrage" },
         {spells.ragingBlow },
+        {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" },
+        {spells.execute, 'player.rage > 50' },
         {spells.furiousSlash },
     }},
 
+    -- "Frothing Berserker" "Berserker écumant" -- player.hasTalent(5,2) -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
+    -- "Rampage" can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first
+    {spells.rampage, 'player.hasTalent(5,2) and player.hasBuff(spells.frothingBerserker)' , "target" , "rampage_berserker" },
+    {spells.rampage, 'not player.hasTalent(5,2) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
+    {spells.rampage, 'player.rage > 99' , "target" , "rampage_dump_rage" },
+
     {spells.ragingBlow, 'player.hasBuff(spells.enrage)' , "target", "ragingBlow_enrage" },
-    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and focus.isAttackable and target.distance < 10' , "target" , "whirlwind_focus" },
-    {spells.bloodthirst },
+    {spells.bloodthirst, 'player.buffStacks(spells.tasteForBlood) > 0' },
+    {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
     {spells.ragingBlow },
+    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and focus.isAttackable and focus.distance < 10' },
     {spells.furiousSlash },
     
     {{"macro"}, 'true' , "/startattack" },

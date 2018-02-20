@@ -209,6 +209,7 @@ end
 --- NotifyInspec on PLAYER_LOGIN
 kps.events.register("PLAYER_LOGIN", function()
     NotifyInspect("player")
+    removeGriffons()
 end)
 
 -- Hide Static PopUp

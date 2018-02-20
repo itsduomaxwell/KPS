@@ -4,14 +4,6 @@ Unit State: Functions which handle unit state
 
 local Unit = kps.Unit.prototype
 
-local UnitHasBuff = function(spell,unit)
-    local spellname = tostring(spell)
-    if spellname == nil then return false end
-    if select(1,UnitBuff(unit,spellname)) ~= nil then return true end
-    return false
-end
-
-
 --[[[
 @function `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
 ]]--
@@ -67,7 +59,8 @@ end
 @function `<UNIT>.isDrinking` - returns true if the given unit is currently eating/drinking.
 ]]--
 function Unit.isDrinking(self)
-    return UnitHasBuff(kps.Spell.fromId(431),self.unit) -- doesn't matter which drinking buff we're using, all of them have the same name!
+    --return UnitHasBuff(kps.Spell.fromId(431),self.unit) -- doesn't matter which drinking buff we're using, all of them have the same name!
+    return Unit.hasBuff(self)(kps.Spell.fromId(431))
 end
 
 --[[[
@@ -80,12 +73,13 @@ end
 --[[[
 @function `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
 ]]--
-local SpiritofRedemption = kps.Spell.fromId(20711)
 function Unit.isHealable(self)
-    if self.unit == "player" and not UnitIsDeadOrGhost("player") and not UnitHasBuff(SpiritofRedemption,"player") then return true end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
+    --if self.unit == "player" and not UnitIsDeadOrGhost("player") and not UnitHasBuff(kps.Spell.fromId(20711),"player") then return true end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
+    if self.unit == "player" and not UnitIsDeadOrGhost("player") and not Unit.hasBuff(self)(kps.Spell.fromId(20711)) then return true end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
     if not Unit.exists(self) then return false end
     if Unit.inVehicle(self) then return false end
     if not Unit.lineOfSight(self) then return false end
+    if Unit.immuneHeal(self) then return false end
     if not UnitCanAssist("player",self.unit) then return false end -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
     if not UnitIsFriend("player", self.unit) then return false end -- UnitIsFriend("unit","otherunit") return 1 if otherunit is friendly to unit, nil otherwise.
     local inRange,_ = UnitInRange(self.unit)

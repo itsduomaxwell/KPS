@@ -238,3 +238,5 @@ kps.spells.priest.emptyMind = kps.Spell.fromId(247226)
 kps.spells.priest.answeredPrayers = kps.Spell.fromId(253437)
 -- "Espoir impérissable" "Everlasting Hope" -- increase the healing amount of your next Prayer of Healing spell by 30%.
 kps.spells.priest.everlastingHope = kps.Spell.fromId(253443)
+-- "Power of the Dark Side" -- Your next Penance will deal 50% additional damage
+kps.spells.priest.powerOfTheDarkSide = kps.Spell.fromId(198069)

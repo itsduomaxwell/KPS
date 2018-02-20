@@ -41,36 +41,50 @@ kps.rotations.register("WARRIOR","ARMS",
     {spells.victoryRush, 'player.hp < 0.70' },
     {spells.commandingShout, 'player.hp < 0.60' },
     {spells.dieByTheSword, 'player.hp < 0.40'},
+
+    {spells.intimidatingShout, 'not player.isInRaid and player.plateCount > 3' },
+    {spells.intimidatingShout, 'not player.isInRaid and player.incomingDamage > player.hpMax * 0.10' },
+
     
     -- TRINKETS
     -- "Souhait ardent de Kil'jaeden" 144259
     {{"macro"}, 'player.hasTrinket(0) == 147007 player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
     {{"macro"}, 'player.hasTrinket(0) == 147007 player.useTrinket(1) and target.isElite' , "/use 14" },
     {{"macro"}, 'player.hasTrinket(0) == 147007 player.useTrinket(1) and target.hp > player.hp' , "/use 14" },
-
-    -- Cooldowns
+    
+    {{"nested"}, 'player.hasBuff(spells.battleCry)', {
+        {spells.mortalStrike, 'player.hasBuff(spells.shatteredDefenses)'},
+        {spells.colossusSmash, 'not player.hasBuff(spells.shatteredDefenses)'},
+        {spells.colossusSmash, 'not target.hasMyDebuff(spells.colossusSmash)'},
+        {spells.cleave, 'kps.multiTarget'},
+        {spells.whirlwind, 'kps.multiTarget'},
+    }},
+    {{"nested"}, 'spells.battleCry.cooldown < kps.gcd', {
+        {spells.avatar, 'not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
+        {spells.warbreaker, 'not player.isMoving and target.isAttackable and target.distance < 10'},
+    }},
     {{"nested"}, 'kps.cooldowns', {
-        {spells.battleCry, 'target.myDebuffDuration(spells.colossusSmash) >= 5 and player.myBuffDuration(spells.shatteredDefenses) >= 5'},
-        {spells.avatar, 'player.hasBuff(spells.battleCry)'},
+        {spells.battleCry, 'target.myDebuffDuration(spells.colossusSmash) > 5 and player.myBuffDuration(spells.shatteredDefenses) > 5'},
     }},
     
     -- MultiTarget -- talent Sweeping Strikes is highly recommended. Mortal Strike and Execute hit 2 additional nearby targets.
     {{"nested"}, 'kps.multiTarget', {
         {spells.warbreaker},
-        {spells.battleCry},
         {spells.bladestorm},
-        {spells.mortalStrike },
+        {spells.ravager},
+        {spells.mortalStrike},
+        {spells.colossusSmash, 'not player.hasBuff(spells.shatteredDefenses)'},
         {spells.cleave},
         {spells.whirlwind},
     }},
 
     -- Single Target
     {{"nested"}, 'target.hp < 0.20', {
-        -- "Weighted Blade" -- T21 Arms 4P Bonus -- Mortal Strike increases the damage and critical strike chance of your next Whirlwind or Slam by 12%, stacking up to 3 times
-        {spells.whirlwind, 'target.hasMyDebuff(spells.colossusSmash) and player.buffStacks(weightedBlade) == 3'},
         {spells.colossusSmash, 'not player.hasBuff(spells.shatteredDefenses)'},
         -- "Executioner's Precision" -- Execute causes the target to take 75% more damage from your next Mortal Strike, stacking up to 2 times
         {spells.mortalStrike, 'player.hasBuff(spells.shatteredDefenses) and player.buffStacks(spells.executionersPrecision) == 2'},
+        -- "Weighted Blade" -- T21 Arms 4P Bonus -- Mortal Strike increases the damage and critical strike chance of your next Whirlwind or Slam by 12%, stacking up to 3 times
+        {spells.whirlwind, 'target.hasMyDebuff(spells.colossusSmash) and player.buffStacks(weightedBlade) == 3'},
         {spells.execute},
     }},
 
@@ -78,12 +92,9 @@ kps.rotations.register("WARRIOR","ARMS",
     {spells.mortalStrike, 'player.hasBuff(spells.shatteredDefenses)'},
     {spells.colossusSmash, 'not player.hasBuff(spells.shatteredDefenses)'},
     {spells.colossusSmash, 'not target.hasMyDebuff(spells.colossusSmash)'},
-    {spells.warbreaker, 'not target.hasMyDebuff(spells.colossusSmash) and not player.hasBuff(spells.shatteredDefenses)'},
-
     -- "Fervor of Battle" is talent -- replaces Slam Icon Slam at all times
-   {spells.whirlwind, 'player.hasTalent(5,1)'},
-   {spells.whirlwind, 'focus.exists and focus.isAttackable and target.distance < 10'},
-   {spells.slam, 'not player.hasTalent(5,1)'},
+    {spells.whirlwind, 'player.hasTalent(5,1)'},
+    {spells.slam, 'not player.hasTalent(5,1)'},
 
 }
 ,"Icy Veins")

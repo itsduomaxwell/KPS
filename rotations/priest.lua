@@ -11,9 +11,6 @@ local UnitExists = UnitExists
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
-local MindFlay = tostring(kps.spells.priest.mindFlay)
-local VoidForm = tostring(kps.spells.priest.voidform)
-local EnemyTable = {"mouseover", "focus", "target"}
 local UnitDebuff = UnitDebuff
 local UnitBuff = UnitBuff
 local UnitChannelInfo = UnitChannelInfo
@@ -70,11 +67,6 @@ end
 ------------------------------- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
-function kps.env.priest.threshold()
-    if IsInRaid() then return 0.72 end
-    return 0.82
-end
-
 local UnitDebuffDuration = function(spell,unit)
     --if unit == nil then return "target" end
     local spellname = tostring(spell)
@@ -110,6 +102,16 @@ local function PlayerHasTalent(row,talent)
     return false
 end
 
+--------------------------------------------------------------------------------------------
+------------------------------- SHADOW PRIEST
+--------------------------------------------------------------------------------------------
+
+local MindFlay = kps.spells.priest.mindFlay.name
+local VoidForm = kps.spells.priest.voidform.name
+local EnemyTable = {"mouseover", "focus", "target"}
+local ShadowWordPain = kps.spells.priest.shadowWordPain.name
+local VampiricTouch = kps.spells.priest.vampiricTouch.name
+
 function kps.env.priest.canCastvoidBolt()
     if not UnitHasBuff(VoidForm,"player") then return false end
     if kps.spells.priest.voidEruption.cooldown > 0 then return false end
@@ -134,8 +136,8 @@ function kps.env.priest.VoidBoltTarget()
     local VoidBoltTargetDuration = 24
     for i=1,#EnemyTable do
         local enemy = EnemyTable[i]
-        local shadowWordPainDuration = UnitDebuffDuration(kps.spells.priest.shadowWordPain,enemy)
-        local vampiricTouchDuration = UnitDebuffDuration(kps.spells.priest.vampiricTouch,enemy)
+        local shadowWordPainDuration = UnitDebuffDuration(ShadowWordPain,enemy)
+        local vampiricTouchDuration = UnitDebuffDuration(VampiricTouch,enemy)
         if shadowWordPainDuration > 0 and vampiricTouchDuration > 0 then
             local duration = math.min(shadowWordPainDuration,vampiricTouchDuration)
             if duration < VoidBoltTargetDuration then
@@ -166,9 +168,9 @@ end
 -- Config FOCUS with MOUSEOVER
 function kps.env.priest.TargetMouseover()
     if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
-        if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") == 0 then
+        if not UnitHasBuff(VampiricTouch,"mouseover") then
             kps.runMacro("/focus mouseover")
-        elseif UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") == 0 then
+        elseif not UnitHasBuff(ShadowWordPain,"mouseover") then
             kps.runMacro("/focus mouseover")
         else
             kps.runMacro("/focus mouseover")
@@ -179,8 +181,8 @@ end
 
 function kps.env.priest.FocusMouseover()
     if UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
-        if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"focus") > 4 and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"focus") > 4 then
-            if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") == 0 then
+        if UnitDebuffDuration(VampiricTouch,"focus") > 4 and UnitDebuffDuration(ShadowWordPain,"focus") > 4 then
+            if not UnitHasBuff(VampiricTouch,"mouseover") and not UnitHasBuff(ShadowWordPain,"mouseover") then
                 kps.runMacro("/focus mouseover")
             end
         end
@@ -192,11 +194,10 @@ end
 ------------------------------- AVOID OVERHEALING
 --------------------------------------------------------------------------------------------
 
-local Heal = tostring(kps.spells.priest.heal)
-local FlashHeal = tostring(kps.spells.priest.flashHeal)
-local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
-local SpiritOfRedemption = tostring(kps.spells.priest.spiritOfRedemption)
-local holyWordSerenity = tostring(kps.spells.priest.holyWordSerenity)
+local Heal = kps.spells.priest.heal.name
+local FlashHeal = kps.spells.priest.flashHeal.name
+local PrayerOfHealing = kps.spells.priest.prayerOfHealing.name
+local SpiritOfRedemption = kps.spells.priest.spiritOfRedemption.name
 
 function kps.env.priest.holyWordSerenityOnCD()
     if UnitHasBuff(SpiritOfRedemption,"player") then return true end
@@ -255,7 +256,7 @@ end
 ------------------------------- MESSAGE ON SCREEN
 --------------------------------------------------------------------------------------------
 
-local buffdivinity = tostring(kps.spells.priest.divinity)
+local buffdivinity = kps.spells.priest.divinity.name
 local function holyWordSanctifyOnScreen()
     if kps.spells.priest.holyWordSanctify.cooldown < kps.gcd and kps.timers.check("holyWordSanctify") == 0 and not UnitHasBuff(buffdivinity,"player") then
         kps.timers.create("holyWordSanctify", 10 )
@@ -278,8 +279,8 @@ end
 --    end
 --end)
 
-kps.events.register("UNIT_SPELLCAST_CHANNEL_START", function(unitID,spellname,_,_,spellID)
-    if unitID == "player" and spellID ~= nil then
-        if spellID == 64843 then SendChatMessage("Casting DIVINE HYMN" , "RAID" ) end
-    end
-end)
+--kps.events.register("UNIT_SPELLCAST_CHANNEL_START", function(unitID,spellname,_,_,spellID)
+--    if unitID == "player" and spellID ~= nil then
+--        if spellID == 64843 then SendChatMessage("Casting DIVINE HYMN" , "RAID" ) end
+--    end
+--end)

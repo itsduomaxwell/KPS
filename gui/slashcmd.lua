@@ -59,6 +59,13 @@ function SlashCmdList.KPS(cmd, editbox)
 end
 
 
+-- REMOVING GRYPHONS FROM ACTION BAR
+
+function removeGriffons()
+    MainMenuBarLeftEndCap:Hide()
+    MainMenuBarRightEndCap:Hide()
+end
+
 
 -- FAKEACHIEVEMENT
 -- /run fakeAchievement(11907)

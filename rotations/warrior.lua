@@ -34,7 +34,7 @@ end
 
 local UnitPower = UnitPower
 local function heroicLeapOnScreen()
-    if kps.spells.warrior.heroicLeap.cooldown < kps.gcd and kps.spells.warrior.heroicLeap.charges > 0  and UnitPower("player", 1) < 50 and kps.timers.check("heroicLeap") == 0 then
+    if kps.spells.warrior.heroicLeap.cooldown < kps.gcd and kps.spells.warrior.heroicLeap.charges > 0 and UnitPower("player", 1) < 50 and kps.timers.check("heroicLeap") == 0 then
         kps.timers.create("heroicLeap", 10 )
         CreateMessage("heroicLeap Ready")
     end
