@@ -198,6 +198,7 @@ local Heal = kps.spells.priest.heal.name
 local FlashHeal = kps.spells.priest.flashHeal.name
 local PrayerOfHealing = kps.spells.priest.prayerOfHealing.name
 local SpiritOfRedemption = kps.spells.priest.spiritOfRedemption.name
+local UnitCastingInfo = UnitCastingInfo
 
 function kps.env.priest.holyWordSerenityOnCD()
     if UnitHasBuff(SpiritOfRedemption,"player") then return true end
@@ -217,28 +218,30 @@ local ShouldInterruptCasting = function (interruptTable, countLossInRange, lowes
     if kps.lastTargetGUID == nil then return false end
     local spellCasting, _, _, _, _, endTime, _ = UnitCastingInfo("player")
     if spellCasting == nil then return false end
+    if endTime == nil then return false end
+    local castTimeLeft = ((endTime - (GetTime() * 1000 ) )/1000)
     local targetHealth = UnitHealth(kps.lastTarget) / UnitHealthMax(kps.lastTarget)
 
     for key, healSpellTable in pairs(interruptTable) do
         local breakpoint = healSpellTable[2]
         local spellName = healSpellTable[1]
-        if spellName == spellCasting and healSpellTable[3] == false then
-            if spellName == PrayerOfHealing and countLossInRange < breakpoint then
+        if spellName == spellCasting then
+            if spellName == PrayerOfHealing and countLossInRange < breakpoint and healSpellTable[3] == false then
                 SpellStopCasting()
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", has enough hp: "..countLossInRange, 0, 0.5, 0.8)
-
-            elseif spellName == Heal and lowestHealth < 0.55 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
-                -- SPELL_POWER_MANA value 0
+                
+            elseif spellName == FlashHeal and targetHealth > breakpoint and healSpellTable[3] == false then
                 SpellStopCasting()
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp: "..targetHealth, 0, 0.5, 0.8)
+
+            elseif spellName == Heal and targetHealth > breakpoint and healSpellTable[3] == false then
+                SpellStopCasting()
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp: "..targetHealth, 0, 0.5, 0.8)
+                
+            elseif spellName == Heal and lowestHealth < 0.40 and castTimeLeft > kps.gcd and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
+                SpellStopCasting()
+                kps.timers.create("CriticalHealth",4)
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING "..spellName.." Lowest has critical hp: "..lowestHealth, 0, 0.5, 0.8)
-
-            elseif spellName == Heal and targetHealth > breakpoint then
-                SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp: "..targetHealth, 0, 0.5, 0.8)
-
-            elseif spellName == FlashHeal and targetHealth > breakpoint then
-                SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp: "..targetHealth, 0, 0.5, 0.8)
             end
         end
     end

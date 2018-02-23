@@ -76,8 +76,10 @@ end
 kps.events.register("LOSS_OF_CONTROL_ADDED", function ()
     local i = C_LossOfControl.GetNumEvents()
     local locType, spellID, _, _, _, _, duration,lockoutSchool,_,_ = C_LossOfControl.GetEventInfo(i)
-    if spellID and duration > 0 then
-        if kps.timers.check("LossOfControl") == 0 then kps.timers.create("LossOfControl",duration) end
+    if spellID and duration then
+        if duration > 0 then
+            if kps.timers.check("LossOfControl") == 0 then kps.timers.create("LossOfControl",duration) end
+        end 
     end
 end)
 
