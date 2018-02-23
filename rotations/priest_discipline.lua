@@ -90,6 +90,11 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     
     {spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
     {spells.powerWordSolace, 'player.hasTalent(4,1) and focustarget.isAttackable' , "focustarget" },
+    
+    -- "Purge the Wicked" Spreads to an additional nearby enemy when you cast Penance on the target.
+    {spells.purgeTheWicked, 'heal.hasBuffCount(spells.atonement) > 0 and target.isAttackable and not target.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("target")' , "target" },
+    {spells.purgeTheWicked, 'heal.hasBuffCount(spells.atonement) > 0 and focustarget.isAttackable and not focustarget.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("focustarget")' , "focustarget" }, 
+    {spells.purgeTheWicked, 'heal.hasBuffCount(spells.atonement) > 0 and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
 
     {spells.mindbender, 'player.hasTalent(4,3) and heal.hasBuffCountHealth(spells.atonement,0.78) > 4 and target.isAttackable' , "target" },
     {spells.mindbender, 'player.hasTalent(4,3) and heal.hasBuffLowestHealth(spells.atonement) < 0.55 and focustarget.isAttackable' , "focustarget" },
@@ -100,7 +105,10 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield) and player.hp < 0.78' , "player" },
     {spells.powerWordShield, 'not heal.aggroTankTarget.hasBuff(spells.powerWordShield)' , kps.heal.aggroTankTarget },  
     {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestTankInRaid },
-    {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < 0.78' , kps.heal.lowestInRaid }, 
+    {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < 0.78' , kps.heal.lowestInRaid },
+
+    {spells.powerWordShield, 'mouseover.immuneHeal and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },    
+    {spells.clarityOfWill, 'player.hasTalent(5,2) and not player.isMoving and mouseover.immuneHeal and not mouseover.hasBuff(spells.clarityOfWill)' , "mouseover" },
 
     {{"nested"}, 'player.hasBuff(spells.rapture)' , {
        {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield)' , "player" },
@@ -135,8 +143,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.lastCasted(4) and heal.hasBuffCountHealth(spells.atonement,0.78) > 2 and focustarget.isAttackable' , "focustarget" },
     }},
 
-    {spells.clarityOfWill, 'player.hasTalent(5,2) and not player.isMoving and mouseover.immuneHeal and not mouseover.hasBuff(spells.clarityOfWill)' , "mouseover" },
-    {spells.powerWordShield, 'mouseover.immuneHeal and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
     -- MOUSEOVER
     {{"nested"}, 'kps.mouseOver and mouseover.isFriend' , {
         {spells.painSuppression, 'mouseover.hp < 0.30' , "mouseover" },
@@ -145,19 +151,16 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.plea, 'not mouseover.hasBuff(spells.atonement) and mouseover.hp < 0.78' , "mouseover" },
         {spells.shadowMend, 'not player.isMoving and mouseover.hp < 0.40 and not spells.shadowMend.isRecastAt("mouseover")' , "mouseover" },
     }},
-
-    -- "Purge the Wicked" Spreads to an additional nearby enemy when you cast Penance on the target.
-    {spells.purgeTheWicked, 'heal.hasBuffCount(spells.atonement) > 0 and target.isAttackable and not target.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("target")' , "target" },
-    {spells.purgeTheWicked, 'heal.hasBuffCount(spells.atonement) > 0 and focustarget.isAttackable and not focustarget.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("focustarget")' , "focustarget" }, 
-    {spells.purgeTheWicked, 'heal.hasBuffCount(spells.atonement) > 0 and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
-
     {spells.plea, 'not heal.aggroTankTarget.hasBuff(spells.atonement)' , kps.heal.aggroTankTarget , "plea_aggro" },
     {spells.plea, 'not heal.lowestTankInRaid.hasBuff(spells.atonement)' , kps.heal.lowestTankInRaid , "plea_tank" },
     {spells.plea, 'not player.hasBuff(spells.atonement)' , "player" , "plea_player" },
 
+    {spells.schism, 'player.hasTalent(1,3) and heal.hasBuffLowestHealth(spells.atonement) < 0.78 and target.isAttackable' , "target" },
+    {spells.schism, 'player.hasTalent(1,3) and heal.hasBuffLowestHealth(spells.atonement) < 0.78 and focustarget.isAttackable' , "focustarget" },
+    {spells.penance, 'heal.hasBuffLowestHealth(spells.atonement) < 0.78 and target.isAttackable' , "target" , "penance_lowest" },
+    {spells.penance, 'heal.hasBuffLowestHealth(spells.atonement) < 0.78 and focustarget.isAttackable' , "focustarget" , "penance_lowest" },
+
     -- "Borrowed Time" "Sursis"  -- Applying Atonement to a target reduces the cast time of your next Smite or Light's Wrath by 5%, or causes your next Penance to channel 5% faster
-    {spells.penance, 'heal.hasBuffLowestHealth(spells.atonement) < 0.90 and target.isAttackable' , "target" , "penance_lowest" },
-    {spells.penance, 'heal.hasBuffLowestHealth(spells.atonement) < 0.90 and focustarget.isAttackable' , "focustarget" , "penance_lowest" },
     {{"nested"}, 'heal.hasBuffCountHealth(spells.atonement,0.90) >= heal.countLossInRange(0.90) and heal.countLossInRange(0.90) > 0' , {
         {spells.smite, 'not player.isMoving and target.isAttackable' , "target" , "smite_count" },
         {spells.smite, 'not player.isMoving and focustarget.isAttackable' , "focustarget" , "smite_count" },
