@@ -24,6 +24,8 @@ local updateincomingHeal = function()
     end
 end
 
+local EnemyHealer = {}
+
 -------------------------------------------------------
 -------- COMBAT_LOG_EVENT_UNFILTERED FUNCTIONS --------
 -------------------------------------------------------

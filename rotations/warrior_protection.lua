@@ -56,8 +56,8 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
     {{"macro"}, 'player.useTrinket(1) and target.hp > player.hp' , "/use 14" },
 
+    {spells.battleCry, 'spells.shieldSlam.cooldown < kps.gcd and target.isAttackable and target.distance < 10' },
     {spells.shieldSlam},
-    {spells.battleCry, 'target.isAttackable and target.distance < 10' },
     {spells.revenge, 'spells.revenge.cost == 0' , "target", "revenge_free" },
     {spells.shieldBlock, 'player.myBuffDuration(spells.shieldBlock) < 2' , "target" , "shieldBlock" }, -- 15 rage
     {spells.neltharionsFury, 'not player.isMoving and not player.hasBuff(spells.shieldBlock) and target.isAttackable and target.distance < 10' },

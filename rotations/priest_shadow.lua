@@ -82,6 +82,8 @@ kps.rotations.register("PRIEST","SHADOW",{
         {spells.voidEruption, 'true' , env.VoidBoltTarget },
         {spells.voidTorrent, 'not player.isMoving and spells.mindbender.cooldown < kps.gcd' },
         {spells.voidTorrent, 'not player.isMoving and player.buffStacks(spells.voidform) > 5 and player.insanity > 55' },
+        {spells.mindBlast, 'not player.isMoving and player.haste > 50' , "target" },
+        {spells.mindBlast, 'not player.isMoving and not spells.mindBlast.isRecastAt("target")' , "target" },
     }},
     
     -- "Shadow Word: Death" 32379
@@ -89,15 +91,13 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.shadowWordDeath, 'target.hp < 0.20' , "target" },
     {spells.shadowWordDeath, 'focus.isAttackable and focus.hp < 0.20' , "focus" },
     
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and not target.hasMyDebuff(spells.vampiricTouch)' , 'target' },
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'focus.isAttackable and not player.isMoving and not focus.hasMyDebuff(spells.vampiricTouch)' , 'focus' },
-
     -- "Mindblast" is highest priority spell out of voidform
+    --{{"macro"}, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity < 65' , "target" },
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and not player.hasTalent(7,1) and player.insanity < 100' , "target" },
-    --{{"macro"}, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
-    {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and player.haste > 50' , "target" , "MINDBLAST" },
-    {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and not spells.mindBlast.isRecastAt("target")' , "target" },
+
+    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and not target.hasMyDebuff(spells.vampiricTouch)' , 'target' },
+    {{spells.vampiricTouch,spells.shadowWordPain}, 'focus.isAttackable and not player.isMoving and not focus.hasMyDebuff(spells.vampiricTouch)' , 'focus' },
 
     -- MultiTarget
     {{"nested"}, 'kps.multiTarget',{
