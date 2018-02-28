@@ -155,11 +155,12 @@ end)
 ]]--
 kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     -- If we're below 30% - always heal us first!
-    if kps.env.player.hp < 0.55 then return kps["env"].player end
+    if kps.env.player.hp < 0.40 then return kps["env"].player end
     -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
-    if kps["env"].focus.isHealable and kps["env"].focus.hp < 0.55 then return kps["env"].focus end
+    -- focus.isFriend coz isHealable (e.g. UnitInRange) is only available for members of the player's group.
+    if kps["env"].focus.isFriend and kps["env"].focus.hp < 0.55 then return kps["env"].focus end
     -- MAYBE we also focused an enemy so we can heal it's target...
-    if not kps["env"].focus.isHealable and kps["env"].focustarget.isHealable and kps["env"].focustarget.hp < 0.55 then return kps["env"].focustarget end
+    if kps["env"].focustarget.isHealable and kps["env"].focustarget.hp < 0.55 then return kps["env"].focustarget end
     -- Now do the same for target...
     if kps["env"].target.isHealable and kps["env"].target.hp < 0.55 then return kps["env"].target end
     if not kps["env"].target.isHealable and kps["env"].targettarget.isHealable and kps["env"].targettarget.hp < 0.55 then return kps["env"].targettarget end
@@ -179,11 +180,12 @@ end)
 ]]--
 kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
     -- If we're below 30% - always heal us first!
-    if kps.env.player.hp < 0.55 then return kps["env"].player end
-    -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
-    if kps["env"].focus.isHealable and kps["env"].focus.hp < 0.55 then return kps["env"].focus end
+    if kps.env.player.hp < 0.40 then return kps["env"].player end
+    -- If the focus target is below 50% - take it (must be some reason there is a focus after all...) 
+    -- focus.isFriend coz isHealable (e.g. UnitInRange) is only available for members of the player's group.
+    if kps["env"].focus.isFriend and kps["env"].focus.hp < 0.55 then return kps["env"].focus end
     -- MAYBE we also focused an enemy so we can heal it's target...
-    if not kps["env"].focus.isHealable and kps["env"].focustarget.isHealable and kps["env"].focustarget.hp < 0.55 then return kps["env"].focustarget end
+    if kps["env"].focustarget.isHealable and kps["env"].focustarget.hp < 0.55 then return kps["env"].focustarget end
     -- Now do the same for target...
     if kps["env"].target.isHealable and kps["env"].target.hp < 0.55 then return kps["env"].target end
     if not kps["env"].target.isHealable and kps["env"].targettarget.isHealable and kps["env"].targettarget.hp < 0.55 then return kps["env"].targettarget end
@@ -445,7 +447,7 @@ end)
 @function `heal.hasNotBuffAtonement(<BUFF>)` - Returns the lowest health unit without Atonement Buff on raid e.g. heal.hasNotBuffLowestHealth.hp < 0.90
 ]]--
 
-local unithasNotBuffLowestHealth = function(spell)
+local unitHasNotBuffLowestHealth = function(spell)
     local lowestHp = 2
     local lowestUnit = kps["env"].player
     for name, unit in pairs(raidStatus) do
@@ -458,7 +460,11 @@ local unithasNotBuffLowestHealth = function(spell)
 end
 
 kps.RaidStatus.prototype.hasNotBuffAtonement = kps.utils.cachedValue(function()
-    return unithasNotBuffLowestHealth(kps.spells.priest.atonement)
+    return unitHasNotBuffLowestHealth(kps.spells.priest.atonement)
+end)
+
+kps.RaidStatus.prototype.hasNotBuffMending = kps.utils.cachedValue(function()
+    return unitHasNotBuffLowestHealth(kps.spells.priest.prayerOfMending)
 end)
 
 local countNotBuffDistance = function(spell,distance)
