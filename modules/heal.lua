@@ -467,21 +467,6 @@ kps.RaidStatus.prototype.hasNotBuffMending = kps.utils.cachedValue(function()
     return unitHasNotBuffLowestHealth(kps.spells.priest.prayerOfMending)
 end)
 
-local countNotBuffDistance = function(spell,distance)
-    if distance == nil then distance = 10 end
-    local count = 0
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and not unit.hasBuff(spell) and unit.distance < distance then
-            count = count + 1
-        end
-    end
-    return count
-end
-
-kps.RaidStatus.prototype.countNotBuffAtonementDistance = kps.utils.cachedValue(function()
-    return countNotBuffDistance(kps.spells.priest.atonement,30)
-end)
-
 --[[[
 @function `heal.hasDamage` - Returns the raid unit with incomingDamage > incomingHeal
 ]]--
@@ -551,9 +536,7 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 print("|cffff8000CountLoss_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
 
 local atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
-print("|cffff8000AtonementCount_90:|cffffffff",kps["env"].heal.hasBuffCountHealth(atonement,0.90),"|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasBuffCountHealth(atonement))
-print("|cffff8000NotAtonement:|cffffffff", kps["env"].heal.countNotBuffAtonementDistance)
-
+print("|cffff8000AtonementCount_90:|cffffffff",kps["env"].heal.hasBuffCountHealth(atonement,0.90))
 print("|cffff8000hasBuffLowestHealth:|cffffffff", kps["env"].heal.hasBuffLowestHealth(atonement))
 
 

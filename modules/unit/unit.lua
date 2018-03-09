@@ -8,6 +8,7 @@ Provides access to specific unit information. <UNIT> may be one of:
  * `focus`
  * `focustarget`
  * `mouseover`
+ * `mouseovertarget`
 ]]--
 kps.Unit = {}
 kps.Unit.prototype = {}

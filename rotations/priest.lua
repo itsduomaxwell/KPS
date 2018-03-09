@@ -86,6 +86,14 @@ local UnitHasBuff = function(spell,unit)
     return false
 end
 
+local UnitHasDebuff = function(spell,unit)
+    --if unit == nil then unit = "player" end
+    local spellname = tostring(spell)
+    if spellname == nil then return false end
+    if select(1,UnitDebuff(unit,spellname)) then return true end
+    return false
+end
+
 local function UnitIsAttackable(unit)
     if UnitIsDeadOrGhost(unit) then return false end
     if not UnitExists(unit) then return false end
@@ -111,43 +119,6 @@ local VoidForm = kps.spells.priest.voidform.name
 local EnemyTable = {"mouseover", "focus", "target"}
 local ShadowWordPain = kps.spells.priest.shadowWordPain.name
 local VampiricTouch = kps.spells.priest.vampiricTouch.name
-
-function kps.env.priest.canCastvoidBolt()
-    if not UnitHasBuff(VoidForm,"player") then return false end
-    if kps.spells.priest.voidEruption.cooldown > 0 then return false end
-    local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
-    if Channeling ~= nil then
-      if tostring(Channeling) == MindFlay then return true end
-    end
-    return false
-end
-
-function kps.env.priest.canCastMindBlast()
-    if kps.spells.priest.mindBlast.cooldown > 0 then return false end
-    local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
-    if Channeling ~= nil then
-        if tostring(Channeling) == MindFlay then return true end
-    end
-    return false
-end
-
-function kps.env.priest.VoidBoltTarget()
-    local VoidBoltTarget = "target"
-    local VoidBoltTargetDuration = 24
-    for i=1,#EnemyTable do
-        local enemy = EnemyTable[i]
-        local shadowWordPainDuration = UnitDebuffDuration(ShadowWordPain,enemy)
-        local vampiricTouchDuration = UnitDebuffDuration(VampiricTouch,enemy)
-        if shadowWordPainDuration > 0 and vampiricTouchDuration > 0 then
-            local duration = math.min(shadowWordPainDuration,vampiricTouchDuration)
-            if duration < VoidBoltTargetDuration then
-                VoidBoltTargetDuration = duration
-                VoidBoltTarget = enemy
-            end
-        end
-    end
-    return VoidBoltTarget
-end
 
 -- UnitHealthMax returns the maximum health of the specified unit, returns 0 if the specified unit does not exist (eg. "target" given but there is no target)
 function kps.env.priest.DeathEnemyTarget()
@@ -182,7 +153,9 @@ end
 function kps.env.priest.FocusMouseover()
     if UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
         if UnitDebuffDuration(VampiricTouch,"focus") > 4 and UnitDebuffDuration(ShadowWordPain,"focus") > 4 then
-            if not UnitHasBuff(VampiricTouch,"mouseover") and not UnitHasBuff(ShadowWordPain,"mouseover") then
+            if not UnitHasBuff(VampiricTouch,"mouseover") then
+                kps.runMacro("/focus mouseover")
+            elseif not UnitHasBuff(ShadowWordPain,"mouseover") then
                 kps.runMacro("/focus mouseover")
             end
         end

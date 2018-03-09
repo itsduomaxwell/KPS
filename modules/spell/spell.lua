@@ -38,7 +38,7 @@ local castAt = setmetatable({}, {
                 CastSpellByName(self.name,target)
             end
 
-            if kps.debug then print(self.name,"|cff1eff00","|",GetUnitName(target),"|cffffffff|",target,"|cffa335ee",message) end
+            if kps.debug then print(self.name,"|cff1eff00","|",GetUnitName(target),"|cffffffff|",target,"|cffff8000",message) end
             kps.gui.updateSpellTexture(self)
 
             local _, gcd = GetSpellCooldown(61304) -- Global Cooldown Spell

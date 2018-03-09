@@ -24,6 +24,9 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     env.ScreenMessage,
+    
+    {spells.taunt, 'kps.taunt and not player.isTarget' , "target" , "taunt" },
+        
     {spells.berserkerRage, 'not player.hasFullControl' },
     {spells.berserkerRage, 'kps.berserker and player.rage < 15' , "target" , "spells.berserkerRage" }, -- set T20 gives 20 rage
     
@@ -33,12 +36,12 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
     {spells.spellReflection, 'target.isCasting' , "target" },
+    {spells.shockwave, 'target.isCasting' , "target" },
     
     -- Charge enemy
     {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
     {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
     {spells.intercept, 'kps.defensive and target.isAttackable and target.distance > 10' },
-    {spells.taunt, 'kps.taunt and not player.isTarget' },
 
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
@@ -46,6 +49,9 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {spells.victoryRush, 'not player.hasTalent(2,3) and player.hp < 1'},
     {spells.impendingVictory, 'player.hasTalent(2,3) and player.hp < 1'},
     {spells.stoneform, 'player.isDispellable("Disease")' , "player" },
+    {spells.stoneform, 'player.isDispellable("Poison")' , "player" },
+    {spells.stoneform, 'player.isDispellable("Magic")' , "player" },
+    {spells.stoneform, 'player.isDispellable("Curse")' , "player" },
     {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.shieldWall, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.60' },
     {spells.lastStand, 'player.hp < 0.40' },
@@ -77,6 +83,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
     }},
 
     {spells.thunderClap, 'target.distance < 10'},
+    {spells.shockwave, 'target.isElite and player.plateCount > 2' , "target" },
     {spells.devastate, 'not player.hasTalent(5,1)' },   
     {{"macro"}, 'true' , "/startattack" },
 
