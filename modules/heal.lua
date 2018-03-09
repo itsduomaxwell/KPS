@@ -407,7 +407,7 @@ kps.RaidStatus.prototype.hasBuffCount = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.hasBuffCountLowestHealth(<BUFF>)` - Returns the lowest health unit for a specific Buff on raid e.g. heal.hasBuffCountLowestHealth(spells.atonement) < 0.90
+@function `heal.hasBuffLowestHealth(<BUFF>)` - Returns the lowest health unit for a specific Buff on raid e.g. heal.hasBuffLowestHealth(spells.atonement) < 0.90
 ]]--
 
 local unitHasBuffLowestHealth = function(spell)

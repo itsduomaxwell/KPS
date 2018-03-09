@@ -182,6 +182,7 @@ Members:
  * `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
  * `heal.hasBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasBuffStacks(spells.prayerOfMending) < 10
  * `heal.hasBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasBuffCount(spells.atonement)
+ * `heal.hasBuffCountLowestHealth(<BUFF>)` - Returns the lowest health unit for a specific Buff on raid e.g. heal.hasBuffCountLowestHealth(spells.atonement) < 0.90
  * `heal.hasNotBuffAtonement(<BUFF>)` - Returns the lowest health unit without Atonement Buff on raid e.g. heal.hasNotBuffLowestHealth.hp < 0.90
  * `heal.hasDamage` - Returns the raid unit with incomingDamage > incomingHeal
 
@@ -335,6 +336,7 @@ Provides access to specific unit information. <UNIT> may be one of:
  * `focus`
  * `focustarget`
  * `mouseover`
+ * `mouseovertarget`
 
 Members:
 
@@ -621,7 +623,7 @@ kps.rotations.register(
  * `gui/toggle.lua:75` - Right-Click Action
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:67` - Blacklisted spells?
- * `modules/unit/unit_state.lua:20` - PvP
+ * `modules/unit/unit_state.lua:12` - PvP
  * `rotations/mage.lua:52` - Implement pyroChain sequence
 
 
