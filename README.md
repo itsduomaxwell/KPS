@@ -182,7 +182,7 @@ Members:
  * `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
  * `heal.hasBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasBuffStacks(spells.prayerOfMending) < 10
  * `heal.hasBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasBuffCount(spells.atonement)
- * `heal.hasBuffCountLowestHealth(<BUFF>)` - Returns the lowest health unit for a specific Buff on raid e.g. heal.hasBuffCountLowestHealth(spells.atonement) < 0.90
+ * `heal.hasBuffLowestHealth(<BUFF>)` - Returns the lowest health unit for a specific Buff on raid e.g. heal.hasBuffLowestHealth(spells.atonement) < 0.90
  * `heal.hasNotBuffAtonement(<BUFF>)` - Returns the lowest health unit without Atonement Buff on raid e.g. heal.hasNotBuffLowestHealth.hp < 0.90
  * `heal.hasDamage` - Returns the raid unit with incomingDamage > incomingHeal
 
