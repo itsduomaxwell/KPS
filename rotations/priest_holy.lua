@@ -27,7 +27,7 @@ kps.rotations.register("PRIEST","HOLY",{
     env.ShouldInterruptCasting,
     env.ScreenMessage,
 
-    {{"macro"}, 'player.hasBuff(spells.spiritOfRedemption) and heal.countInRange == 0' , "/cancelaura "..SpiritOfRedemption },
+    {{"macro"}, 'player.hasBuff(spells.spiritOfRedemption) and heal.lowestInRaid.isUnit("player")' , "/cancelaura "..SpiritOfRedemption },
     {{"nested"}, 'player.hasBuff(spells.spiritOfRedemption) and not heal.lowestInRaid.isUnit("player")' ,{
         {spells.holyWordSerenity, 'true' , kps.heal.lowestInRaid},
         {spells.prayerOfMending, 'true' , kps.heal.lowestInRaid},
@@ -245,8 +245,6 @@ kps.rotations.register("PRIEST","HOLY",{
 
     -- "Nova sacrée" 132157
     {spells.holyNova, 'player.isMoving and target.distance < 10 and target.isAttackable and heal.countLossInDistance(0.90,10) > 2' , "target" },
-    {spells.holyNova, 'player.isMoving and targettarget.distance < 10 and targettarget.isAttackable and heal.countLossInDistance(0.90,10) > 2' , "targettarget" },
-    {spells.holyNova, 'player.isMoving and focustarget.distance < 10 and focustarget.isAttackable and heal.countLossInDistance(0.90,10) > 2' , "focustarget" },
     -- "Surge Of Light" Your healing spells and Smite have a 8% chance to make your next Flash Heal instant and cost no mana
     {spells.smite, 'not player.isMoving and target.isAttackable', "target" },
     {spells.smite, 'not player.isMoving and targettarget.isAttackable', "targettarget" },

@@ -67,6 +67,11 @@ end
 ------------------------------- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
+function kps.env.priest.Threshold()
+    if not IsInRaid() then return 2 end
+    return 4
+end
+
 local UnitDebuffDuration = function(spell,unit)
     --if unit == nil then return "target" end
     local spellname = tostring(spell)
