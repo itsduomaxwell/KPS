@@ -68,6 +68,7 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.guardianSpirit, 'player.hp < 0.30 and not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid},
         {spells.guardianSpirit, 'heal.defaultTank.hp < 0.30' , kps.heal.defaultTank},
         {spells.guardianSpirit, 'heal.lowestTankInRaid.hp < 0.30' , kps.heal.lowestTankInRaid},
+        {spells.guardianSpirit, 'heal.aggroTankTarget.hp < 0.30' , kps.heal.aggroTankTarget},
         {spells.guardianSpirit, 'heal.lowestInRaid.hp < 0.30' , kps.heal.lowestInRaid},
     }},
 
@@ -136,11 +137,11 @@ kps.rotations.register("PRIEST","HOLY",{
     {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) > 4' , "/cast [@player] "..HolyWordSanctify },
     {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) > 2 and not player.isInRaid' , "/cast [@player] "..HolyWordSanctify },
     -- "Espoir impérissable" "Everlasting Hope" -- increase the healing amount of your next Prayer of Healing spell by 30%.
-    {{"nested"}, 'not player.isMoving and heal.countLossInRange(0.78) > 2 and player.hasBuff(spells.everlastingHope)' ,{
-        {spells.prayerOfHealing, 'heal.countLossInRange(0.72) > 2 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_HOPE" },
-        {{spells.holyWordSanctify,spells.prayerOfHealing}, 'heal.countLossInRange(0.72) > 2 and spells.holyWordSanctify.cooldown == 0' , kps.heal.lowestInRaid , "POH_HOPE" },
+    {{"nested"}, 'not player.isMoving and heal.countLossInRange(0.78) > 2 and player.hasBuff(spells.everlastingHope) and heal.lowestInRaid.hp < 0.65' ,{
+        {{spells.holyWordSerenity,spells.prayerOfHealing}, 'spells.holyWordSerenity.cooldown == 0 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_HOPE" },
+        {{spells.holyWordSanctify,spells.holyWordSerenity,spells.prayerOfHealing}, 'spells.holyWordSanctify.cooldown == 0 and spells.holyWordSerenity.cooldown == 0' , kps.heal.lowestInRaid , "POH_HOPE" },
+        {{spells.holyWordSerenity,spells.prayerOfHealing}, 'spells.holyWordSerenity.cooldown == 0' , kps.heal.lowestInRaid , "POH_HOPE" },
         {spells.prayerOfHealing, 'heal.countLossInRange(0.72) > 2' , kps.heal.lowestInRaid , "POH_HOPE" },
-        {spells.prayerOfHealing, 'heal.lowestInRaid.hp < 0.55' , kps.heal.lowestInRaid , "POH_HOPE" },
     }},
     
     -- "Light of T'uure" 208065 -- track buff in case an other priest have casted lightOfTuure -- increasing your healing done to that target by 25% for 10 sec.
