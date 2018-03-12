@@ -368,6 +368,15 @@ kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
     return nil
 end)
 
+kps.RaidStatus.prototype.countAbsorptionHeal = kps.utils.cachedValue(function()
+    local maxcount = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.absorptionHeal then
+            maxcount = maxcount + 1
+        end
+    end
+    return maxcount
+end)
 
 --[[[
 @function `heal.hasBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasBuffStacks(spells.prayerOfMending) < 10

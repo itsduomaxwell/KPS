@@ -83,6 +83,8 @@ kps.rotations.register("PRIEST","SHADOW",{
         {{spells.vampiricTouch,spells.shadowWordPain}, 'not target.hasMyDebuff(spells.vampiricTouch)' , 'target' },
         {spells.mindBlast, 'player.hasTalent(7,1) and player.insanity < 65' , "target" },
         {spells.mindBlast, 'not player.hasTalent(7,1)' , "target" },
+        {spells.vampiricTouch, 'not player.isMoving and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.vampiricTouch) and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
+        {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
     }},
     
     --{{"macro"}, 'player.buffStacks(spells.voidform) == 0 and player.insanity == 100 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
@@ -107,14 +109,13 @@ kps.rotations.register("PRIEST","SHADOW",{
         {spells.voidTorrent, 'not player.isMoving and spells.mindbender.cooldown > kps.gcd and player.buffStacks(spells.voidform) > 5' },
         {spells.mindBlast, 'not player.isMoving and player.haste > 50' , "target" },
         {spells.mindBlast, 'not player.isMoving and not spells.mindBlast.isRecastAt("target")' , "target" },
+        {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
         {spells.vampiricTouch, 'not player.isMoving and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.vampiricTouch) and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
         {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
-        -- MultiTarget
-        {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
     }},
 
     {{"nested"}, 'not player.isMoving',{
-        {{spells.vampiricTouch,spells.shadowWordPain}, 'not target.hasMyDebuff(spells.vampiricTouch)' , 'target' },
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'target.isAttackable and not target.hasMyDebuff(spells.vampiricTouch)' , 'target' },
         {{spells.vampiricTouch,spells.shadowWordPain}, 'kps.shadowWordPain and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
         {{spells.vampiricTouch,spells.shadowWordPain}, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
         {{spells.vampiricTouch,spells.shadowWordPain}, 'focus.isAttackable and not focus.hasMyDebuff(spells.vampiricTouch)' , 'focus' },

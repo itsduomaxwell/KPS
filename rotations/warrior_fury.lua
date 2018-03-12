@@ -41,7 +41,7 @@ kps.rotations.register("WARRIOR","FURY",
     }},
 
     -- "Pierre de soins" 5512
-    {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
+    {{"macro"}, 'player.useItem(5512) and player.hp < 0.90', "/use item:5512" },
     {spells.bloodthirst, 'player.hasBuff(spells.enragedRegeneration)' },
     {spells.enragedRegeneration, 'spells.bloodthirst.cooldown < kps.gcd and player.hp < 0.70' },
     {spells.commandingShout, 'player.hp < 0.60' },
@@ -59,6 +59,10 @@ kps.rotations.register("WARRIOR","FURY",
     -- "Souhait ardent de Kil'jaeden" 144259
     {{"macro"}, 'player.useTrinket(1) and player.plateCount > 3' , "/use 14" },
     {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
+    
+--    {spells.rampage, 'not player.hasTalent(5,2) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
+--    {spells.rampage, 'player.hasBuff(frothingBerserker) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
+--    {spells.rampage, 'player.hasTalent(5,2) and player.rage > 99 and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
 
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
         {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
@@ -70,12 +74,11 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
     }},
     
-    {{"nested"}, 'spells.battleCry.cooldown < 3', {
+    {{"nested"}, 'spells.battleCry.cooldown < 4', {
         {spells.avatar, 'target.isAttackable and target.distance < 10' }, -- 90 sec cd
         {spells.rampage, 'true' , "target" , "rampage_dump_rage" },
         {spells.bloodbath, 'player.hasTalent(6,1) and target.isAttackable and target.distance < 10' }, -- 30 sec cd
     }},
-
     {spells.battleCry, 'kps.cooldowns and not player.isMoving and spells.ragingBlow.cooldown < kps.gcd and player.rage < 70 and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
 
     -- Meat Cleaver -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
@@ -101,6 +104,7 @@ kps.rotations.register("WARRIOR","FURY",
     -- "Frothing Berserker" "Berserker écumant" -- player.hasTalent(5,2) -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
     -- "Rampage" can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first    
     {spells.rampage, 'not player.hasTalent(5,2)' , "target" , "rampage_dump_rage" },
+    {spells.rampage, 'player.hasBuff(frothingBerserker)' , "target" , "rampage_dump_rage" },
     {spells.rampage, 'player.hasTalent(5,2) and player.rage > 99' , "target" , "rampage_dump_rage" },
 
     {spells.ragingBlow, 'player.hasBuff(spells.enrage)' , "target", "ragingBlow_enrage" },
@@ -108,13 +112,10 @@ kps.rotations.register("WARRIOR","FURY",
     {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
     {spells.ragingBlow },
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and focus.isAttackable and focus.distance < 10' },
+    -- Buff Taste for Blood. Furious Slash increases the critical strike chance of Bloodthirst by 15%. Stacks up to 6 times 8 seconds remaining
     {spells.furiousSlash },
     
     {{"macro"}, 'true' , "/startattack" },
 
 }
 ,"Warrior Fury 7.3")
-
--- Buff Taste for Blood. Furious Slash increases the critical strike chance of Bloodthirst by 15%. Stacks up to 6 times 8 seconds remaining
-
-
