@@ -525,10 +525,9 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 --print("|cffff8000CountLossDistance_90:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
 print("|cffff8000CountLoss_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
 
-local atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
-print("|cffff8000AtonementCount_90:|cffffffff",kps["env"].heal.hasBuffCount(atonement))
-print("|cffff8000hasBuffLowestHealth:|cffffffff", kps["env"].heal.hasBuffLowestHealth(atonement))
-
+local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
+print("|cffff8000AtonementCount_90:|cffffffff",kps["env"].heal.hasBuffCount(Atonement))
+print("|cffff8000hasBuffLowestHealth:|cffffffff", kps["env"].heal.hasBuffLowestHealth(Atonement))
 
 
 --print("updateInterval:",kps.config.updateInterval)

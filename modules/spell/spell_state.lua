@@ -29,13 +29,19 @@ end
 @function `<SPELL>.cooldown` - returns the current cooldown of this spell 
 ]]--
 function Spell.cooldown(spell)
-    local usable, nomana = IsUsableSpell(spell.name) -- usable, nomana = IsUsableSpell("spellName" or spellID)
+    local usable, _ = IsUsableSpell(spell.name) -- usable, nomana = IsUsableSpell("spellName" or spellID)
     if not usable then return 999 end
     local start,duration,_ = GetSpellCooldown(spell.name)
     if start == nil or duration == nil then return 0 end
     local cd = start+duration-GetTime()
     if cd < 0 then return 0 end
     return cd
+end
+
+function Spell.isUsable(spell)
+    local usable, _ = IsUsableSpell(spell.id) -- usable, nomana = IsUsableSpell("spellName" or spellID)
+    if not usable then return false end
+    return true
 end
 
 --[[[
