@@ -61,7 +61,7 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     -- "Dispel" "Purifier" 527
     {{"nested"},'kps.cooldowns', {
         {spells.purify, 'player.isDispellable("Magic")' , "player" },
-        {spells.purify, 'mouseover.isDispellable("Magic")' , "mouseover" },
+        {spells.purify, 'mouseover.isFriend and mouseover.isDispellable("Magic")' , "mouseover" },
         {spells.purify, 'focus.isFriend and focus.isDispellable("Magic")' , "focus"},
         {spells.purify, 'heal.lowestTankInRaid.isDispellable("Magic")' , kps.heal.lowestTankInRaid},
         {spells.purify, 'heal.lowestInRaid.isDispellable("Magic")' , kps.heal.lowestInRaid},

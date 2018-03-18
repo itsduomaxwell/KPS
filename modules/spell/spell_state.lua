@@ -1,5 +1,6 @@
 local Spell = kps.Spell.prototype
 
+local UnitCastingInfo = UnitCastingInfo
 
 --[[[
 @function `<SPELL>.charges` - returns the current charges left of this spell if it has charges or 0 if this spell has no charges
@@ -86,7 +87,7 @@ end
 local castTimeLeft = setmetatable({}, {
     __index = function(t, self)
         local val = function(unit)
-            if unit==nil then unit = "player" end
+            if unit == nil then unit = "player" end
             local name,_,_,_,_,endTime,_,_,_ = UnitCastingInfo(unit)
             if endTime == nil then
                 local name,_,_,_,_,endTime,_,_,_ = UnitChannelInfo(unit)
@@ -151,7 +152,7 @@ local canBeCastAt = setmetatable({}, {
     __index = function(t, self)
         local val = function  (unit)
             if not self.needsSelect then
-                if not UnitExists(unit) and not self.isBattleRez then return false end -- kps.env[unit].exists coz env for unit..target returns nil value and 
+                if not UnitExists(unit) and not self.isBattleRez then return false end
             end
             local usable, nomana = IsUsableSpell(self.name) -- usable, nomana = IsUsableSpell("spellName" or spellID)
             if not usable then return false end
@@ -182,4 +183,42 @@ local lastCasted = setmetatable({}, {
     end})
 function Spell.lastCasted(self)
     return lastCasted[self]
+end
+
+--[[[
+@function `<SPELL>.shouldInterrupt(<BREAKPOINT)` - returns true if the casting spell overheals above brealpoint (e.g.: `spells.heal.shouldInterrupt(0.90)`).
+]]--
+
+local shouldInterrupt = setmetatable({}, {
+    __index = function(t, self)
+        local val = function(breakpoint)
+
+        if kps.lastTargetGUID == nil then return false end
+        local spellCasting, _, _, _, _, endTime, _ = UnitCastingInfo("player")
+        if spellCasting == nil then return false end
+        if endTime == nil then return false end
+        if kps.defensive then return false end
+        local targetHealth = UnitHealth(kps.lastTarget) / UnitHealthMax(kps.lastTarget)
+        local onCD = kps.spells.priest.holyWordSerenity.cooldown > kps.gcd
+
+        if self.name == spellCasting then
+            if self.name == kps.spells.priest.prayerOfHealing.name and breakpoint < 3 then
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..self.name.."|".." Raid ".." has enough hp:"..breakpoint, 0, 0.5, 0.8)
+                return true
+            elseif self.name == kps.spells.priest.flashHeal.name and not onCD and targetHealth > breakpoint then
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..self.name.."|"..kps.lastTarget.." has enough hp:"..targetHealth, 0, 0.5, 0.8)
+                return true
+            elseif self.name == kps.spells.priest.heal.name and not onCD and targetHealth > breakpoint then
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..self.name.."|"..kps.lastTarget.." has enough hp:"..targetHealth, 0, 0.5, 0.8)
+                return true
+            end
+        end
+
+        return false
+        end
+        t[self] = val
+        return val
+    end})
+function Spell.shouldInterrupt(self)
+    return shouldInterrupt[self]
 end

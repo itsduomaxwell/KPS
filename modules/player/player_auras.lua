@@ -142,7 +142,6 @@ function Player.hasGlyph(self)
     return hasGlyph
 end
 
-
 --[[[
 @function `player.useItem(<ITEMID>)` - returns true if the player has the given item and cooldown == 0
 ]]--

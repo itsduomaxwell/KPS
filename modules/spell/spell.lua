@@ -61,7 +61,7 @@ local isOneOf = setmetatable({}, {
     __index = function(t, self)
         local val = function (spellList)
             for _,otherSpell in pairs(spellList) do
-                if otherSpell.id==self.id then
+                if otherSpell.id == self.id then
                     return true
                 end
             end

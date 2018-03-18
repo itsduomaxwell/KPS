@@ -439,7 +439,7 @@ end)
 
 local unitHasNotBuffLowestHealth = function(spell)
     local lowestHp = 2
-    local lowestUnit = kps["env"].player
+    local lowestUnit = nil -- kps["env"].player
     for name, unit in pairs(raidStatus) do
         if unit.isHealable and not unit.hasBuff(spell) and unit.hp < lowestHp then
             lowestHp = unit.hp
@@ -529,8 +529,6 @@ local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
 print("|cffff8000AtonementCount_90:|cffffffff",kps["env"].heal.hasBuffCount(Atonement))
 print("|cffff8000hasBuffLowestHealth:|cffffffff", kps["env"].heal.hasBuffLowestHealth(Atonement))
 
-
---print("updateInterval:",kps.config.updateInterval)
 
 --for _,unit in ipairs(tanksInRaid()) do
 --print("TANKS",unit.name)
