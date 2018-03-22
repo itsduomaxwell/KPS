@@ -193,6 +193,7 @@ local ShouldInterruptCasting = function (interruptTable, countLossInRange)
     if spellCasting == nil then return false end
     if endTime == nil then return false end
     local targetHealth = UnitHealth(kps.lastTarget) / UnitHealthMax(kps.lastTarget)
+    local target = kps.lastTarget
 
     for key, healSpellTable in pairs(interruptTable) do
         local breakpoint = healSpellTable[2]
@@ -200,13 +201,13 @@ local ShouldInterruptCasting = function (interruptTable, countLossInRange)
         if spellName == spellCasting then
             if spellName == kps.spells.priest.prayerOfHealing.name and healSpellTable[3] == false and countLossInRange < breakpoint then
                 SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName.."|".." Raid ".." has enough hp:"..countLossInRange, 0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName.."|".." countLossInRange: "..countLossInRange, 0, 0.5, 0.8)
             elseif spellName == kps.spells.priest.flashHeal.name and healSpellTable[3] == false and targetHealth > breakpoint  then
                 SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName.."|"..kps.lastTarget.." has enough hp:"..targetHealth, 0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName.."|"..target.." health: "..targetHealth, 0, 0.5, 0.8)
             elseif spellName == kps.spells.priest.heal.name and healSpellTable[3] == false and targetHealth > breakpoint then
                 SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName.."|"..kps.lastTarget.." has enough hp:"..targetHealth, 0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName.."|"..target.." health: "..targetHealth, 0, 0.5, 0.8)
             end
         end
     end

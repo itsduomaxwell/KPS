@@ -337,6 +337,25 @@ function Unit.isDispellable(self)
 end
 
 --[[[
+@function `<UNIT>.hasBossDebuff` - returns true if the unit hasBossDebuff
+]]--
+function Unit.hasBossDebuff(self)
+    if not UnitCanAssist("player", self.unit) then return false end
+    local auraName, debuffType, expirationTime, spellId, isBossDebuff
+        local i = 1
+        auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId, _, isBossDebuff = UnitDebuff(self.unit,i) 
+        while auraName do
+            if debuffType ~= nil and isBossDebuff then
+                if expTime ~= nil and expTime - GetTime() > 1 then
+                return true end
+            end
+            i = i + 1
+            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(self.unit,i)
+        end
+    return false
+end
+
+--[[[
 @function `<UNIT>.absorptionHeal` - returns true if the unit has a Healing Absorption Debuff
 ]]--
 function Unit.absorptionHeal(self)

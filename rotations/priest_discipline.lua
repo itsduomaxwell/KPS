@@ -89,18 +89,20 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     -- "Purge the Wicked" Spreads to an additional nearby enemy when you cast Penance on the target.
     {spells.purgeTheWicked, 'heal.hasBuffCount(spells.atonement) > 0 and target.isAttackable and not target.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("target")' , "target" },
     {spells.purgeTheWicked, 'heal.hasBuffCount(spells.atonement) > 0 and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
+    {spells.mindbender, 'player.mana < 0.90 and player.hasTalent(4,3) and heal.hasBuffCount(spells.atonement) > 0 and target.isAttackable' , "target" },    
+    {spells.shadowfiend, 'not player.hasTalent(4,3) and heal.hasBuffCount(spells.atonement) > 0 and target.isAttackable' , "target" },
 
     -- NOT ISINGROUP
     {{"nested"}, 'kps.multiTarget and not player.isInGroup' , {
         {spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
         {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield)' , "player" },
-        {spells.plea, 'not player.hasBuff(spells.atonement)' , "player" },
+        {spells.mindbender, 'player.hasTalent(4,3) and heal.hasBuffCount(spells.atonement) > 0 and target.isAttackable' , "target" },    
+        {spells.shadowfiend, 'not player.hasTalent(4,3) and heal.hasBuffCount(spells.atonement) > 0 and target.isAttackable' , "target" },
         {spells.schism, 'player.hasTalent(1,3) and player.myBuffDuration(spells.atonement) > 2 and target.isAttackable' , "target" },
         {spells.penance, 'player.myBuffDuration(spells.atonement) > 2 and target.isAttackable' , "target" },
-        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable' , "target" },
-        {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable' , "target" },
         {spells.lightsWrath, 'not player.isMoving and player.myBuffDuration(spells.atonement) > 2 and target.isAttackable' , "target" },
         {spells.shadowMend, 'not player.isMoving and player.hp < 0.40 and not spells.shadowMend.isRecastAt("player")' , "player" },  
+        {spells.plea, 'not player.hasBuff(spells.atonement)' , "player" },
         {spells.smite,'not player.isMoving and target.isAttackable' , "target" },
     }},
 
@@ -125,25 +127,21 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.clarityOfWill, 'player.hasTalent(5,2) and not player.isMoving and mouseover.immuneHeal and not mouseover.hasBuff(spells.clarityOfWill)' , "mouseover" },
     
     -- GROUPHEAL
-    {spells.penance, 'heal.hasBuffCount(spells.atonement) > Threshold() and heal.countLossInRange(0.82) > Threshold() and target.isAttackable' , "target" },
-    {spells.mindbender, 'player.hasTalent(4,3) and heal.hasBuffCount(spells.atonement) > Threshold() and heal.countLossInRange(0.82) > Threshold() and target.isAttackable' , "target" },
-    {spells.shadowfiend, 'not player.hasTalent(4,3) and heal.hasBuffCount(spells.atonement) > Threshold() and heal.countLossInRange(0.82) > Threshold() and target.isAttackable' , "target" },
-    {spells.powerWordRadiance, 'not player.isMoving and heal.hasBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > Threshold()' , kps.heal.hasNotBuffAtonement },
-    {spells.powerWordRadiance, 'not player.isMoving and heal.hasBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > Threshold()' , "player" },
     {spells.evangelism, 'player.hasTalent(7,3) and spells.powerWordRadiance.lastCasted(4)' },
+    {spells.powerWordRadiance, 'not player.isMoving and heal.hasBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > Threshold()' , kps.heal.hasNotBuffAtonement },
     {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.82) > Threshold() and target.isAttackable' , "target" },
-    
+
     -- MOUSEOVER
     {{"nested"}, 'kps.mouseOver and mouseover.isFriend' , {
-        {spells.powerWordRadiance, 'not player.isMoving and heal.hasBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > Threshold() and not mouseover.hasBuff(spells.atonement)' , "mouseover" },
-        {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.82) > Threshold() and mouseover.hasBuff(spells.atonement) and mouseovertarget.isAttackable' , "mouseovertarget" },
         {spells.painSuppression, 'mouseover.hp < 0.30' , "mouseover" },
         {spells.powerWordShield, 'mouseover.hp < 0.82 and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
+        {spells.powerWordRadiance, 'not player.isMoving and heal.hasBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > Threshold() and not mouseover.hasBuff(spells.atonement)' , "mouseover" },
+        {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.82) > Threshold() and mouseover.hasBuff(spells.atonement) and mouseovertarget.isAttackable' , "mouseovertarget" },
         {spells.penance, 'mouseover.hp < 0.82 and mouseover.hasBuff(spells.atonement) and mouseovertarget.isAttackable' , "mouseovertarget" },
-        {spells.clarityOfWill, 'player.hasTalent(5,2) and not player.isMoving and mouseover.hp < 0.55 and not mouseover.hasBuff(spells.clarityOfWill)' , "mouseover" },
-        {spells.smite, 'mouseover.hasBuff(spells.atonement) and not player.isMoving and mouseovertarget.isAttackable' , "mouseovertarget" },
-        {spells.plea, 'not mouseover.hasBuff(spells.atonement) and mouseover.hp < 0.82' , "mouseover" },
+        {spells.clarityOfWill, 'player.hasTalent(5,2) and not player.isMoving and mouseover.hp < 0.40 and not mouseover.hasBuff(spells.clarityOfWill)' , "mouseover" },
         {spells.shadowMend, 'not player.isMoving and mouseover.hp < 0.40 and not spells.shadowMend.isRecastAt("mouseover")' , "mouseover" },
+        {spells.plea, 'not mouseover.hasBuff(spells.atonement) and mouseover.hp < 0.82' , "mouseover" },
+        {spells.smite, 'mouseover.hasBuff(spells.atonement) and not player.isMoving and mouseovertarget.isAttackable' , "mouseovertarget" },
     }},
 
    -- "Schisme" augmente les dégâts que vous lui infligez de 30% pendant 6 sec.

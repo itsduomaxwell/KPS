@@ -198,18 +198,19 @@ local shouldInterrupt = setmetatable({}, {
         if spellCasting == nil then return false end
         if endTime == nil then return false end
         if kps.defensive then return false end
+        local target = kps.lastTarget
         local targetHealth = UnitHealth(kps.lastTarget) / UnitHealthMax(kps.lastTarget)
         local onCD = kps.spells.priest.holyWordSerenity.cooldown > kps.gcd
 
         if self.name == spellCasting then
             if self.name == kps.spells.priest.prayerOfHealing.name and breakpoint < 3 then
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..self.name.."|".." Raid ".." has enough hp:"..breakpoint, 0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING prayerOfHealing ".." countLossInRange: "..breakpoint, 0, 0.5, 0.8)
                 return true
             elseif self.name == kps.spells.priest.flashHeal.name and not onCD and targetHealth > breakpoint then
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..self.name.."|"..kps.lastTarget.." has enough hp:"..targetHealth, 0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING flashHeal "..target.." health: "..targetHealth, 0, 0.5, 0.8)
                 return true
             elseif self.name == kps.spells.priest.heal.name and not onCD and targetHealth > breakpoint then
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..self.name.."|"..kps.lastTarget.." has enough hp:"..targetHealth, 0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING heal ".."|"..target.." health: "..targetHealth, 0, 0.5, 0.8)
                 return true
             end
         end

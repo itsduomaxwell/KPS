@@ -16,7 +16,7 @@ end)
 
 -- kps.cooldowns for dispel and powerInfusion
 -- kps.interrupt for interrupts
--- kps.multiTarget for mindFlay multiTarget
+-- kps.multiTarget for dot with mouseover
 kps.rotations.register("PRIEST","SHADOW",{
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
@@ -78,9 +78,24 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.shadowWordDeath, 'mouseover.isAttackable and mouseover.hp < 0.20' , "mouseover" },
     {spells.shadowWordDeath, 'target.hp < 0.20' , "target" },
     {spells.shadowWordDeath, 'focus.isAttackable and focus.hp < 0.20' , "focus" },
-
+    
     {spells.voidEruption, 'not player.isMoving and spells.voidEruption.isUsable and not player.hasBuff(spells.voidform) and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4'},
+ 
+     -- "The Twins' Painful Touch" 133973 -- Mind Flay cast after entering Voidform spreads Shadow Word: Pain and Vampiric Touch to 3 enemies within 10 yards of your target.
+    {spells.mindFlay, 'not player.isMoving and IsEquippedItem(133973) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) < 4' , "target" , "mindFlay_item" },
 
+    -- "Mindblast" is highest priority spell out of voidform
+    --{{"macro"}, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
+    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity < 100',{
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
+        {spells.mindBlast, 'target.isAttackable' , 'target' },
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'focus.isAttackable and not focus.hasMyDebuff(spells.vampiricTouch) and focus.isAttackable' , 'focus' },
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
+    }},
+    {{"nested"}, 'kps.multiTarget',{    
+        {spells.vampiricTouch, 'not player.isMoving and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.vampiricTouch) and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
+        {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
+    }},
     {{"nested"}, 'player.hasBuff(spells.voidform)',{
         --{{"macro"}, 'not kps.multiTarget and player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
         -- Voidbolt extends the duration of Shadow Word: Pain and Vampiric Touch on all nearby targets by 3.0 sec For the duration of Voidform
@@ -88,26 +103,10 @@ kps.rotations.register("PRIEST","SHADOW",{
         -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
         {spells.shadowfiend, 'spells.voidTorrent.lastCasted(30) and not player.hasTalent(6,3) and player.haste > 50' , "target" },
         {spells.mindbender, 'spells.voidTorrent.lastCasted(30) and player.hasTalent(6,3) and player.buffStacks(spells.voidform) > 25 and player.insanity < 80' , "target" },
-        -- "The Twins' Painful Touch" 133973 -- Mind Flay cast after entering Voidform spreads Shadow Word: Pain and Vampiric Touch to 3 enemies within 10 yards of your target.
-        {spells.mindFlay, 'not player.isMoving and IsEquippedItem(133973) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) < 4' , "target" , "mindFlay_item" },
         {spells.voidTorrent, 'not player.isMoving and player.hasTalent(6,3) and player.buffStacks(spells.voidform) < 20 and spells.mindbender.cooldown < 20' },
         {spells.voidTorrent, 'not player.isMoving and not player.hasTalent(6,3) and player.buffStacks(spells.voidform) < 20' },
         {spells.mindBlast, 'not player.isMoving' , "target" },
-        {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
         {{spells.vampiricTouch,spells.shadowWordPain}, 'focus.isAttackable and not focus.hasMyDebuff(spells.vampiricTouch) and focus.isAttackable' , 'focus' },
-        {spells.vampiricTouch, 'not player.isMoving and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.vampiricTouch) and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
-        {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
-    }},
-
-    -- "Mindblast" is highest priority spell out of voidform
-    --{{"macro"}, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
-    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity < 100',{
-        {{spells.vampiricTouch,spells.shadowWordPain}, 'not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
-        {spells.mindBlast, 'player.hasTalent(7,1) and player.insanity < 65' , "target" },
-        {spells.mindBlast, 'not player.hasTalent(7,1)' , "target" },
-        {{spells.vampiricTouch,spells.shadowWordPain}, 'focus.isAttackable and not focus.hasMyDebuff(spells.vampiricTouch) and focus.isAttackable' , 'focus' },
-        {spells.vampiricTouch, 'not player.isMoving and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.vampiricTouch) and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
-        {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
     }},
 
     {{"nested"}, 'not player.isMoving',{

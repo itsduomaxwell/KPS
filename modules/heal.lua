@@ -358,6 +358,17 @@ kps.RaidStatus.prototype.isDiseaseDispellable = kps.utils.cachedValue(function()
 end)
 
 --[[[
+@function `heal.hasBossDebuff` - Returns the raid unit with Boss debuff
+]]--
+
+kps.RaidStatus.prototype.hasBossDebuff = kps.utils.cachedValue(function()
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hasBossDebuff then return unit end
+    end
+    return nil
+end)
+
+--[[[
 @function `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
 ]]--
 
@@ -439,7 +450,7 @@ end)
 
 local unitHasNotBuffLowestHealth = function(spell)
     local lowestHp = 2
-    local lowestUnit = nil -- kps["env"].player
+    local lowestUnit = kps["env"].player
     for name, unit in pairs(raidStatus) do
         if unit.isHealable and not unit.hasBuff(spell) and unit.hp < lowestHp then
             lowestHp = unit.hp
