@@ -17,10 +17,6 @@ local Barriere = spells.powerWordBarrier.name
 -- kps.defensive for mouseover
 
 kps.runAtEnd(function()
-   kps.gui.addCustomToggle("PRIEST","DISCIPLINE", "smite", "Interface\\Icons\\spell_holy_holysmite", "smite")
-end)
-
-kps.runAtEnd(function()
    kps.gui.addCustomToggle("PRIEST","DISCIPLINE", "mouseOver", "Interface\\Icons\\priest_spell_leapoffaith_a", "mouseOver")
 end)
 
@@ -149,7 +145,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.penance, 'heal.hasBuffLowestHealth(spells.atonement) < 0.82 and target.isAttackable' , "target" , "penance_lowest" },
     -- "Borrowed Time" "Sursis"  -- Applying Atonement to a target reduces the cast time of your next Smite or Light's Wrath by 5%, or causes your next Penance to channel 5% faster
     {spells.smite, 'not player.isMoving and heal.hasNotBuffAtonement.hp > 0.82 and heal.hasBuffCount(spells.atonement) > 0 and heal.countLossInRange(1) > 0 and target.isAttackable' , "target" , "smite_count" },
-    {spells.smite, 'kps.smite and not player.isMoving and heal.hasNotBuffAtonement.hp > 0.82 and heal.hasBuffCount(spells.atonement) > 0 and target.isAttackable' , "target" , "smite_aggro" },
 
     {spells.plea, 'heal.hasNotBuffAtonement.hp < 0.82' , kps.heal.hasNotBuffAtonement , "plea_lowest_unbuff" },
     {spells.shadowMend, 'not player.isMoving and heal.aggroTankTarget.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.aggroTankTarget.unit)' , kps.heal.aggroTankTarget },

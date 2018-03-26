@@ -155,7 +155,7 @@ end)
 ]]--
 kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     -- If we're below 30% - always heal us first!
-    if kps.env.player.hp < 0.40 then return kps["env"].player end
+    if kps.env.player.hp < 0.55 then return kps["env"].player end
     -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
     -- focus.isFriend coz isHealable (e.g. UnitInRange) is only available for members of the player's group.
     if kps["env"].focus.isFriend and kps["env"].focus.hp < 0.55 then return kps["env"].focus end
@@ -164,9 +164,7 @@ kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     -- Now do the same for target...
     if kps["env"].target.isHealable and kps["env"].target.hp < 0.55 then return kps["env"].target end
     if not kps["env"].target.isHealable and kps["env"].targettarget.isHealable and kps["env"].targettarget.hp < 0.55 then return kps["env"].targettarget end
-    -- Nothing selected - get lowest Tank if it is NOT the player and lower than 50%
-    if kps.RaidStatus.prototype.lowestTankInRaid().unit ~= "player" and kps.RaidStatus.prototype.lowestTankInRaid().hp < 0.55 then return  kps.RaidStatus.prototype.lowestTankInRaid() end
-    -- Neither player, not focus/target nor tank are critical - heal lowest raid member
+    -- Nothing selected - get lowest raid member
     return kps.RaidStatus.prototype.lowestInRaid()
 end)
 
@@ -180,7 +178,7 @@ end)
 ]]--
 kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
     -- If we're below 30% - always heal us first!
-    if kps.env.player.hp < 0.40 then return kps["env"].player end
+    if kps.env.player.hp < 0.55 then return kps["env"].player end
     -- If the focus target is below 50% - take it (must be some reason there is a focus after all...) 
     -- focus.isFriend coz isHealable (e.g. UnitInRange) is only available for members of the player's group.
     if kps["env"].focus.isFriend and kps["env"].focus.hp < 0.55 then return kps["env"].focus end
