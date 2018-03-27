@@ -45,7 +45,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
 
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
-    {spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.10' },
+    {spells.demoralizingShout, 'player.incomingDamage > player.incomingHeal' },
     {spells.victoryRush, 'not player.hasTalent(2,3) and player.hp < 1'},
     {spells.impendingVictory, 'player.hasTalent(2,3) and player.hp < 1'},
     {spells.stoneform, 'player.isDispellable("Disease")' , "player" },
@@ -53,7 +53,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {spells.stoneform, 'player.isDispellable("Magic")' , "player" },
     {spells.stoneform, 'player.isDispellable("Curse")' , "player" },
     {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
-    {spells.shieldWall, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.60' },
+    {spells.shieldWall, 'player.incomingDamage > player.incomingHeal and player.hp < 0.60' },
     {spells.lastStand, 'player.hp < 0.40' },
 
     -- TRINKETS
