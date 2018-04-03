@@ -59,10 +59,6 @@ kps.rotations.register("WARRIOR","FURY",
     -- "Souhait ardent de Kil'jaeden" 144259
     {{"macro"}, 'player.useTrinket(1) and player.plateCount > 3' , "/use 14" },
     {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
-    
---    {spells.rampage, 'not player.hasTalent(5,2) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
---    {spells.rampage, 'player.hasBuff(frothingBerserker) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
---    {spells.rampage, 'player.hasTalent(5,2) and player.rage > 99 and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
 
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
         {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
@@ -74,12 +70,16 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
     }},
     
+   {spells.rampage, 'not player.hasTalent(5,2) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
+   {spells.rampage, 'player.hasBuff(frothingBerserker) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
+   {spells.rampage, 'player.hasTalent(5,2) and player.rage > 99 and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
+    
     {{"nested"}, 'spells.battleCry.cooldown < 4', {
         {spells.avatar, 'target.isAttackable and target.distance < 10' }, -- 90 sec cd
         {spells.rampage, 'true' , "target" , "rampage_dump_rage" },
         {spells.bloodbath, 'player.hasTalent(6,1) and target.isAttackable and target.distance < 10' }, -- 30 sec cd
     }},
-    {spells.battleCry, 'kps.cooldowns and not player.isMoving and spells.ragingBlow.cooldown < kps.gcd and player.rage < 70 and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
+    {spells.battleCry, 'kps.cooldowns and spells.ragingBlow.cooldown < kps.gcd and player.rage < 70 and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
 
     -- Meat Cleaver -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {{"nested"}, 'kps.multiTarget', {
