@@ -288,7 +288,7 @@ function Unit.myBuffCount(self)
 end
 
 --[[[
-@function `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.masteryEchoOfLight)
+@function `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffValue(spells.masteryEchoOfLight)
 ]]--
 
 local buffValue = setmetatable({}, {
@@ -309,18 +309,18 @@ function Unit.buffValue(self)
 end
 
 --[[[
-@function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
+@function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. player.isDispellable("Magic")
 ]]--
 local UnitCanAssist = UnitCanAssist
 local isDispellable = setmetatable({}, {
     __index = function(t, unit)
-        local val = function (dispel)
+        local val = function (dispelType)
             if not UnitCanAssist("player", unit) then return false end
             local auraName, debuffType, expirationTime, spellId
             local i = 1
             auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i) 
             while auraName do
-                if debuffType ~= nil and debuffType == dispel then
+                if debuffType ~= nil and debuffType == dispelType then
                     if expTime ~= nil and expTime - GetTime() > 1 then
                     return true end
                 end
@@ -337,9 +337,10 @@ function Unit.isDispellable(self)
 end
 
 --[[[
-@function `<UNIT>.hasBossDebuff` - returns true if the unit hasBossDebuff
+@function `<UNIT>.bossDebuff` - returns true if the unit has a Boss Debuff
 ]]--
-function Unit.hasBossDebuff(self)
+
+function Unit.bossDebuff(self)
     if not UnitCanAssist("player", self.unit) then return false end
     local auraName, debuffType, expirationTime, spellId, isBossDebuff
         local i = 1
@@ -350,7 +351,7 @@ function Unit.hasBossDebuff(self)
                 return true end
             end
             i = i + 1
-            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(self.unit,i)
+            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId, _, isBossDebuff = UnitDebuff(self.unit,i)
         end
     return false
 end

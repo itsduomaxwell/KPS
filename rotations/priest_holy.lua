@@ -214,7 +214,6 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
 
     -- ABSORBHEAL
-
     {spells.prayerOfHealing, 'not player.isMoving and heal.hasAbsorptionHeal ~= nil and player.hasBuff(spells.everlastingHope) and heal.countAbsorptionHeal > 2' , kps.heal.hasAbsorptionHeal },
     {spells.flashHeal, 'not player.isMoving and heal.hasAbsorptionHeal ~= nil and heal.hasAbsorptionHeal.hp < 0.65' , kps.heal.hasAbsorptionHeal },
     {spells.bindingHeal, 'not player.isMoving and heal.hasAbsorptionHeal ~= nil and not heal.hasAbsorptionHeal.isUnit("player")' , kps.heal.hasAbsorptionHeal },
@@ -222,8 +221,8 @@ kps.rotations.register("PRIEST","HOLY",{
     -- MOUSEOVER
     {{"nested"}, 'kps.mouseOver not player.isMoving and mouseover.isFriend and not mouseover.immuneHeal' , {
         {spells.flashHeal, 'mouseover.hasBossDebuff and mouseover.hp < 0.65 ' , "mouseover" },
-        {spells.flashHeal, 'mouseover.hp < 0.55' , "mouseover" },
         {spells.bindingHeal, 'mouseover.absorptionHeal and not mouseover.isUnit("player")' , "mouseover" },
+        {spells.flashHeal, 'mouseover.hp < 0.55' , "mouseover" },
         {spells.bindingHeal, 'not mouseover.isUnit("player") and heal.countLossInRange(0.82) > 2' , "mouseover" },
         {spells.heal, 'holyWordSerenityOnCD() and mouseover.hp < 0.90' , "mouseover" },
     }},

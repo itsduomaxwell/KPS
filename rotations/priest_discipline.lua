@@ -23,6 +23,7 @@ end)
 
 kps.rotations.register("PRIEST","DISCIPLINE",{
 
+    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
     
     -- "Dissipation de masse" 32375
@@ -124,15 +125,15 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     
     -- GROUPHEAL
     {spells.evangelism, 'player.hasTalent(7,3) and spells.powerWordRadiance.lastCasted(4)' },
-    {spells.powerWordRadiance, 'not player.isMoving and heal.hasBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > Threshold()' , kps.heal.hasNotBuffAtonement },
-    {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.82) > Threshold() and target.isAttackable' , "target" },
+    {spells.powerWordRadiance, 'not player.isMoving and heal.hasBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > 4' , kps.heal.hasNotBuffAtonement },
+    {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.82) > 4 and target.isAttackable' , "target" },
 
     -- MOUSEOVER
     {{"nested"}, 'kps.mouseOver and mouseover.isFriend' , {
         {spells.painSuppression, 'mouseover.hp < 0.30' , "mouseover" },
         {spells.powerWordShield, 'mouseover.hp < 0.82 and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
-        {spells.powerWordRadiance, 'not player.isMoving and heal.hasBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > Threshold() and not mouseover.hasBuff(spells.atonement)' , "mouseover" },
-        {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.82) > Threshold() and mouseover.hasBuff(spells.atonement) and mouseovertarget.isAttackable' , "mouseovertarget" },
+        {spells.powerWordRadiance, 'not player.isMoving and heal.hasBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.countLossInRange(0.82) > 4 and not mouseover.hasBuff(spells.atonement)' , "mouseover" },
+        {spells.lightsWrath, 'not player.isMoving and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.82) > 4 and mouseover.hasBuff(spells.atonement) and mouseovertarget.isAttackable' , "mouseovertarget" },
         {spells.penance, 'mouseover.hp < 0.82 and mouseover.hasBuff(spells.atonement) and mouseovertarget.isAttackable' , "mouseovertarget" },
         {spells.clarityOfWill, 'player.hasTalent(5,2) and not player.isMoving and mouseover.hp < 0.40 and not mouseover.hasBuff(spells.clarityOfWill)' , "mouseover" },
         {spells.shadowMend, 'not player.isMoving and mouseover.hp < 0.40 and not spells.shadowMend.isRecastAt("mouseover")' , "mouseover" },

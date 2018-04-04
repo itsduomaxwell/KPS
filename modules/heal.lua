@@ -361,7 +361,7 @@ end)
 
 kps.RaidStatus.prototype.hasBossDebuff = kps.utils.cachedValue(function()
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hasBossDebuff then return unit end
+        if unit.isHealable and unit.bossDebuff then return unit end
     end
     return nil
 end)
@@ -532,11 +532,11 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 
 --print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
 --print("|cffff8000CountLossDistance_90:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
-print("|cffff8000CountLoss_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
+--print("|cffff8000CountLoss_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
 
-local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
-print("|cffff8000AtonementCount_90:|cffffffff",kps["env"].heal.hasBuffCount(Atonement))
-print("|cffff8000hasBuffLowestHealth:|cffffffff", kps["env"].heal.hasBuffLowestHealth(Atonement))
+--local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
+--print("|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasBuffCount(Atonement))
+--print("|cffff8000AtonementLowestHealth:|cffffffff", kps["env"].heal.hasBuffLowestHealth(Atonement))
 
 
 --for _,unit in ipairs(tanksInRaid()) do
