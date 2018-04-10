@@ -316,13 +316,13 @@ local isDispellable = setmetatable({}, {
     __index = function(t, unit)
         local val = function (dispelType)
             if not UnitCanAssist("player", unit) then return false end
-            local auraName, debuffType, expirationTime, spellId
+            --if dispelType == nil then dispelType = "Magic" end
+            local auraName, debuffType, expTime, spellId
             local i = 1
             auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i) 
             while auraName do
                 if debuffType ~= nil and debuffType == dispelType then
-                    if expTime ~= nil and expTime - GetTime() > 1 then
-                    return true end
+                    return true
                 end
                 i = i + 1
                 auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i)
@@ -337,27 +337,7 @@ function Unit.isDispellable(self)
 end
 
 --[[[
-@function `<UNIT>.bossDebuff` - returns true if the unit has a Boss Debuff
-]]--
-
-function Unit.bossDebuff(self)
-    if not UnitCanAssist("player", self.unit) then return false end
-    local auraName, debuffType, expirationTime, spellId, isBossDebuff
-        local i = 1
-        auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId, _, isBossDebuff = UnitDebuff(self.unit,i) 
-        while auraName do
-            if debuffType ~= nil and isBossDebuff then
-                if expTime ~= nil and expTime - GetTime() > 1 then
-                return true end
-            end
-            i = i + 1
-            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId, _, isBossDebuff = UnitDebuff(self.unit,i)
-        end
-    return false
-end
-
---[[[
-@function `<UNIT>.absorptionHeal` - returns true if the unit has a Healing Absorption Debuff
+@function `<UNIT>.absorptionHeal` - returns true if the unit has an Absorption Healing Debuff
 ]]--
 function Unit.absorptionHeal(self)
     for _,spell in pairs(kps.spells.absorptionHeal) do
@@ -366,6 +346,9 @@ function Unit.absorptionHeal(self)
     return false
 end
 
+--[[[
+@function `<UNIT>.immuneHeal` - returns true if the unit has an Immune Healing Debuff
+]]--
 function Unit.immuneHeal(self)
     for _,spell in pairs(kps.spells.immuneHeal) do
         if self.hasDebuff(spell) then return true end

@@ -30,7 +30,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {{"macro"}, 'keys.ctrl', "/cast [@cursor] "..MassDispel },
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
-    {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp == 1 and player.insanity == 100' , "/cancelaura "..Dispersion },
+    {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.99' , "/cancelaura "..Dispersion },
     --"Fade" 586
     {spells.fade, 'player.isTarget' },
     -- "Pierre de soins" 5512
@@ -62,13 +62,22 @@ kps.rotations.register("PRIEST","SHADOW",{
         {spells.mindBomb, 'not player.isInRaid and player.isTarget and target.distance < 10' , "target" },
     }},
 
+    -- "Secret de Sephuz" 132452
+    {spells.mindBomb, 'IsEquippedItem(132452) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 25 and spells.mindbender.cooldown > 30'},
+    {spells.mindBomb, 'IsEquippedItem(132452) and not player.hasBuff(spells.voidform)'},
+     -- "The Twins' Painful Touch" 133973 -- Mind Flay cast after entering Voidform spreads Shadow Word: Pain and Vampiric Touch to 3 enemies within 10 yards of your target.
+    {spells.mindFlay, 'not player.isMoving and IsEquippedItem(133973) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) < 4' , "target" , "mindFlay_item" },
+
+    -- "Ombrefiel" cd 3 min duration 12 sec -- "Mindbender" cd 1 min duration 12 sec player.hasTalent(6,3)
+    {spells.mindbender, 'player.hasBuff(spells.voidform) and spells.voidTorrent.lastCasted(30) and player.buffStacks(spells.voidform) > 25 and player.insanity < 80' , "target" },
+
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
     {{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
     {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform)' , "/use 14"},
 
     -- "Purify Disease" 213634
-    {spells.purifyDisease, 'mouseover.isDispellable("Disease")' , "mouseover" },
     {{"nested"}, 'kps.cooldowns',{
+        {spells.purifyDisease, 'mouseover.isDispellable("Disease")' , "mouseover" },
         {spells.purifyDisease, 'player.isDispellable("Disease")' , "player" },
         {spells.purifyDisease, 'heal.isDiseaseDispellable ~= nil' , kps.heal.isDiseaseDispellable},
     }},
@@ -80,51 +89,42 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and kps.shadowWordPain and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
     {spells.shadowWordPain, 'kps.shadowWordPain and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
-    
-    {spells.voidEruption, 'not player.isMoving and spells.voidEruption.isUsable and not player.hasBuff(spells.voidform) and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4'},
-    {spells.voidEruption, 'not player.isMoving and player.insanity == 100 and not player.hasBuff(spells.voidform) and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4'},
- 
-     -- "The Twins' Painful Touch" 133973 -- Mind Flay cast after entering Voidform spreads Shadow Word: Pain and Vampiric Touch to 3 enemies within 10 yards of your target.
-    {spells.mindFlay, 'not player.isMoving and IsEquippedItem(133973) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) < 4' , "target" , "mindFlay_item" },
-    {{"nested"}, 'player.hasBuff(spells.voidform)',{
-        --{{"macro"}, 'not kps.multiTarget and player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
-        -- Voidbolt extends the duration of Shadow Word: Pain and Vampiric Touch on all nearby targets by 3.0 sec For the duration of Voidform
-        {spells.voidBolt , "player.hasBuff(spells.voidform) and target.isAttackable" , "target" , "voidBolt" },
-        {spells.mindBlast, 'not player.isMoving and target.isAttackable' , "target" },
-        -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
-        {spells.shadowfiend, 'spells.voidTorrent.lastCasted(30) and not player.hasTalent(6,3) and player.haste > 50' , "target" },
-        {spells.mindbender, 'spells.voidTorrent.lastCasted(30) and player.hasTalent(6,3) and player.buffStacks(spells.voidform) > 25 and player.insanity < 80' , "target" },
-        {spells.voidTorrent, 'not player.isMoving and player.hasTalent(6,3) and player.buffStacks(spells.voidform) < 20 and spells.mindbender.cooldown < 20' },
-        {spells.voidTorrent, 'not player.isMoving and not player.hasTalent(6,3) and player.buffStacks(spells.voidform) < 20' },
-        {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
-        {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and focus.isAttackable and not focus.hasMyDebuff(spells.vampiricTouch) and focus.isAttackable' , 'focus' },
-        {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
-        {spells.shadowWordPain, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
-    }},
 
+    {spells.voidEruption, 'not player.isMoving and spells.voidEruption.isUsable and not player.hasBuff(spells.voidform)'},
+    {spells.voidEruption, 'not player.isMoving and player.insanity == 100 and not player.hasBuff(spells.voidform)'},
+
+    {{"nested"}, 'player.hasBuff(spells.voidform)',{
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
+        {{"macro"}, 'not kps.multiTarget and player.hasBuff(spells.voidform) and spells.voidBolt.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
+        -- Voidbolt extends the duration of Shadow Word: Pain and Vampiric Touch on all nearby targets by 3.0 sec For the duration of Voidform -- 
+        {spells.voidBolt , "target.isAttackable" , "target" , "voidBolt" },
+        {spells.mindBlast, 'not player.isMoving and target.isAttackable' , "target" },
+        {spells.voidTorrent, 'not player.isMoving and player.hasTalent(6,3) and player.buffStacks(spells.voidform) < 25 and spells.mindbender.cooldown < 30' },
+        {spells.voidTorrent, 'not player.isMoving and not player.hasTalent(6,3) and player.buffStacks(spells.voidform) < 25' },
+    }},
+    {{"nested"}, 'not player.isMoving',{
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'focus.isAttackable and not focus.hasMyDebuff(spells.vampiricTouch) and focus.isAttackable' , 'focus' },
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
+    }},
+    {spells.shadowWordPain, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
+    
     --{{"macro"}, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
     {spells.mindBlast, 'not player.isMoving and target.isAttackable' , 'target' },
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and focus.isAttackable and not focus.hasMyDebuff(spells.vampiricTouch) and focus.isAttackable' , 'focus' },
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
-    {spells.shadowWordPain, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
     {spells.mindFlay, 'not player.isMoving' , "target" },
     {spells.mindFlay, 'not player.isMoving and focus.isAttackable' , "focus" },
 
---    {{"nested"}, 'not player.isMoving',{
---        {{spells.vampiricTouch,spells.shadowWordPain}, 'target.isAttackable and not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
---        {{spells.vampiricTouch,spells.shadowWordPain}, 'kps.shadowWordPain and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
---        {{spells.vampiricTouch,spells.shadowWordPain}, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
---        {{spells.vampiricTouch,spells.shadowWordPain}, 'focus.isAttackable and not focus.hasMyDebuff(spells.vampiricTouch) and focus.isAttackable' , 'focus' },
---    }},
---
+
+--    {{spells.vampiricTouch,spells.shadowWordPain}, 'target.isAttackable and not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
+--    {{spells.vampiricTouch,spells.shadowWordPain}, 'kps.shadowWordPain and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
+--    {{spells.vampiricTouch,spells.shadowWordPain}, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
+--    {{spells.vampiricTouch,spells.shadowWordPain}, 'focus.isAttackable and not focus.hasMyDebuff(spells.vampiricTouch) and focus.isAttackable' , 'focus' },
+
 --    {spells.shadowWordPain, 'not target.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
 --    {spells.shadowWordPain, 'kps.shadowWordPain and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 --    {spells.shadowWordPain, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 --    {spells.shadowWordPain, 'focus.isAttackable and not focus.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
-    
-
 
 },"Shadow Priest")
 

@@ -72,20 +72,14 @@ end
 
 
 --[[
-11907/morts-de-l-avatar-dechu-tombe-de-sargeras-en-mode-heroique
-11780/avatar-dechu-mode-mythique
-
-11911/morts-de-kil-jaeden-tombe-de-sargeras-en-mode-heroique
-11781/kil-jaeden-mode-mythique
-
-11903/morts-de-la-damoiselle-de-vigilance-tombe-de-sargeras-en-mode-heroique
-11779/damoiselle-de-vigilance-mode-mythique
+http://fr.wowhead.com/achievement=11985/morts-d-argus-l-annihilateur-antorus-le-trone-ardent-en-mode-heroique
+http://fr.wowhead.com/achievement=11956/morts-du-brise-monde-garothi-antorus-le-trone-ardent-en-mode-mythique
 ]]
 
 function fakeAchievement(id)
-    local day = 01
-    local month=  09
-    local year= 17
+    local day = 15
+    local month=  03
+    local year= 18
 
     local myGuid = UnitGUID("target")
     local myName = UnitName("target")

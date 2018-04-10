@@ -338,10 +338,11 @@ end)
 ]]--
 
 kps.RaidStatus.prototype.isMagicDispellable = kps.utils.cachedValue(function()
+    local lowestUnit = nil
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.isDispellable("Magic") then return unit end
+        if unit.isHealable and unit.isDispellable("Magic") then lowestUnit = unit end
     end
-    return nil
+    return lowestUnit
 end)
 
 --[[[
@@ -349,21 +350,11 @@ end)
 ]]--
 
 kps.RaidStatus.prototype.isDiseaseDispellable = kps.utils.cachedValue(function()
+    local lowestUnit = nil
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.isDispellable("Disease") then return unit end
+        if unit.isHealable and unit.isDispellable("Disease") then lowestUnit = unit end
     end
-    return nil
-end)
-
---[[[
-@function `heal.hasBossDebuff` - Returns the raid unit with Boss debuff
-]]--
-
-kps.RaidStatus.prototype.hasBossDebuff = kps.utils.cachedValue(function()
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.bossDebuff then return unit end
-    end
-    return nil
+    return lowestUnit
 end)
 
 --[[[
@@ -371,10 +362,11 @@ end)
 ]]--
 
 kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
+    local lowestUnit = nil
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.absorptionHeal then return unit end
+        if unit.isHealable and unit.absorptionHeal then lowestUnit = unit end
     end
-    return nil
+    return lowestUnit
 end)
 
 kps.RaidStatus.prototype.countAbsorptionHeal = kps.utils.cachedValue(function()
@@ -522,6 +514,11 @@ print("|cff1eff00HEAL:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingHeal
 print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 
+--print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
+--print("|cffff8000CountLossDistance_90:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
+--print("|cffff8000CountLoss_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
+
+--print(kps["env"].heal.hasBuffStacks(kps.spells.priest.prayerOfMending))
 
 --local spell = kps.Spell.fromId(6572)
 --local spellname = spell.name -- tostring(kps.spells.warrior.revenge)
@@ -530,9 +527,6 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 --print(i," - ",j)
 --end
 
---print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
---print("|cffff8000CountLossDistance_90:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
---print("|cffff8000CountLoss_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
 
 --local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
 --print("|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasBuffCount(Atonement))
@@ -549,10 +543,6 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 
 
 --print("|cffff8000buffValue:|cffffffff", kps["env"].player.buffValue(kps.spells.warrior.ignorePain))
---print("|cffff8000GCD:|cffffffff", kps.gcd)
---print("|cffff8000GCD:|cffffffff", kps["env"].player.isInRaid)
-
-
 --print("|cffff8000countCharge:|cffffffff", kps.spells.priest.powerWordRadiance.charges)
 --print("|cffff8000cooldownCharge:|cffffffff", kps.spells.priest.powerWordRadiance.cooldownCharges)
 --print("|cffff8000cooldownSpellCharge:|cffffffff", kps.spells.priest.powerWordRadiance.cooldown)
@@ -568,7 +558,6 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 
 --print("|cffff8000TRINKET_0:|cffffffff", kps["env"].player.useTrinket(0))
 --print("|cffff8000TRINKET_1:|cffffffff", kps["env"].player.useTrinket(1))
-
 
 end
 
