@@ -309,10 +309,10 @@ function Unit.buffValue(self)
 end
 
 --[[[
-@function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. player.isDispellable("Magic")
+@function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit has a Debuff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. player.isDispellable("Magic")
 ]]--
 local UnitCanAssist = UnitCanAssist
-local isDispellable = setmetatable({}, {
+local isDebuffDispellable = setmetatable({}, {
     __index = function(t, unit)
         local val = function (dispelType)
             if not UnitCanAssist("player", unit) then return false end
@@ -333,7 +333,35 @@ local isDispellable = setmetatable({}, {
         return val
     end})
 function Unit.isDispellable(self)
-    return isDispellable[self.unit]
+    return isDebuffDispellable[self.unit]
+end
+
+--[[[
+@function `<UNIT>.isBuffDispellable(<DISPEL>)` - returns true if the unit has a Buff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. target.isBuffDispellable("Magic")
+]]--
+
+local isBuffDispellable = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (dispelType)
+            if UnitCanAssist("player", unit) then return false end
+            --if dispelType == nil then dispelType = "Magic" end
+            local auraName, debuffType, expTime, spellId
+            local i = 1
+            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitBuff(unit,i) 
+            while auraName do
+                if debuffType ~= nil and debuffType == dispelType then
+                    return true
+                end
+                i = i + 1
+                auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitBuff(unit,i)
+            end
+            return false
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.isBuffDispellable(self)
+    return isBuffDispellable[self.unit]
 end
 
 --[[[

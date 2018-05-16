@@ -26,7 +26,7 @@ kps.rotations.register("PALADIN","RETRIBUTION",
         {spells.layOnHands, 'player.hp < 0.2', 'player'},
     }},
 
-     -- Cooldowns (Other CD's are within  Single/AoE Target Rotation)
+     -- Cooldowns
     {{"nested"}, 'kps.cooldowns', {
         {spells.avengingWrath, 'not player.hasBuff(spells.avengingWrath) and target.hasMyDebuff(spells.judgment)'},
         {spells.wakeOfAshes, 'player.hasBuff(spells.avengingWrath) and player.holyPower < 1'},
@@ -36,7 +36,7 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     {{"nested"}, 'kps.interrupt and target.isInterruptable', {
         {spells.rebuke},
         {spells.hammerOfJustice, 'target.distance <= 10'},
-        {spells.blindingLight} -- disorients all enemies within a 10 yard radius around you
+        {spells.blindingLight}, -- disorients all enemies within a 10 yard radius around you
     }},
     
     -- Multi Target Rotation
@@ -51,10 +51,10 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     }},
 
     -- Single Target Rotation
-    {spells.judgment},
     {spells.bladeOfJustice}, -- Generates 2 Holy Power.
-    {spells.bladeOfWrath, 'player.holyPower < 4'}, -- Your auto attacks have a chance to reset the cooldown of Blade of Justice.
     {spells.crusaderStrike, 'player.holyPower < 5'}, -- Generates 1 Holy Power.
+    {spells.judgment},
+    {spells.bladeOfWrath, 'player.holyPower < 4'}, -- Your auto attacks have a chance to reset the cooldown of Blade of Justice.
     {spells.zeal, 'player.holyPower < 5'},
     {spells.templarsVerdict, 'player.holyPower > 1 and target.hasMyDebuff(spells.judgment)'},
     {spells.templarsVerdict, 'player.holyPower > 1 or player.hasBuff(spells.divinePurpose)'},

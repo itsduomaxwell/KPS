@@ -45,14 +45,14 @@ kps.rotations.register("WARRIOR","PROTECTION",
 
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
-    {spells.demoralizingShout, 'player.incomingDamage > player.incomingHeal' },
-    {spells.victoryRush, 'not player.hasTalent(2,3) and player.hp < 1'},
-    {spells.impendingVictory, 'player.hasTalent(2,3) and player.hp < 1'},
+    {spells.demoralizingShout, 'player.incomingDamage > 0' },
+    {spells.victoryRush, 'not player.hasTalent(2,3) and player.hp < 0.95'},
+    {spells.impendingVictory, 'player.hasTalent(2,3) and player.hp < 0.95'},
     {spells.stoneform, 'player.isDispellable("Disease")' , "player" },
     {spells.stoneform, 'player.isDispellable("Poison")' , "player" },
     {spells.stoneform, 'player.isDispellable("Magic")' , "player" },
     {spells.stoneform, 'player.isDispellable("Curse")' , "player" },
-    {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
+    {spells.stoneform, 'player.incomingDamage > 0' },
     {spells.shieldWall, 'player.incomingDamage > player.incomingHeal and player.hp < 0.60' },
     {spells.lastStand, 'player.hp < 0.40' },
 
@@ -69,7 +69,8 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {spells.neltharionsFury, 'not player.isMoving and not player.hasBuff(spells.shieldBlock) and target.isAttackable and target.distance < 10' },
 
     -- "Vengeance: Ignore Pain" -- Rage cost of Ignore Pain reduced by 35%. 15 seconds remaining -- 13 à 39 rage -- cap 0,58 healthMax
-    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 14 and player.buffValue(spells.ignorePain) < player.hpMax * 0.50' , "target", "ignorePain_buffvalue" },
+    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 14 and player.buffValue(spells.ignorePain) < player.hpMax * 0.40' , "target", "ignorePain_buffvalue" },
+    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 2' , "target", "ignorePain_duration" },
     {spells.ignorePain, 'player.myBuffDuration(spells.ignorePain) < 2 and player.incomingDamage > player.incomingHeal' , "target", "ignorePain" },
     -- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining -- 19 rage
     {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and player.myBuffDuration(spells.ignorePain) < 10' , "target", "revenge_buff" },
@@ -83,8 +84,9 @@ kps.rotations.register("WARRIOR","PROTECTION",
     }},
 
     {spells.thunderClap, 'target.distance < 10'},
-    {spells.shockwave, 'target.isElite and player.plateCount > 2' , "target" },
-    {spells.devastate, 'not player.hasTalent(5,1)' },   
+    {spells.shockwave, 'target.distance < 10 and player.plateCount > 2' , "target" },
+    {spells.shockwave, 'target.distance < 10 and target.isElite' , "target" },
+    {spells.devastate, 'not player.hasTalent(5,1)' , "target" , "devastate" },  
     {{"macro"}, 'true' , "/startattack" },
 
 }

@@ -61,25 +61,26 @@ kps.rotations.register("WARRIOR","FURY",
     {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
 
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
-        {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
+        {spells.ragingBlow, 'player.hasTalent(6,3) and player.hasBuff(spells.enrage)' , "target" , "ragingBlow_battleCry" },
         {spells.rampage , 'true', "target" , "rampage_battleCry" },
         {spells.odynsFury , 'player.hasBuff(spells.enrage)', "target" , "odynsFury_battleCry" }, -- 45 sec cd
         {spells.bloodthirst , 'true', "target" , "bloodthirst_battleCry" },
         {spells.whirlwind, 'kps.multiTarget and target.distance < 10' , "target" , "whirlwind_battleCry" },
         {spells.execute, 'target.hp < 0.20 and player.hasBuff(spells.enrage)' , "target" , "execute_battleCry" },
+        {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
         {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
     }},
     
    {spells.rampage, 'not player.hasTalent(5,2) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
    {spells.rampage, 'player.hasBuff(frothingBerserker) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
-   {spells.rampage, 'player.hasTalent(5,2) and player.rage > 99 and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
+   {spells.rampage, 'player.hasTalent(5,2) and player.rage == 100 and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
     
     {{"nested"}, 'spells.battleCry.cooldown < 4', {
         {spells.avatar, 'target.isAttackable and target.distance < 10' }, -- 90 sec cd
         {spells.rampage, 'true' , "target" , "rampage_dump_rage" },
         {spells.bloodbath, 'player.hasTalent(6,1) and target.isAttackable and target.distance < 10' }, -- 30 sec cd
     }},
-    {spells.battleCry, 'kps.cooldowns and spells.ragingBlow.cooldown < kps.gcd and player.rage < 70 and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
+    {spells.battleCry, 'target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
 
     -- Meat Cleaver -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {{"nested"}, 'kps.multiTarget', {
@@ -87,9 +88,9 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.whirlwind, 'player.hasTalent(3,1) and player.hasBuff(spells.wreckingBall) and target.distance < 10' , "target" },
         {spells.odynsFury, 'player.hasBuff(spells.enrage)' , "target" },
         {spells.rampage, 'player.hasBuff(spells.meatCleaver) and not player.hasTalent(5,2)' , "target" },
-        {spells.rampage, 'player.hasBuff(spells.meatCleaver) and player.hasTalent(5,2) and player.rage > 99' , "target" },
+        {spells.rampage, 'player.hasBuff(spells.meatCleaver) and player.hasTalent(5,2) and player.rage == 100' , "target" },
         {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
-        {spells.ragingBlow, 'player.hasBuff(spells.enrage) and player.plateCount < 4' },
+        {spells.ragingBlow, 'player.hasTalent(6,3) and player.hasBuff(spells.enrage)' },
         {spells.whirlwind, 'target.distance < 10' , "target" },
     }},
 
@@ -105,13 +106,12 @@ kps.rotations.register("WARRIOR","FURY",
     -- "Rampage" can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first    
     {spells.rampage, 'not player.hasTalent(5,2)' , "target" , "rampage_dump_rage" },
     {spells.rampage, 'player.hasBuff(frothingBerserker)' , "target" , "rampage_dump_rage" },
-    {spells.rampage, 'player.hasTalent(5,2) and player.rage > 99' , "target" , "rampage_dump_rage" },
+    {spells.rampage, 'player.hasTalent(5,2) and player.rage == 100' , "target" , "rampage_dump_rage" },
 
     {spells.ragingBlow, 'player.hasBuff(spells.enrage)' , "target", "ragingBlow_enrage" },
-    {spells.bloodthirst, 'player.buffStacks(spells.tasteForBlood) > 0' },
-    {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
+    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and focus.isAttackable and focus.distance < 10 and target.distance < 10' , "target" },
+    {spells.bloodthirst },
     {spells.ragingBlow },
-    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and focus.isAttackable and focus.distance < 10' },
     -- Buff Taste for Blood. Furious Slash increases the critical strike chance of Bloodthirst by 15%. Stacks up to 6 times 8 seconds remaining
     {spells.furiousSlash },
     
