@@ -506,7 +506,7 @@ local unitHasNotBuffHealth = function(health)
     local maxcount = 0
     local spell = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hasBuff(spell) and unit.hp < health then
+        if unit.isHealable and not unit.hasBuff(spell) and unit.hp < health then
             maxcount = maxcount + 1
         end
     end
@@ -591,10 +591,11 @@ print("|cffff8000CountLoss_85:|cffffffff", kps["env"].heal.countLossInRange(0.85
 --end
 
 
---local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
---print("|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasBuffCount(Atonement))
---print("|cffff8000AtonementUnit:|cffffffff", kps["env"].heal.hasBuffAtonement.name)
---print("|cffff8000NOTAtonementUnit:|cffffffff", kps["env"].heal.hasNotBuffAtonement.name)
+local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
+print("|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasBuffAtonementCount(2))
+print("|cffff8000NotAtonementCount:|cffffffff",kps["env"].heal.hasNotBuffAtonementCount(2))
+print("|cffff8000AtonementUnit:|cffffffff", kps["env"].heal.hasBuffAtonement.name)
+print("|cffff8000NotAtonementUnit:|cffffffff", kps["env"].heal.hasNotBuffAtonement.name)
 
 
 --for _,unit in ipairs(tanksInRaid()) do

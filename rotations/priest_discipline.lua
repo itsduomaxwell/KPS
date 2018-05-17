@@ -85,19 +85,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.85) > 2' , "/use 14" },
     {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.lowestInRaid.hp < 0.55 ' , "/use 14" },
 
-    -- NOT ISINGROUP
-    {{"nested"}, 'kps.multiTarget and not player.isInGroup' , {
-        {spells.purgeTheWicked, 'player.hasBuff(spells.atonement) and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
-        {spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
-        {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield)' , "player" },
-        {spells.schism, 'not player.isMoving and player.hasTalent(1,3) and target.isAttackable' , "target" },
-        {spells.penance, 'target.isAttackable' , "target" },
-        {spells.lightsWrath, 'not player.isMoving and target.isAttackable' , "target" },
-        {spells.shadowMend, 'not player.isMoving and player.hp < 0.40 and not spells.shadowMend.isRecastAt("player")' , "player" },  
-        {spells.plea, 'not player.hasBuff(spells.atonement)' , "player" },
-        {spells.smite,'not player.isMoving and target.isAttackable' , "target" },
-    }},
-
     -- SCHIELD
     {spells.powerWordShield, 'mouseover.immuneHeal and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
     {spells.powerWordShield, 'not heal.lowestTargetInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestTargetInRaid },
@@ -143,6 +130,19 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.shadowMend, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.lowestTargetInRaid.unit)' , kps.heal.lowestTargetInRaid },
         {spells.shadowMend, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid },
         {spells.plea, 'heal.hasNotBuffAtonement.hp < 0.85' , kps.heal.hasNotBuffAtonement , "plea_lowest_unbuff" },
+    }},
+    
+    -- NOT ISINGROUP
+    {{"nested"}, 'kps.multiTarget and not player.isInGroup' , {
+        {spells.purgeTheWicked, 'player.hasBuff(spells.atonement) and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
+        {spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
+        {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield)' , "player" },
+        {spells.schism, 'not player.isMoving and player.hasTalent(1,3) and target.isAttackable' , "target" },
+        {spells.penance, 'player.hasBuff(spells.atonement) and target.isAttackable' , "target" },
+        {spells.lightsWrath, 'not player.isMoving and player.hasBuff(spells.atonement) and target.isAttackable' , "target" },
+        {spells.shadowMend, 'not player.isMoving and player.hp < 0.40 and not spells.shadowMend.isRecastAt("player")' , "player" },  
+        {spells.plea, 'not player.hasBuff(spells.atonement)' , "player" },
+        {spells.smite,'not player.isMoving and target.isAttackable' , "target" },
     }},
 
 

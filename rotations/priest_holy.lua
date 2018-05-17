@@ -108,6 +108,7 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.prayerOfHealing, 'player.hasBuff(spells.divinity)' , kps.heal.lowestInRaid , "POH_divinity" },
         {spells.prayerOfHealing, 'player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_powerOfTheNaaru" },
         {{spells.holyWordSanctify,spells.prayerOfHealing}, 'heal.countLossInRange(0.78) > 3 and spells.holyWordSanctify.cooldown == 0' , kps.heal.lowestInRaid , "POH_Sanctify" },
+        {{spells.holyWordSanctify,spells.prayerOfHealing}, 'not player.isInRaid and heal.countLossInRange(0.78) > 2 and spells.holyWordSanctify.cooldown == 0' , kps.heal.lowestInRaid , "POH_Sanctify" },
     }},
 
     -- "Dispel" "Purifier" 527
