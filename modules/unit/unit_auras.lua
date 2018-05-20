@@ -336,6 +336,32 @@ function Unit.isDispellable(self)
     return isDebuffDispellable[self.unit]
 end
 
+
+local hasBossDebuff = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (dispelType)
+            if not UnitCanAssist("player", unit) then return false end
+            --if dispelType == nil then dispelType = "Magic" end
+            local auraName, debuffType, spellId, unitCaster
+            local i = 1
+            auraName, _, _, _, debuffType, _, _, unitCaster, _, _, spellId = UnitDebuff(unit,i)
+            while auraName do
+                if debuffType ~= nil and unitCaster ~= nil then
+                    if UnitLevel(unitCaster) == -1 then return true end
+                end
+                i = i + 1
+                auraName, _, _, _, debuffType, _, _, unitCaster, _, _, spellId = UnitDebuff(unit,i)
+            end
+            return false
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.hasBossDebuff(self)
+    return hasBossDebuff[self.unit]
+end
+
+
 --[[[
 @function `<UNIT>.isBuffDispellable(<DISPEL>)` - returns true if the unit has a Buff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. target.isBuffDispellable("Magic")
 ]]--

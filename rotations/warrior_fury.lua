@@ -71,9 +71,11 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
     }},
     
-   {spells.rampage, 'not player.hasTalent(5,2) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
-   {spells.rampage, 'player.hasBuff(frothingBerserker) and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
-   {spells.rampage, 'player.hasTalent(5,2) and player.rage == 100 and not player.hasBuff(spells.enrage)' , "target" , "rampage_not_enrage" },
+    -- "Frothing Berserker" "Berserker écumant" -- player.hasTalent(5,2) -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
+    -- "Rampage" can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first    
+    {spells.rampage, 'not player.hasTalent(5,2)' , "target" , "rampage_dump_rage" },
+    {spells.rampage, 'player.hasBuff(frothingBerserker)' , "target" , "rampage_dump_rage" },
+    {spells.rampage, 'player.hasTalent(5,2) and player.rage == 100' , "target" , "rampage_dump_rage" },
     
     {{"nested"}, 'spells.battleCry.cooldown < 4', {
         {spells.avatar, 'target.isAttackable and target.distance < 10' }, -- 90 sec cd
@@ -81,6 +83,14 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.bloodbath, 'player.hasTalent(6,1) and target.isAttackable and target.distance < 10' }, -- 30 sec cd
     }},
     {spells.battleCry, 'target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
+    
+    {{"nested"}, 'target.hp < 0.20', {
+        {spells.execute, 'player.hasBuff(spells.enrage)' , "target" , "execute_enrage" },
+        {spells.bloodthirst },
+        {spells.execute },
+        {spells.ragingBlow },
+        {spells.furiousSlash },
+    }},
 
     -- Meat Cleaver -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {{"nested"}, 'kps.multiTarget', {
@@ -93,20 +103,6 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.ragingBlow, 'player.hasTalent(6,3) and player.hasBuff(spells.enrage)' },
         {spells.whirlwind, 'target.distance < 10' , "target" },
     }},
-
-    {{"nested"}, 'target.hp < 0.20', {
-        {spells.execute, 'player.hasBuff(spells.enrage)' , "target" , "execute_enrage" },
-        {spells.bloodthirst },
-        {spells.execute },
-        {spells.ragingBlow },
-        {spells.furiousSlash },
-    }},
-
-    -- "Frothing Berserker" "Berserker écumant" -- player.hasTalent(5,2) -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
-    -- "Rampage" can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first    
-    {spells.rampage, 'not player.hasTalent(5,2)' , "target" , "rampage_dump_rage" },
-    {spells.rampage, 'player.hasBuff(frothingBerserker)' , "target" , "rampage_dump_rage" },
-    {spells.rampage, 'player.hasTalent(5,2) and player.rage == 100' , "target" , "rampage_dump_rage" },
 
     {spells.ragingBlow, 'player.hasBuff(spells.enrage)' , "target", "ragingBlow_enrage" },
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and focus.isAttackable and focus.distance < 10 and target.distance < 10' , "target" },

@@ -44,8 +44,8 @@ kps.rotations.register("PRIEST","HOLY",{
     
     -- "Guardian Spirit" 47788
     {{"nested"}, 'kps.interrupt' ,{
-        {spells.guardianSpirit, 'mouseover.isFriend and mouseover.hp < 0.30 and mouseover.immuneHeal' , "mouseover" },
         {spells.guardianSpirit, 'player.hp < 0.30' , kps.heal.lowestTankInRaid},
+        {spells.guardianSpirit, 'mouseover.isFriend and mouseover.hp < 0.30 and mouseover.immuneHeal' , "mouseover" },
         {spells.guardianSpirit, 'heal.defaultTank.hp < 0.30' , kps.heal.defaultTank},
         {spells.guardianSpirit, 'heal.lowestTankInRaid.hp < 0.30' , kps.heal.lowestTankInRaid},
         {spells.guardianSpirit, 'heal.lowestTargetInRaid.hp < 0.30' , kps.heal.lowestTargetInRaid},
@@ -91,12 +91,14 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
 
     -- "Holy Word: Serenity"
-    {spells.holyWordSerenity, 'mouseover.isFriend and mouseover.hp < 0.50 and not mouseover.immuneHeal' , "mouseover" },
+    {spells.holyWordSerenity, 'player.hasBossDebuff and player.hp < 0.80' , "player"},
     {spells.holyWordSerenity, 'player.hp < 0.50' , "player"},
+    {spells.holyWordSerenity, 'mouseover.isFriend and mouseover.hp < 0.50 and not mouseover.immuneHeal' , "mouseover" },
     {spells.holyWordSerenity, 'heal.defaultTank.hp < 0.50' , kps.heal.defaultTank},
     {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.50' , kps.heal.lowestTankInRaid},
     {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.50' , kps.heal.lowestTargetInRaid},
     {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.50' , kps.heal.lowestInRaid},
+    {{spells.holyWordSerenity,spells.bindingHeal}, 'not player.isMoving and heal.countLossInRange(0.78) > 2 and not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid},
     
     -- "Holy Word: Sanctify" -- macro does not work for @target, @mouseover... ONLY @cursor and @player
     {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) > 4' , "/cast [@player] "..HolyWordSanctify },
@@ -157,9 +159,10 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Résonateur de vitalité" "Vitality Resonator" 151970
     {{"macro"}, 'player.hasTrinket(1) == 151970 and player.useTrinket(1) and target.isAttackable' , "/use 14" },
     -- "Velen's Future Sight" 144258
-    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.78) > 2 and heal.lowestInRaid.hp < 0.55' , "/use 14" },
+    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.78) > 2' , "/use 14" },
 
     -- "Light of T'uure" 208065 -- increasing your healing done to the target by 25% for 10 sec.
+    {{spells.lightOfTuure,spells.flashHeal}, 'player.hasBossDebuff and player.hp < 0.80' , "player"},
     {{"nested"}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0' , {
         {{spells.lightOfTuure,spells.flashHeal}, 'heal.defaultTank.hp < 0.55 and not heal.defaultTank.hasBuff(spells.lightOfTuure)' , kps.heal.defaultTank },
         {{spells.lightOfTuure,spells.flashHeal}, 'heal.lowestTargetInRaid.hp < 0.55 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid },
