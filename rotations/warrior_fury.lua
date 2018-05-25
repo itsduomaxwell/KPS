@@ -22,10 +22,9 @@ kps.rotations.register("WARRIOR","FURY",
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    env.TargetMouseover,
+    env.FocusMouseover,
     {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
     {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
-    env.FocusMouseover,
     env.ScreenMessage,
 
     {spells.berserkerRage, 'not player.hasFullControl' },

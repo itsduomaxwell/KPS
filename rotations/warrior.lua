@@ -17,18 +17,9 @@ local function UnitIsAttackable(unit)
     return true
 end
 
-function kps.env.warrior.TargetMouseover()
+function kps.env.warrior.FocusMouseover()
     if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
         kps.runMacro("/focus mouseover")
-    end
-    return nil, nil
-end
-
-function kps.env.warrior.FocusMouseover()
-    if UnitExists("focus") and UnitIsUnit("target","focus") then
-        kps.runMacro("/clearfocus")
-    elseif UnitExists("focus") and not UnitIsAttackable("focus") then
-        kps.runMacro("/clearfocus")
     end
     return nil, nil
 end

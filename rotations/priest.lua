@@ -137,7 +137,7 @@ function kps.env.priest.DeathEnemyTarget()
 end
 
 -- Config FOCUS with MOUSEOVER
-function kps.env.priest.TargetMouseover()
+function kps.env.priest.FocusMouseover()
     if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
         if not UnitHasBuff(VampiricTouch,"mouseover") then
             kps.runMacro("/focus mouseover")
@@ -145,19 +145,6 @@ function kps.env.priest.TargetMouseover()
             kps.runMacro("/focus mouseover")
         else
             kps.runMacro("/focus mouseover")
-        end
-    end
-    return nil, nil
-end
-
-function kps.env.priest.FocusMouseover()
-    if UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
-        if UnitDebuffDuration(VampiricTouch,"focus") > 4 and UnitDebuffDuration(ShadowWordPain,"focus") > 4 then
-            if not UnitHasBuff(VampiricTouch,"mouseover") then
-                kps.runMacro("/focus mouseover")
-            elseif not UnitHasBuff(ShadowWordPain,"mouseover") then
-                kps.runMacro("/focus mouseover")
-            end
         end
     end
     return nil, nil

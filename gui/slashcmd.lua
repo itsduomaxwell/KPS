@@ -70,30 +70,13 @@ end
 -- FAKEACHIEVEMENT
 -- /run fakeAchievement(11907)
 
-
---[[
-http://fr.wowhead.com/achievement=11985/morts-d-argus-l-annihilateur-antorus-le-trone-ardent-en-mode-heroique
-http://fr.wowhead.com/achievement=11956/morts-du-brise-monde-garothi-antorus-le-trone-ardent-en-mode-mythique
-]]
+-- 12110 argus heroic
+-- 11992 garothi mythic
 
 function fakeAchievement(id)
-    local day = 15
-    local month=  03
-    local year= 18
-
-    local myGuid = UnitGUID("target")
-    local myName = UnitName("target")
-
-    if (myGuid == nil) or (myGuid == "") then
-        myGuid = UnitGUID("player")
-        myName = UnitName("player")
-    end
-
-    myGuid = string.gsub(myGuid, '0x', '')
-
     local _, name = GetAchievementInfo(id)
-    --DEFAULT_CHAT_FRAME:AddMessage("Achievement for "..myName..": |cffffff00|Hachievement:"..id..":"..myGuid..":1:"..month..":"..day..":"..year..":4294967295:4294967295:4294967295:4294967295|h["..name.."]|h|r")
-    local link = "|cffffff00|Hachievement:"..id..":"..myGuid..":1:"..month..":"..day..":"..year..":4294967295:4294967295:4294967295:4294967295|h["..name.."]|h|r"
+    local link = "\124cffffff00\124Hachievement:"..id..":"..string.gsub(UnitGUID("player"), '0x', '')..":1:4:25:18:4294967295:4294967295:4294967295:4294967295\124h["..name.."]\124h\124r"
+    --local link = "\124cffffff00\124Hachievement:12110:"..string.gsub(UnitGUID("player"), '0x', '')..":1:4:25:18:4294967295:4294967295:4294967295:4294967295\124h["..name.."]\124h\124r"
     ChatEdit_InsertLink(link)
 end
 
