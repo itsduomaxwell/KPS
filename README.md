@@ -151,7 +151,7 @@ Members:
 
  * `heal.count` - return the size of the current group
  * `heal.type` - return the group type - either 'group' or 'raid'
- * `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - a tank is either:
+ * `heal.lowestTankInRaid` - Returns the lowest tank in the raid - a tank is either:
     * any group member that has the Group Role `TANK`
     * is `focus` target
     * `player` if neither Group Role nor `focus` are set
@@ -169,6 +169,8 @@ Members:
     * lowest tank in raid
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
  * `heal.averageHealthRaid` - Returns the average hp incoming for all raid members
+ * `heal.lossHealthRaid` - Returns the loss Health for all raid members
+ * `heal.incomingHealRaid` - Returns the incoming Heal for all raid members
  * `heal.countLossInRange(<PCT>)` - Returns the count for all raid members below threshold health e.g. heal.countLossInRange(0.90)
  * `heal.countLossInDistance(<PCT>,<DIST>)` - Returns the count for all raid members below threshold health (default countInRange) in a distance (default 10 yards) e.g. heal.countLossInRange(0.90)
  * `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
@@ -182,8 +184,10 @@ Members:
  * `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
  * `heal.hasBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasBuffStacks(spells.prayerOfMending) < 10
  * `heal.hasBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasBuffCount(spells.atonement)
- * `heal.hasBuffLowestHealth(<BUFF>)` - Returns the lowest health unit for a specific Buff on raid e.g. heal.hasBuffLowestHealth(spells.atonement) < 0.90
- * `heal.hasNotBuffAtonement(<BUFF>)` - Returns the lowest health unit without Atonement Buff on raid e.g. heal.hasNotBuffLowestHealth.hp < 0.90
+ * `heal.hasBuffAtonement` - Returns the UNIT with lowest health with Atonement Buff on raid e.g. heal.hasBuffAtonement < 0.90
+ * `heal.hasNotBuffAtonement` - Returns the UNIT with lowest health without Atonement Buff on raid e.g. heal.hasNotBuffAtonement.hp < 0.90
+ * `heal.hasNotBuffMending` - Returns the lowest health unit without Prayer of Mending Buff on raid e.g. heal.hasNotBuffMending.hp < 0.90
+ * `heal.countNotBuffAtonementHealth` - e.g. heal.hasNotBuffAtonementHealth(0.85) > 3
  * `heal.hasDamage` - Returns the raid unit with incomingDamage > incomingHeal
 
 
@@ -309,6 +313,7 @@ Members:
  * `<SPELL>.isPrioritySpell` - returns true if this is one of the user-casted spells which should be ignored for the spell queue. (internal use only!)
  * `<SPELL>.canBeCastAt(<UNIT-STRING>)` - returns true if the spell can be cast at the given unit (e.g.: `spell.immolate.canBeCastAt("focus")`). A spell can be cast if the target unit exists, the player has enough resources, the spell is not on cooldown and the target is in range.
  * `<SPELL>.lastCasted(<DURATION>)` - returns true if the spell was last casted within the given duration (e.g.: `spell.immolate.lastCasted(2)`).
+ * `<SPELL>.shouldInterrupt(<BREAKPOINT)` - returns true if the casting spell overheals above brealpoint (e.g.: `spells.heal.shouldInterrupt(0.90)`).
  * `<SPELL>.tickTime` - returns the tick interval time of this spell - only useful for DoT's
 
 
@@ -355,9 +360,11 @@ Members:
  * `<UNIT>.buffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit
  * `<UNIT>.myDebuffCount(<SPELL>)` - returns the number of different debuffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
  * `<UNIT>.myBuffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
- * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.masteryEchoOfLight)
- * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
- * `<UNIT>.absorptionHeal` - returns true if the unit has a Healing Absorption Debuff
+ * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffValue(spells.masteryEchoOfLight)
+ * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit has a Debuff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. player.isDispellable("Magic")
+ * `<UNIT>.isBuffDispellable(<DISPEL>)` - returns true if the unit has a Buff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. target.isBuffDispellable("Magic")
+ * `<UNIT>.absorptionHeal` - returns true if the unit has an Absorption Healing Debuff
+ * `<UNIT>.immuneHeal` - returns true if the unit has an Immune Healing Debuff
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell
