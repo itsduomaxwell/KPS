@@ -88,14 +88,14 @@ kps.rotations.register("PRIEST","SHADOW",{
     {{spells.vampiricTouch,spells.shadowWordPain}, 'kps.shadowWordPain and not player.isMoving and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
     {spells.shadowWordPain, 'kps.shadowWordPain and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
+    -- Voidbolt extends the duration of Shadow Word: Pain and Vampiric Touch on all nearby targets by 3.0 sec For the duration of Voidform -- 
     {{"nested"}, 'player.hasBuff(spells.voidform)',{
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
+        {spells.shadowWordPain, 'not target.hasMyDebuff(spells.shadowWordPain) and target.isAttackable and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
         {{"macro"}, 'not kps.multiTarget and player.hasBuff(spells.voidform) and spells.voidBolt.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
-        -- Voidbolt extends the duration of Shadow Word: Pain and Vampiric Touch on all nearby targets by 3.0 sec For the duration of Voidform -- 
         {spells.voidBolt , "target.isAttackable" , "target" },
         {spells.voidTorrent, 'not player.isMoving and player.buffStacks(spells.voidform) < 15 and spells.mindbender.cooldown < 35' },
         {spells.mindBlast, 'not player.isMoving and target.isAttackable' , "target" },
-        {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
-        {spells.shadowWordPain, 'not target.hasMyDebuff(spells.shadowWordPain) and target.isAttackable and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
         -- "Ombrefiel" cd 3 min duration 12 sec -- "Mindbender" cd 1 min duration 12 sec player.hasTalent(6,3)
         {spells.mindbender, 'spells.voidTorrent.lastCasted(30) and player.buffStacks(spells.voidform) > 25' , "target" },
     }},

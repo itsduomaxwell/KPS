@@ -132,7 +132,6 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.purify, 'kps.mouseOver and mouseover.isFriend and mouseover.isDispellable("Magic")' , "mouseover" },
     {{"nested"},'kps.cooldowns', {
         {spells.purify, 'player.isDispellable("Magic")' , "player" },
-        {spells.purify, 'focus.isFriend and focus.isDispellable("Magic")' , "focus"},
         {spells.purify, 'heal.lowestTankInRaid.isDispellable("Magic")' , kps.heal.lowestTankInRaid},
         {spells.purify, 'heal.lowestTargetInRaid.isDispellable("Magic")' , kps.heal.lowestTargetInRaid},
         {spells.purify, 'heal.lowestInRaid.isDispellable("Magic")' , kps.heal.lowestInRaid},
@@ -237,6 +236,14 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and spells.holyWordSanctify.cooldown > 4' , kps.heal.lowestTankInRaid ,"BINDING_SANCTIFY" },
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and heal.countLossInRange(0.90) > 2' , kps.heal.lowestTankInRaid ,"BINDING_LOWEST" },
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and heal.lowestInRaid.hp < 0.85' , kps.heal.lowestTankInRaid ,"BINDING_LOWEST" },
+    
+    -- focus is friend
+    {{"nested"}, 'focus.exists and focus.isFriend' ,{
+        {spells.bindingHeal, 'not player.isMoving and heal.countLossInRange(0.90) > 2' , "focus" },
+        {spells.renew, 'not heal.lowestInRaid.hasBuff(spells.renew)' , "focus" },
+        {spells.heal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and focus.hp < 0.90' , "focus" },
+    }},
+    
     -- "Soins" 2060 -- "Renouveau constant" 200153
     {spells.heal, 'not player.isMoving and player.hp < 0.90' , "player" },
     {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.90' , kps.heal.lowestTankInRaid },
