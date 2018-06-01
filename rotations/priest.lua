@@ -114,6 +114,11 @@ end
 ------------------------------- SHADOW PRIEST
 --------------------------------------------------------------------------------------------
 
+function kps.env.priest.countFriend()
+    if not IsInRaid() then return 2 end
+    return 3
+end
+
 local MindFlay = kps.spells.priest.mindFlay.name
 local VoidForm = kps.spells.priest.voidform.name
 local EnemyTable = {"mouseover", "focus", "target"}
