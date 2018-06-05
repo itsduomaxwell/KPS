@@ -44,7 +44,6 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Guardian Spirit" 47788
     {{"nested"}, 'kps.interrupt' ,{
         {spells.guardianSpirit, 'player.hp < 0.30' , kps.heal.lowestTankInRaid},
-        {spells.guardianSpirit, 'mouseover.isFriend and mouseover.hp < 0.30' , "mouseover" },
         {spells.guardianSpirit, 'heal.defaultTank.hp < 0.30' , kps.heal.defaultTank},
         {spells.guardianSpirit, 'heal.lowestTankInRaid.hp < 0.30' , kps.heal.lowestTankInRaid},
         {spells.guardianSpirit, 'heal.lowestTargetInRaid.hp < 0.30' , kps.heal.lowestTargetInRaid},
@@ -62,7 +61,6 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.divineHymn, 'player.hasBuff(spells.divinity) and spells.prayerOfMending.cooldown > kps.gcd' },
         {spells.divineHymn, 'heal.hasBuffStacks(spells.prayerOfMending) > 0 and spells.prayerOfMending.cooldown > kps.gcd' },
         {spells.prayerOfMending, 'true', kps.heal.defaultTank},
-        {spells.holyWordSerenity, 'true' , kps.heal.lowestInRaid},
     }},
 
     -- "Fade" 586 "Disparition"
@@ -106,15 +104,34 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
 
     -- "Holy Word: Serenity"
-    {spells.holyWordSerenity, 'player.hasBossDebuff and player.hp < 0.62' , "player"},
-    {spells.holyWordSerenity, 'mouseover.hasBossDebuff and mouseover.hp < 0.62 and not mouseover.immuneHeal' , "mouseover"},
     {spells.holyWordSerenity, 'player.hp < 0.50' , "player"},
-    {spells.holyWordSerenity, 'mouseover.isFriend and mouseover.hp < 0.50 and not mouseover.immuneHeal' , "mouseover" },
     {spells.holyWordSerenity, 'heal.defaultTank.hp < 0.50' , kps.heal.defaultTank},
     {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.50' , kps.heal.lowestTankInRaid},
     {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.50' , kps.heal.lowestTargetInRaid},
     {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.50' , kps.heal.lowestInRaid},
-    {{spells.holyWordSerenity,spells.bindingHeal}, 'not player.isMoving and heal.countLossInRange(0.78) > 2 and not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid},
+
+    {{"nested"}, 'player.hasBuff(spells.divinity)' , {
+        {spells.prayerOfHealing, 'heal.countLossInRange(0.78) > countFriend()' , kps.heal.lowestInRaid },
+        {spells.bindingHeal, 'heal.countLossInRange(0.78) > 2 and not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid },
+        {spells.flashHeal, 'heal.defaultTank.hp < 0.55' , kps.heal.defaultTank },
+    }},
+
+    -- "Exaucements" "Answered Prayers" -- Prayer of Healing increases the healing done by your next Flash Heal, Binding Heal or Heal by 60%
+    {{"nested"}, 'not player.isMoving and player.hasBuff(spells.answeredPrayers)' , {
+        {spells.flashHeal, 'heal.defaultTank.hp < 0.55' , kps.heal.defaultTank, "FLASH_defaultTank" },
+        {spells.flashHeal, 'heal.defaultTarget.hp < 0.40' , kps.heal.defaultTarget ,"FLASH_defaultTarget" },
+        {spells.bindingHeal, 'not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid ,"BINDING_BUFF_1" },
+        {spells.bindingHeal, 'not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid ,"BINDING_BUFF_1" },
+    }},
+
+    -- "Light of T'uure" 208065 -- increasing your healing done to the target by 25% for 10 sec.
+    {{"nested"}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0' , {
+        {{spells.lightOfTuure,spells.flashHeal}, 'player.hp < 0.65' , "player"},
+        {{spells.lightOfTuure,spells.flashHeal}, 'heal.defaultTank.hp < 0.65 and not heal.defaultTank.hasBuff(spells.lightOfTuure)' , kps.heal.defaultTank },
+        {{spells.lightOfTuure,spells.flashHeal}, 'heal.lowestTargetInRaid.hp < 0.65 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid },
+        {spells.lightOfTuure, 'heal.lowestTankInRaid.hp < 0.90 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
+        {spells.lightOfTuure, 'heal.lowestTargetInRaid.hp < 0.90 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
+    }},
 
     -- kps.lastCast["name"] ne fonctionne pas si lastCast etait une macro 'kps.lastCast["name"] == spells.prayerOfMending' or 'spells.prayerOfMending.lastCasted(4)'
     {spells.flashHeal, 'not player.isMoving and spells.prayerOfMending.lastCasted(4) and heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid ,"FLASH_LOWEST_POM" },
@@ -122,20 +139,9 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.prayerOfMending, 'not player.isMoving and not heal.lowestTankInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestTankInRaid },
     {spells.prayerOfMending, 'not player.isMoving and not heal.lowestTargetInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestTargetInRaid },
     {spells.prayerOfMending, 'not player.isMoving' , kps.heal.hasNotBuffMending },
-    
-    -- "Exaucements" "Answered Prayers" -- Prayer of Healing increases the healing done by your next Flash Heal, Binding Heal or Heal by 60%
-    {{"nested"}, 'not player.isMoving and player.hasBuff(spells.answeredPrayers)' , {
-        {spells.bindingHeal, 'not heal.lowestInRaid.isUnit("player") and player.hasBuff(spells.divinity)' , kps.heal.lowestInRaid ,"BINDING_divinity" },
-        {spells.flashHeal, 'heal.defaultTank.hp < 0.55' , kps.heal.defaultTank, "FLASH_defaultTank" },
-        {spells.flashHeal, 'heal.defaultTarget.hp < 0.40' , kps.heal.defaultTarget ,"FLASH_defaultTarget" },
-        {spells.heal, 'holyWordSerenityOnCD() and heal.lowestInRaid.hp > 0.85' , kps.heal.lowestInRaid , "HEAL_SERENITY" },
-        {spells.bindingHeal, 'not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid ,"BINDING_BUFF_1" },
-        {spells.bindingHeal, 'not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid ,"BINDING_BUFF_1" },
-    }},
-    
+
     -- "Holy Word: Sanctify" -- macro does not work for @target, @mouseover... ONLY @cursor and @player
-    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) > 4' , "/cast [@player] "..HolyWordSanctify },
-    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) > 2 and not player.isInRaid' , "/cast [@player] "..HolyWordSanctify },
+    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) > countFriend()' , "/cast [@player] "..HolyWordSanctify },
     -- "Espoir impérissable" "Everlasting Hope" -- increase the healing amount of your next Prayer of Healing spell by 30%.
     {{"nested"}, 'not player.isMoving and heal.countLossInRange(0.78) > 2 and player.hasBuff(spells.everlastingHope)' ,{
         {{spells.holyWordSerenity,spells.prayerOfHealing}, 'heal.lowestInRaid.hp < 0.55 and spells.holyWordSerenity.cooldown == 0' , kps.heal.lowestInRaid , "POH_Serenity" },
@@ -146,10 +152,8 @@ kps.rotations.register("PRIEST","HOLY",{
 
     -- "Espoir impérissable" "Everlasting Hope" -- increase the healing amount of your next Prayer of Healing spell by 30%.
     {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.everlastingHope)' ,{
-        {spells.bindingHeal, 'not heal.lowestInRaid.isUnit("player") and player.hasBuff(spells.divinity)' , kps.heal.lowestInRaid ,"BINDING_divinity" },
         {spells.flashHeal, 'heal.defaultTank.hp < 0.55' , kps.heal.defaultTank, "FLASH_defaultTank" },
         {spells.flashHeal, 'heal.defaultTarget.hp < 0.40' , kps.heal.defaultTarget ,"FLASH_defaultTarget" },
-        {spells.heal, 'holyWordSerenityOnCD() and heal.lowestInRaid.hp > 0.85' , kps.heal.lowestInRaid , "HEAL_SERENITY" },
         {spells.bindingHeal, 'not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid ,"BINDING_BUFF_2" },
         {spells.bindingHeal, 'not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid ,"BINDING_BUFF_2" },
     }},
@@ -168,12 +172,15 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.dispelMagic, 'mouseover.isAttackable and mouseover.isBuffDispellable("Magic")' , "mouseover" },
     
     -- MOUSEOVER
+    {spells.guardianSpirit, 'kps.mouseOver and mouseover.isFriend and mouseover.hp < 0.30' , "mouseover" },
+    {spells.holyWordSerenity, 'kps.mouseOver and not mouseover.immuneHeal and mouseover.isFriend and mouseover.hp < 0.40' , "mouseover" },
     {{"nested"}, 'kps.mouseOver and not player.isMoving and not mouseover.immuneHeal and mouseover.isFriend' , {
-        {spells.bindingHeal, 'mouseover.absorptionHeal and not mouseover.isUnit("player")' , "mouseover" },
         {spells.flashHeal, 'mouseover.hp < 0.40' , "mouseover" },
+        {spells.bindingHeal, 'not mouseover.isUnit("player") and mouseover.hasBossDebuff' , "mouseover" },
+        {spells.bindingHeal, 'not mouseover.isUnit("player") and mouseover.absorptionHeal' , "mouseover" },
         {spells.bindingHeal, 'not mouseover.isUnit("player") and heal.countLossInRange(0.85) > 2' , "mouseover" },
         {spells.bindingHeal, 'not mouseover.isUnit("player") and mouseover.hp < 0.85' , "mouseover" },
-        {spells.heal, 'holyWordSerenityOnCD() and mouseover.hp > 0.85' , "mouseover" },
+        {spells.heal, 'holyWordSerenityOnCD()' , "mouseover" },
     }},
     
     -- DAMAGE
@@ -193,15 +200,6 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.smite, 'not player.isMoving and targettarget.isAttackable', "targettarget" },
         {spells.smite, 'not player.isMoving and focustarget.isAttackable', "focustarget" },
     }},
-
-    -- "Light of T'uure" 208065 -- increasing your healing done to the target by 25% for 10 sec.
-    {{"nested"}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0' , {
-        {{spells.lightOfTuure,spells.flashHeal}, 'player.hp < 0.55' , "player"},
-        {{spells.lightOfTuure,spells.flashHeal}, 'heal.defaultTank.hp < 0.55 and not heal.defaultTank.hasBuff(spells.lightOfTuure)' , kps.heal.defaultTank },
-        {{spells.lightOfTuure,spells.flashHeal}, 'heal.lowestTargetInRaid.hp < 0.55 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid },
-        {spells.lightOfTuure, 'heal.lowestTankInRaid.hp < 0.85 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
-        {spells.lightOfTuure, 'heal.lowestTargetInRaid.hp < 0.85 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
-    }},  
 
     -- "Prayer of Healing" 596 -- A powerful prayer that heals the target and the 4 nearest allies within 40 yards for (250% of Spell power)
     -- "Holy Word: Sanctify" & "Holy Word:Serenity" your healing is increased by 15% for 6 sec. Buff "Divinity" 197030 -- pas de cumul des 2 buffs
@@ -248,7 +246,8 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.heal, 'not player.isMoving and player.hp < 0.90' , "player" },
     {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.90' , kps.heal.lowestTankInRaid },
     {spells.heal, 'not player.isMoving and holyWordSerenityOnCD()' , kps.heal.lowestInRaid },
-    {spells.heal, 'not player.isMoving and heal.lossHealthRaid > heal.incomingHealRaid' , kps.heal.lowestInRaid },
+    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and heal.lossHealthRaid > heal.incomingHealRaid' , kps.heal.lowestInRaid },
+    {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and heal.lossHealthRaid > heal.incomingHealRaid' , kps.heal.lowestTankInRaid },
 
     -- "Renew" 139 PARTY
     {spells.renew, 'not player.isInRaid and heal.lowestInRaid.hp < 0.90 and not heal.lowestInRaid.hasBuff(spells.renew) and not heal.lowestInRaid.hasBuff(spells.masteryEchoOfLight)' , kps.heal.lowestInRaid, "RENEW_PARTY" },
