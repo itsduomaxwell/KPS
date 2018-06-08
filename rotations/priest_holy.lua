@@ -110,8 +110,8 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.50' , kps.heal.lowestTargetInRaid},
     {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.50' , kps.heal.lowestInRaid},
 
-    {{"nested"}, 'player.hasBuff(spells.divinity)' , {
-        {spells.prayerOfHealing, 'heal.countLossInRange(0.78) > countFriend()' , kps.heal.lowestInRaid },
+    {{"nested"}, 'not player.isMoving and player.hasBuff(spells.divinity)' , {
+        {spells.prayerOfHealing, 'heal.countLossInRange(0.72) > countFriend()' , kps.heal.lowestInRaid },
         {spells.bindingHeal, 'heal.countLossInRange(0.78) > 2 and not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid },
         {spells.flashHeal, 'heal.defaultTank.hp < 0.55' , kps.heal.defaultTank },
     }},

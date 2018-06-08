@@ -20,10 +20,10 @@ kps.rotations.register("PALADIN","RETRIBUTION",
 {
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
-        {spells.wordOfGlory, 'player.hp < 0.7 and player.holyPower >= 2', 'player'},
-        {spells.flashOfLight, 'player.hp < 0.6'},
-        {spells.shieldOfVengeance, 'player.hp < 0.5'},
-        {spells.layOnHands, 'player.hp < 0.2', 'player'},
+        {spells.wordOfGlory, 'player.hp < 0.70 and player.holyPower >= 2', 'player'},
+        {spells.flashOfLight, 'player.hp < 0.55', 'player'},
+        {spells.shieldOfVengeance, 'player.hp < 0.70'},
+        {spells.layOnHands, 'player.hp < 0.30', 'player'},
     }},
 
      -- Cooldowns
@@ -35,31 +35,31 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     -- Interrupt Target
     {{"nested"}, 'kps.interrupt and target.isInterruptable', {
         {spells.rebuke},
-        {spells.hammerOfJustice, 'target.distance <= 10'},
+        {spells.hammerOfJustice, 'target.distance < 10'},
         {spells.blindingLight}, -- disorients all enemies within a 10 yard radius around you
     }},
     
     -- Multi Target Rotation
     {{"nested"}, 'kps.multiTarget and target.isAttackable', {
+        {spells.divineStorm, 'target.hasMyDebuff(spells.judgment)'},
+        {spells.divineStorm, 'player.hasBuff(spells.divinePurpose)'},
         {spells.consecration},
         {spells.judgment},
         {spells.bladeOfWrath, 'player.holyPower < 4'},
         {spells.zeal, 'player.holyPower < 5'},
         {spells.crusaderStrike, 'player.holyPower < 5'},
-        {spells.divineStorm, 'player.holyPower >= 2 and target.hasMyDebuff(spells.judgment)'},
-        {spells.divineStorm, 'player.holyPower >= 2 or player.hasBuff(spells.divinePurpose)'},
+
     }},
 
     -- Single Target Rotation
-    {spells.bladeOfJustice}, -- Generates 2 Holy Power.
+    {spells.templarsVerdict, 'target.hasMyDebuff(spells.judgment)'}, -- need 3 holypower
+    {spells.templarsVerdict, 'player.hasBuff(spells.divinePurpose)'},
+    {spells.bladeOfJustice, 'player.holyPower < 5'}, -- Generates 2 Holy Power. 10 sec cd
     {spells.crusaderStrike, 'player.holyPower < 5'}, -- Generates 1 Holy Power.
     {spells.judgment},
     {spells.bladeOfWrath, 'player.holyPower < 4'}, -- Your auto attacks have a chance to reset the cooldown of Blade of Justice.
-    {spells.zeal, 'player.holyPower < 5'},
-    {spells.templarsVerdict, 'player.holyPower > 1 and target.hasMyDebuff(spells.judgment)'},
-    {spells.templarsVerdict, 'player.holyPower > 1 or player.hasBuff(spells.divinePurpose)'},
-
-
+    {spells.zeal, 'player.holyPower < 5'}, -- Generates 1 Holy Power.
+    {spells.wakeOfAshes , 'player.holyPower < 1'}, -- Generates 5 Holy Power.
 
 }
 ,"Icy Veins")

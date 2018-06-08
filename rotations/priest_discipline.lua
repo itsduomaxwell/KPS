@@ -86,9 +86,9 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.lowestInRaid.hp < 0.55 ' , "/use 14" },
 
     -- SCHIELD
-    {spells.powerWordShield, 'mouseover.immuneHeal and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
-    {spells.powerWordShield, 'not heal.lowestTargetInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestTargetInRaid },
-    {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestTankInRaid },
+    {spells.powerWordShield, 'mouseover.immuneHeal and not mouseover.hasBuff(spells.powerWordShield) and mouseover.hp < 0.90' , "mouseover" },
+    {spells.powerWordShield, 'not heal.lowestTargetInRaid.hasBuff(spells.powerWordShield) and heal.lowestTargetInRaid.hp < 0.95' , kps.heal.lowestTargetInRaid },
+    {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield) and heal.lowestTankInRaid.hp < 0.95' , kps.heal.lowestTankInRaid },
     {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield) and player.hp < 0.85' , "player" },
     {spells.powerWordShield, 'not heal.hasNotBuffAtonement.hasBuff(spells.powerWordShield) and heal.hasNotBuffAtonement.hp < 0.85' , kps.heal.hasNotBuffAtonement },
 
@@ -111,14 +111,16 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.powerWordRadiance, 'not player.isMoving and heal.hasNotBuffAtonementCount(0.85) > 3' , kps.heal.hasNotBuffAtonement },
     {spells.lightsWrath, 'not player.isMoving and heal.hasBuffAtonementCount(0.85) > 3 and target.isAttackable' , "target" },
     {spells.lightsWrath, 'not player.isMoving and heal.hasBuffAtonementCount(0.85) > 3 and targettarget.isAttackable' , "targettarget" },
-
+    
+    {spells.powerWordRadiance, 'not player.isMoving and heal.hasNotBuffAtonementCount(0.85) > 3 and not mouseover.hasBuff(spells.atonement)' , "mouseover" },
+    {spells.lightsWrath, 'not player.isMoving and heal.hasBuffAtonementCount(0.85) > 3 and mouseover.hasBuff(spells.atonement)' , "mouseovertarget" },
     -- MOUSEOVER -- "Borrowed Time" "Sursis"  -- Applying Atonement to a target reduces the cast time of your next Smite or Light's Wrath by 5%, or causes your next Penance to channel 5% faster
     {{"nested"}, 'kps.mouseOver and mouseover.isFriend' , {
         {spells.powerWordShield, 'mouseover.hp < 0.85 and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
         {spells.penance, 'mouseover.hp < 0.90 and mouseover.hasBuff(spells.atonement) and mouseovertarget.isAttackable' , "mouseovertarget" },
+        {spells.smite, 'mouseover.hasBuff(spells.atonement) and not player.isMoving and mouseovertarget.isAttackable' , "mouseovertarget" },
         {spells.clarityOfWill, 'player.hasTalent(5,2) and not player.isMoving and mouseover.hp < 0.40 and not mouseover.hasBuff(spells.clarityOfWill)' , "mouseover" },
         {spells.shadowMend, 'not player.isMoving and mouseover.hp < 0.40 and not spells.shadowMend.isRecastAt("mouseover")' , "mouseover" },
-        {spells.smite, 'mouseover.hasBuff(spells.atonement) and not player.isMoving and mouseovertarget.isAttackable' , "mouseovertarget" },
         {spells.plea, 'not mouseover.hasBuff(spells.atonement) and mouseover.hp < 0.85' , "mouseover" },
     }},
 
@@ -133,11 +135,9 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     }},
     
     -- NOT ISINGROUP
-    {{"nested"}, 'kps.multiTarget and not player.isInGroup' , {
-        {spells.purgeTheWicked, 'player.hasBuff(spells.atonement) and mouseover.isAttackable and mouseover.inCombat and not mouseover.hasMyDebuff(spells.purgeTheWicked) and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
+    {{"nested"}, 'not player.isInGroup' , {
         {spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
         {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield)' , "player" },
-        {spells.schism, 'not player.isMoving and player.hasTalent(1,3) and target.isAttackable' , "target" },
         {spells.penance, 'player.hasBuff(spells.atonement) and target.isAttackable' , "target" },
         {spells.lightsWrath, 'not player.isMoving and player.hasBuff(spells.atonement) and target.isAttackable' , "target" },
         {spells.shadowMend, 'not player.isMoving and player.hp < 0.40 and not spells.shadowMend.isRecastAt("player")' , "player" },  
