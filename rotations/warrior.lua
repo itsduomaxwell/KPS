@@ -24,11 +24,10 @@ function kps.env.warrior.FocusMouseover()
     return nil, nil
 end
 
-local UnitPower = UnitPower
 local function heroicLeapOnScreen()
     if kps.spells.warrior.heroicLeap.cooldown < kps.gcd and kps.spells.warrior.heroicLeap.charges > 0 and kps.timers.check("heroicLeap") == 0 then
         kps.timers.create("heroicLeap", 10 )
-        CreateMessage("heroicLeap Ready")
+        kps.utils.createMessage("heroicLeap Ready")
     end
 end
 

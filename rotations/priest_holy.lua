@@ -109,8 +109,11 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.50' , kps.heal.lowestTankInRaid},
     {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.50' , kps.heal.lowestTargetInRaid},
     {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.50' , kps.heal.lowestInRaid},
+    
+    {spells.prayerOfMending, 'not player.isMoving and heal.lowestInRaid.hp > 0.85' , kps.heal.hasNotBuffMending },
 
     {{"nested"}, 'not player.isMoving and player.hasBuff(spells.divinity)' , {
+        {spells.flashHeal, 'heal.defaultTank.hp < 0.55 and player.hasBuff(spells.answeredPrayers)' , kps.heal.defaultTank },
         {spells.prayerOfHealing, 'heal.countLossInRange(0.72) > countFriend()' , kps.heal.lowestInRaid },
         {spells.bindingHeal, 'heal.countLossInRange(0.78) > 2 and not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid },
         {spells.flashHeal, 'heal.defaultTank.hp < 0.55' , kps.heal.defaultTank },

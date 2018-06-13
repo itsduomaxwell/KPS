@@ -21,15 +21,15 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
         {spells.wordOfGlory, 'player.hp < 0.70 and player.holyPower >= 2', 'player'},
-        {spells.flashOfLight, 'player.hp < 0.55', 'player'},
         {spells.shieldOfVengeance, 'player.hp < 0.70'},
         {spells.layOnHands, 'player.hp < 0.30', 'player'},
+        {spells.flashOfLight, 'player.hp < 0.55', 'player'},
     }},
 
      -- Cooldowns
     {{"nested"}, 'kps.cooldowns', {
         {spells.avengingWrath, 'not player.hasBuff(spells.avengingWrath) and target.hasMyDebuff(spells.judgment)'},
-        {spells.wakeOfAshes, 'player.hasBuff(spells.avengingWrath) and player.holyPower < 1'},
+        {spells.wakeOfAshes, 'player.hasBuff(spells.avengingWrath) and player.holyPower < 1'}, -- Generates 5 Holy Power.
     }},
 
     -- Interrupt Target
@@ -59,7 +59,6 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     {spells.judgment},
     {spells.bladeOfWrath, 'player.holyPower < 4'}, -- Your auto attacks have a chance to reset the cooldown of Blade of Justice.
     {spells.zeal, 'player.holyPower < 5'}, -- Generates 1 Holy Power.
-    {spells.wakeOfAshes , 'player.holyPower < 1'}, -- Generates 5 Holy Power.
 
 }
 ,"Icy Veins")

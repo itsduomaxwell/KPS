@@ -215,7 +215,7 @@ local buffdivinity = kps.spells.priest.divinity.name
 local function holyWordSanctifyOnScreen()
     if kps.spells.priest.holyWordSanctify.cooldown < kps.gcd and kps.timers.check("holyWordSanctify") == 0 and not UnitHasBuff(buffdivinity,"player") then
         kps.timers.create("holyWordSanctify", 10 )
-        CreateMessage("holyWordSanctify Ready")
+        kps.utils.createMessage("holyWordSanctify Ready")
     end
 end
 

@@ -95,7 +95,7 @@ end
 kps.utils.tableCopy = tableCopy
 
 
-function CreateMessage(message)
+function kps.utils.createMessage(message)
     local msg = CreateFrame("MessageFrame", nil, UIParent)
     msg:SetPoint("LEFT", UIParent)
     msg:SetPoint("RIGHT", UIParent)
