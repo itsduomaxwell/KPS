@@ -3,6 +3,7 @@
 @author Kirk24788.xvir.subzrk
 @version 7.0.3
 ]]--
+
 local spells = kps.spells.warrior
 local env = kps.env.warrior
 
@@ -58,6 +59,8 @@ kps.rotations.register("WARRIOR","FURY",
     -- "Souhait ardent de Kil'jaeden" 144259
     {{"macro"}, 'player.useTrinket(1) and player.plateCount > 3' , "/use 14" },
     {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
+    
+    {spells.execute, 'player.hasBuff(spells.stoneHeart)' , "target" , "execute_stoneHeart" },
 
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
         {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
@@ -68,7 +71,7 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.execute, 'target.hp < 0.20 and player.hasBuff(spells.enrage)' , "target" , "execute_battleCry" },
         {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
     }},
-    
+
     -- "Frothing Berserker" "Berserker écumant" -- player.hasTalent(5,2) -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
     -- "Rampage" can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first
     {spells.rampage, 'player.hasTalent(5,2) and player.rage == 100' , "target" , "rampage_dump_rage" },
@@ -84,7 +87,6 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.whirlwind, 'kps.multiTarget and not player.hasBuff(spells.meatCleaver) and target.distance < 10' , "target" },
         {spells.bloodthirst, 'player.hasBuff(spells.tasteForBlood)' },
         {spells.ragingBlow, 'player.hasBuff(spells.enrage)' },
-        {spells.execute, 'player.rage > 60' },
         {spells.furiousSlash },
     }},
 

@@ -8,9 +8,19 @@ local Unit = kps.Unit.prototype
 --[[[
 @function `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
 ]]--
+--function Unit.castTimeLeft(self)
+--    local name,_,_,_,_,endTime,_,_,_ = UnitCastingInfo(self.unit)
+--    if endTime == nil then return 0 end
+--    return ((endTime - (GetTime() * 1000 ) )/1000)
+--end
+
 function Unit.castTimeLeft(self)
-    local name,_,_,_,_,endTime,_,_,_ = UnitCastingInfo(self.unit)
-    if endTime == nil then return 0 end
+    local name,_,_,_,_,endTime,_,_,_= UnitCastingInfo(self.unit)
+    if endTime == nil then 
+        local name,_,_,_,_,endTime,_,_ = UnitChannelInfo(self.unit)
+        if endTime == nil then return 0 end
+        return ((endTime - (GetTime() * 1000 ) )/1000)
+    end
     return ((endTime - (GetTime() * 1000 ) )/1000)
 end
 

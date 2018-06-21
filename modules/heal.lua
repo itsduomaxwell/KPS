@@ -590,12 +590,13 @@ print("|cffff8000CountLoss_85:|cffffffff", kps["env"].heal.countLossInRange(0.85
 --print(i," - ",j)
 --end
 
+--print(kps["env"].player.castTimeLeft)
 
-local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
-print("|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasBuffAtonementCount(2))
-print("|cffff8000NotAtonementCount:|cffffffff",kps["env"].heal.hasNotBuffAtonementCount(2))
-print("|cffff8000AtonementUnit:|cffffffff", kps["env"].heal.hasBuffAtonement.name)
-print("|cffff8000NotAtonementUnit:|cffffffff", kps["env"].heal.hasNotBuffAtonement.name)
+--local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
+--print("|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasBuffAtonementCount(2))
+--print("|cffff8000NotAtonementCount:|cffffffff",kps["env"].heal.hasNotBuffAtonementCount(2))
+--print("|cffff8000AtonementUnit:|cffffffff", kps["env"].heal.hasBuffAtonement.name)
+--print("|cffff8000NotAtonementUnit:|cffffffff", kps["env"].heal.hasNotBuffAtonement.name)
 
 
 --for _,unit in ipairs(tanksInRaid()) do

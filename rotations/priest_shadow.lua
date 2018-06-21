@@ -71,7 +71,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     
     -- Voidbolt extends the duration of Shadow Word: Pain and Vampiric Touch on all nearby targets by 3.0 sec For the duration of Voidform -- 
     {{"nested"}, 'player.hasBuff(spells.voidform)',{
-        {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
+        {spells.vampiricTouch, 'not player.isMoving and not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
         {spells.shadowWordPain, 'not target.hasMyDebuff(spells.shadowWordPain) and target.isAttackable and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
         {{"macro"}, 'not kps.multiTarget and player.hasBuff(spells.voidform) and spells.voidBolt.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
         {spells.voidBolt , "target.isAttackable" , "target" },
@@ -80,14 +80,14 @@ kps.rotations.register("PRIEST","SHADOW",{
         -- "Ombrefiel" cd 3 min duration 12 sec -- "Mindbender" cd 1 min duration 12 sec player.hasTalent(6,3)
         {spells.mindbender, 'spells.voidTorrent.lastCasted(30) and player.buffStacks(spells.voidform) > 25' , "target" },
     }},
-    
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'kps.shadowWordPain and not player.isMoving and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
-    {spells.shadowWordPain, 'kps.shadowWordPain and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
+
     {{"nested"}, 'not player.isMoving',{
+        {{spells.vampiricTouch,spells.shadowWordPain}, 'kps.shadowWordPain and not player.isMoving and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
         {{spells.vampiricTouch,spells.shadowWordPain}, 'not target.hasMyDebuff(spells.vampiricTouch) and target.isAttackable' , 'target' },
         {{spells.vampiricTouch,spells.shadowWordPain}, 'not focus.hasMyDebuff(spells.vampiricTouch) and focus.isAttackable' , 'focus' },
         {{spells.vampiricTouch,spells.shadowWordPain}, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.vampiricTouch)' , 'mouseover' },
     }},
+    {spells.shadowWordPain, 'kps.shadowWordPain and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'not target.hasMyDebuff(spells.shadowWordPain) and target.isAttackable and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'not focus.hasMyDebuff(spells.shadowWordPain) and focus.isAttackable and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
     {spells.shadowWordPain, 'mouseover.inCombat and mouseover.isAttackable and not mouseover.hasMyDebuff(spells.shadowWordPain) and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },

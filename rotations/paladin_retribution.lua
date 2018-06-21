@@ -20,7 +20,8 @@ kps.rotations.register("PALADIN","RETRIBUTION",
 {
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
-        {spells.wordOfGlory, 'player.hp < 0.70 and player.holyPower >= 2', 'player'},
+        {spells.wordOfGlory, 'player.hasTalent(5,3) and player.hp < 0.70', 'player'},
+        {spells.justicarsVengeance, 'player.hasTalent(5,1) and player.hp < 0.70' },
         {spells.shieldOfVengeance, 'player.hp < 0.70'},
         {spells.layOnHands, 'player.hp < 0.30', 'player'},
         {spells.flashOfLight, 'player.hp < 0.55', 'player'},

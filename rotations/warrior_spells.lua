@@ -219,5 +219,7 @@ kps.spells.warrior.willOfTheFirstKing = kps.Spell.fromId(209548)
 kps.spells.warrior.willToSurvive = kps.Spell.fromId(188683)
 kps.spells.warrior.wrathAndFury = kps.Spell.fromId(200849)
 kps.spells.warrior.wreckingBall = kps.Spell.fromId(215569)
+-- buff Stone Heart: Execute costs no Rage and can be used on any target.
+kps.spells.warrior.stoneHeart = kps.Spell.fromId(225947)
 
 
