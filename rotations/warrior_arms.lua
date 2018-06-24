@@ -17,17 +17,14 @@ kps.rotations.register("WARRIOR","ARMS",
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-        env.TargetMouseover,
+    env.FocusMouseover,
     {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
     {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
-    env.FocusMouseover,
     env.ScreenMessage,
 
     -- interrupts
-    {{"nested"}, 'kps.interrupt and target.distance < 10',{
-        {spells.pummel, 'target.isInterruptable' , "target" },
-        {spells.pummel, 'focus.isInterruptable' , "focus" },
-    }},
+    {spells.pummel, 'kps.interrupt and target.distance < 10 and target.isInterruptable and target.castTimeLeft < 1' , "target" },
+    {spells.pummel, 'kps.interrupt and focus.distance < 10 and focus.isInterruptable and focus.castTimeLeft < 1' , "focus" },
 
     -- Charge enemy
     {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
@@ -48,9 +45,8 @@ kps.rotations.register("WARRIOR","ARMS",
     
     -- TRINKETS
     -- "Souhait ardent de Kil'jaeden" 144259
-    {{"macro"}, 'player.hasTrinket(0) == 147007 player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
-    {{"macro"}, 'player.hasTrinket(0) == 147007 player.useTrinket(1) and target.isElite' , "/use 14" },
-    {{"macro"}, 'player.hasTrinket(0) == 147007 player.useTrinket(1) and target.hp > player.hp' , "/use 14" },
+    {{"macro"}, 'player.timeInCombat > 30 and player.useTrinket(0)' , "/use 13" },
+    {{"macro"}, 'player.timeInCombat > 30 and player.useTrinket(1)' , "/use 14" },
     
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
         {spells.mortalStrike, 'player.hasBuff(spells.shatteredDefenses)'},

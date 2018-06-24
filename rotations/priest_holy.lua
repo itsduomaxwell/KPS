@@ -153,6 +153,10 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.prayerOfHealing, 'player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_powerOfTheNaaru" },
         {{spells.holyWordSanctify,spells.prayerOfHealing}, 'heal.countLossInRange(0.78) > countFriend() and spells.holyWordSanctify.cooldown == 0' , kps.heal.lowestInRaid , "POH_holyWordSanctify" },
     }},
+    
+    {spells.heal, 'target.isElite and targettarget.isFriend and target.isCasting and targettarget.hp > 0.85' , "targettarget" },
+    {spells.flashHeal, 'target.isElite and targettarget.isFriend and target.isCasting and targettarget.hp < 0.55' , "targettarget" },
+    {spells.bindingHeal, 'target.isElite and targettarget.isFriend and target.isCasting' , "targettarget" },
 
     -- "Espoir impérissable" "Everlasting Hope" -- increase the healing amount of your next Prayer of Healing spell by 30%.
     {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.everlastingHope)' ,{
