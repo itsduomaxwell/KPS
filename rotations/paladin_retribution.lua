@@ -18,20 +18,26 @@ local env = kps.env.paladin -- REMOVE LINE (or comment out) IF ADDING TO EXISTIN
 
 kps.rotations.register("PALADIN","RETRIBUTION",
 {
+
+    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
+    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
+    env.FocusMouseover,
+    {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
+    {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
+
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
-        {spells.wordOfGlory, 'player.hasTalent(5,3) and player.hp < 0.70', 'player'},
-        {spells.justicarsVengeance, 'player.hasTalent(5,1) and player.hp < 0.70' },
-        {spells.shieldOfVengeance, 'player.hp < 0.70'},
+        {spells.wordOfGlory, 'player.hasTalent(5,3) and player.hp < 0.80', 'player'},
+        {spells.justicarsVengeance, 'player.hasTalent(5,1) and player.hp < 0.80 and player.hasBuff(spells.divinePurpose)' },
+        {spells.shieldOfVengeance, 'player.hp < 0.80'},
         {spells.layOnHands, 'player.hp < 0.30', 'player'},
-        {spells.flashOfLight, 'player.hp < 0.55', 'player'},
+        {spells.divineShield, 'player.hp < 0.80', 'player'},
+        --{spells.flashOfLight, 'player.hp < 0.55', 'player'},
     }},
 
      -- Cooldowns
-    {{"nested"}, 'kps.cooldowns', {
-        {spells.avengingWrath, 'not player.hasBuff(spells.avengingWrath) and target.hasMyDebuff(spells.judgment)'},
-        {spells.wakeOfAshes, 'player.hasBuff(spells.avengingWrath) and player.holyPower < 1'}, -- Generates 5 Holy Power.
-    }},
+    {spells.avengingWrath, 'not player.hasBuff(spells.avengingWrath) and target.hasMyDebuff(spells.judgment)'},
+    {spells.wakeOfAshes, 'player.hasBuff(spells.avengingWrath) and player.holyPower < 1'}, -- Generates 5 Holy Power.
 
     -- Interrupt Target
     {{"nested"}, 'kps.interrupt and target.isInterruptable', {
@@ -41,7 +47,7 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     }},
     
     -- Multi Target Rotation
-    {{"nested"}, 'kps.multiTarget and target.isAttackable', {
+    {{"nested"}, 'player.plateCount > 3 or kps.multiTarget', {
         {spells.divineStorm, 'target.hasMyDebuff(spells.judgment)'},
         {spells.divineStorm, 'player.hasBuff(spells.divinePurpose)'},
         {spells.consecration},
@@ -49,7 +55,6 @@ kps.rotations.register("PALADIN","RETRIBUTION",
         {spells.bladeOfWrath, 'player.holyPower < 4'},
         {spells.zeal, 'player.holyPower < 5'},
         {spells.crusaderStrike, 'player.holyPower < 5'},
-
     }},
 
     -- Single Target Rotation
@@ -57,9 +62,10 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     {spells.templarsVerdict, 'player.hasBuff(spells.divinePurpose)'},
     {spells.bladeOfJustice, 'player.holyPower < 5'}, -- Generates 2 Holy Power. 10 sec cd
     {spells.crusaderStrike, 'player.holyPower < 5'}, -- Generates 1 Holy Power.
+    {spells.zeal, 'player.holyPower < 5'}, -- Generates 1 Holy Power.
     {spells.judgment},
     {spells.bladeOfWrath, 'player.holyPower < 4'}, -- Your auto attacks have a chance to reset the cooldown of Blade of Justice.
-    {spells.zeal, 'player.holyPower < 5'}, -- Generates 1 Holy Power.
+
 
 }
 ,"Icy Veins")

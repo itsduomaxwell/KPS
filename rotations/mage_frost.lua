@@ -6,21 +6,33 @@
 local spells = kps.spells.mage
 local env = kps.env.mage
 
+local Blizzard = spells.blizzard.name
+
 
 kps.rotations.register("MAGE","FROST",
 {
 
-    {spells.timeWarp, 'target.hp < 0.30 or player.timeInCombat > 0'},
-    {spells.icyVeins},
-    {spells.iceLance, '( player.buffStacks(spells.fingersOfFrost) and ( player.buffDuration(spells.fingersOfFrost) < spells.frostbolt.castTime or player.buffDuration(spells.fingersOfFrost) < player.buffStacks(spells.fingersOfFrost) * player.gcd ) ) or spells.flurry.isRecastAt("target")'}, -- ice_lance,if=(buff.fingers_of_frost.react&(buff.fingers_of_frost.remains<action.frostbolt.execute_time|buff.fingers_of_frost.remains<buff.fingers_of_frost.react*gcd.max))|prev_gcd.flurry
-    {spells.flurry, 'player.buffStacks(spells.brainFreeze) and ( player.buffDuration(spells.brainFreeze) < spells.frostbolt.castTime or ( player.buffStacks(spells.fingersOfFrost) == 0 and player.buffDuration(spells.waterJet) == 0 ) )'}, -- flurry,if=buff.brain_freeze.react&(buff.brain_freeze.remains<action.frostbolt.execute_time|(buff.fingers_of_frost.react=0&debuff.water_jet.remains=0))
-    {spells.rayOfFrost, 'player.hasBuff(spells.runeOfPower) or not player.hasTalent(6, 2)'},
-    {spells.iceNova},
-    {spells.frozenTouch, 'player.buffStacks(spells.fingersOfFrost) == 0'},
-    {spells.glacialSpike},
-    {spells.cometStorm},
-    {spells.iceLance, 'not player.hasTalent(5, 1) and player.buffStacks(spells.fingersOfFrost) and ( not player.hasTalent(7, 1) or spells.icyVeins.cooldown > 8 )'}, 
-    {spells.frostbolt},
+    {spells.iceBlock, 'player.hp < 0.20' },
+
+    {{"macro"}, 'keys.shift', "/cast [@cursor] "..Blizzard },
+    
+    {spells.iceFloes, 'player.isMoving and not player.hasBuff(spells.iceFloes)' },
+
+    {spells.iceBarrier, 'not player.hasBuff(spells.iceBarrier)' },
+    {spells.runeOfPower, 'player.hasTalent(3,2)' },
+    {spells.mirrorImage, 'player.hasTalent(3,1)' },
+    --{spells.timeWarp, 'target.hp < 0.30 and player.timeInCombat > 0'},
+    {spells.frozenOrb },
+    {spells.icyVeins },
+
+    {spells.ebonbolt, 'not player.hasBuff(spells.brainFreeze)' },
+    {spells.flurry, 'player.hasBuff(spells.brainFreeze)' },
+    {spells.iceLance, 'player.buffStacks(spells.fingersOfFrost) > 0', "target" , "fingersOfFrost" }, 
+
+    {spells.glacialSpike, 'player.hasTalent(7,2)' },
+    {spells.cometStorm, 'player.hasTalent(7,3)' },
+    {spells.iceLance, 'player.hasBuff(spells.chainReaction)' , "target" , "chainReaction" },
+    {spells.frostbolt },
 
 }
 ,"mage_frost.simc")

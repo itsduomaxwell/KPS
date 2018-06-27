@@ -154,17 +154,17 @@ kps.rotations.register("PRIEST","HOLY",{
         {{spells.holyWordSanctify,spells.prayerOfHealing}, 'heal.countLossInRange(0.78) > countFriend() and spells.holyWordSanctify.cooldown == 0' , kps.heal.lowestInRaid , "POH_holyWordSanctify" },
     }},
     
-    {spells.heal, 'target.isElite and targettarget.isFriend and target.isCasting and targettarget.hp > 0.85' , "targettarget" },
-    {spells.flashHeal, 'target.isElite and targettarget.isFriend and target.isCasting and targettarget.hp < 0.55' , "targettarget" },
-    {spells.bindingHeal, 'target.isElite and targettarget.isFriend and target.isCasting' , "targettarget" },
+--    {spells.heal, 'target.isElite and targettarget.isFriend and target.isCasting and targettarget.hp > 0.85' , "targettarget" },
+--    {spells.flashHeal, 'target.isElite and targettarget.isFriend and target.isCasting and targettarget.hp < 0.55' , "targettarget" },
+--    {spells.bindingHeal, 'target.isElite and targettarget.isFriend and target.isCasting' , "targettarget" },
 
     -- "Espoir impérissable" "Everlasting Hope" -- increase the healing amount of your next Prayer of Healing spell by 30%.
-    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.everlastingHope)' ,{
-        {spells.flashHeal, 'heal.defaultTank.hp < 0.55' , kps.heal.defaultTank, "FLASH_defaultTank" },
-        {spells.flashHeal, 'heal.defaultTarget.hp < 0.40' , kps.heal.defaultTarget ,"FLASH_defaultTarget" },
-        {spells.bindingHeal, 'not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid ,"BINDING" },
-        {spells.bindingHeal, 'not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid ,"BINDING" },
-    }},
+--    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.everlastingHope)' ,{
+--        {spells.flashHeal, 'heal.defaultTank.hp < 0.55' , kps.heal.defaultTank, "FLASH_defaultTank" },
+--        {spells.flashHeal, 'heal.defaultTarget.hp < 0.40' , kps.heal.defaultTarget ,"FLASH_defaultTarget" },
+--        {spells.bindingHeal, 'not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid ,"BINDING" },
+--        {spells.bindingHeal, 'not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid ,"BINDING" },
+--    }},
     
     -- MOUSEOVER
     {spells.guardianSpirit, 'kps.mouseOver and mouseover.isFriend and mouseover.hp < 0.30' , "mouseover" },
