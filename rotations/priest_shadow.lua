@@ -14,9 +14,6 @@ kps.runAtEnd(function()
    kps.gui.addCustomToggle("PRIEST","SHADOW", "shadowWordPain", "Interface\\Icons\\Spell_shadow_shadowwordpain", "shadowWordPain")
 end)
 
--- kps.cooldowns for dispel and powerInfusion
--- kps.interrupt for interrupts
--- kps.multiTarget for dot with mouseover
 kps.rotations.register("PRIEST","SHADOW",{
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },

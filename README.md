@@ -51,7 +51,7 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 
 **Fully Supported in 7.2:**
 
-* Priest: Holy, Shadow
+* Priest: Shadow
 * Warlock: Affliction
 
 **Outdated Rotations:**
@@ -60,9 +60,10 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 * Demonhunter: Havoc (7.0.3), Vengeance (7.0.3)
 * Druid: Balance (7.0.3), Feral (7.0.3), Guardian (7.0.3), Restoration (7.0.3)
 * Hunter: Beastmaster (7.2.0), Marksmanship (7.0.3)
-* Mage: Fire (7.0.3)
+* Mage: Fire (7.3.5)
 * Monk: Mistweaver (7.0.3)
 * Paladin: Holy (7.0.3), Retribution (7.0.3)
+* Priest: Holy (7.3.5)
 * Rogue: Outlaw (7.0.3)
 * Shaman: Enhancement (7.0.3), Restoration (7.0.3)
 * Warlock: Demonology (7.0.3), Destruction (7.0.3)
@@ -211,6 +212,7 @@ Members:
  * `player.isFalling` - returns true if the player is currently falling.
  * `player.isSwimming` - returns true if the player is currently swimming.
  * `player.isInRaid` - returns true if the player is currently in Raid.
+ * `player.isInGroup` - returns true if the player is currently in Group.
  * `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
@@ -380,6 +382,7 @@ Members:
  * `<UNIT>.isElite` - returns true if the unit is a elite mob
  * `<UNIT>.plateCount` - e.g. 'player.plateCount' returns namePlates count in combat (actives enemies)
  * `<UNIT>.isTarget` - returns true if the unit is targeted by an enemy nameplate
+ * `<UNIT>.isTargetCount` - returns the number of enemies targeting player.
  * `<UNIT>.hp` - returns the unit hp (in a range between 0.0 and 1.0).
  * `<UNIT>.hpTotal` - returns the current hp as an absolute value.
  * `<UNIT>.hpMax` - returns the maximum hp as an absolute value
@@ -629,7 +632,7 @@ kps.rotations.register(
  * `core/parser.lua:120` - Error Handling!
  * `gui/toggle.lua:75` - Right-Click Action
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
- * `modules/unit/unit_casting.lua:67` - Blacklisted spells?
+ * `modules/unit/unit_casting.lua:77` - Blacklisted spells?
  * `modules/unit/unit_state.lua:12` - PvP
  * `rotations/mage.lua:52` - Implement pyroChain sequence
 
