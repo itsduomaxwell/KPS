@@ -560,7 +560,7 @@ function kpsTest()
 
 for name, unit in pairs(raidStatus) do
 print("|cffffffffName: ",name,"Unit: ",unit.unit,"Guid: ",unit.guid)
-print("|cffff8000isHealable: ",unit.isHealable,"|hp: ",unit.hp,"|hpInc: ",unit.hpInc)
+print("|cffff8000isHealable: ",unit.isHealable,"|hp: ",unit.hp,"|hpInc: ",unit.hpIncoming)
 --print("|cff1eff00HEAL: ",unit.incomingHeal)
 --print("|cFFFF0000DMG: ",unit.incomingDamage)
 end
@@ -574,9 +574,9 @@ print("|cffff8000TANK:|cffffffff", kps["env"].heal.lowestTankInRaid.name)
 --print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
 
 
-print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
-print("|cffff8000incomingHeal:|cffffffff", kps["env"].heal.incomingHealRaid)
-print("|cffff8000lossHealth:|cffffffff", kps["env"].heal.lossHealthRaid)
+--print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
+--print("|cffff8000incomingHeal:|cffffffff", kps["env"].heal.incomingHealRaid)
+--print("|cffff8000lossHealth:|cffffffff", kps["env"].heal.lossHealthRaid)
 
 --print("|cffff8000CountLossDistance_85:|cffffffff", kps["env"].heal.countLossInDistance(0.85,10))
 print("|cffff8000CountLoss_85:|cffffffff", kps["env"].heal.countLossInRange(0.85),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
