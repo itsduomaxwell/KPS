@@ -558,12 +558,12 @@ kps.heal = kps.RaidStatus.new(false)
 
 function kpsTest()
 
---for name, unit in pairs(raidStatus) do
---print("|cffffffffName: ",name,"Unit: ",unit.unit,"Guid: ",unit.guid)
---print("|cffff8000isHealable: ",unit.isHealable)
+for name, unit in pairs(raidStatus) do
+print("|cffffffffName: ",name,"Unit: ",unit.unit,"Guid: ",unit.guid)
+print("|cffff8000isHealable: ",unit.isHealable,"|hp: ",unit.hp,"|hpInc: ",unit.hpInc)
 --print("|cff1eff00HEAL: ",unit.incomingHeal)
 --print("|cFFFF0000DMG: ",unit.incomingDamage)
---end
+end
 
 print("|cff1eff00LOWEST|cffffffff", kps["env"].heal.lowestInRaid.name,"/",kps["env"].heal.lowestInRaid.hp)
 print("|cffff8000TARGET:|cffffffff", kps["env"].heal.lowestTargetInRaid.name)

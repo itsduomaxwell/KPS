@@ -116,3 +116,18 @@ function Unit.isTarget(self)
     end
     return false
 end
+
+--[[[
+@function `<UNIT>.isTargetCount` - returns the number of enemies targeting player.
+]]--
+
+function Unit.isTargetCount(self)
+    local plateCount = 0
+    for nameplate,_ in pairs(activeUnitPlates) do
+        if UnitExists(nameplate.."target") then
+            local target = nameplate.."target"
+            if UnitIsUnit(target,self.unit) then plateCount = plateCount + 1 end
+        end
+    end
+    return plateCount
+end

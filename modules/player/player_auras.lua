@@ -61,6 +61,10 @@ function Player.isInRaid(self)
     return IsInRaid()
 end
 
+
+--[[[
+@function `player.isInGroup` - returns true if the player is currently in Group.
+]]--
 function Player.isInGroup(self)
     return IsInGroup()
 end
@@ -73,6 +77,10 @@ end
 -- eventIndex Number - index of the loss-of-control effect currently affecting your character to return information about, ascending from 1. 
 -- LossOfControlType : "STUN_MECHANIC", "STUN", "PACIFYSILENCE", "SILENCE", "FEAR", "CHARM", "PACIFY", "CONFUSE", "POSSESS", "SCHOOL_INTERRUPT", "DISARM", "ROOT"
 
+function kps.Player.prototype.hasFullControl(self)
+    if kps.timers.check("LossOfControl") == 0 then return true end
+    return false
+end
 kps.events.register("LOSS_OF_CONTROL_ADDED", function ()
     local i = C_LossOfControl.GetNumEvents()
     local locType, spellID, _, _, _, _, duration,lockoutSchool,_,_ = C_LossOfControl.GetEventInfo(i)
@@ -82,11 +90,6 @@ kps.events.register("LOSS_OF_CONTROL_ADDED", function ()
         end 
     end
 end)
-
-function Player.hasFullControl(self)
-    if kps.timers.check("LossOfControl") == 0 then return true end
-    return false
-end
 
 
 --[[[

@@ -16,36 +16,35 @@ kps.rotations.register("PALADIN","PROTECTION",
     {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
     {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
 
+    {spells.blessedHammer }, -- cd 4 sec
     {spells.judgment },
     {spells.avengersShield },
-    {spells.avengersShield, 'player.buffStacks(spells.grandCrusader)'}, -- cd 13,4 sec
-    {spells.consecration, 'not player.hasBuff(spells.consecration)' }, -- cd 8sec
-    {spells.blessedHammer }, -- cd 4 sec
-    {spells.bulwarkOfOrder },
-    
-    {spells.shieldOfTheRighteous }, -- cd 14 sec
-    {spells.lightOfTheProtector, 'player.hp < 0.60' },
-    {spells.layOnHands, 'player.hp < 0.30' },
-    {spells.divineShield, 'player.hp < 0.30' },
-
-    
-    -- cooldown
-    {spells.guardianOfAncientKings, 'not player.hasBuff(spells.holyAvenger) and not player.hasBuff(spells.shieldOfTheRighteous) and not player.hasBuff(spells.divineProtection)'},
-    {spells.ardentDefender, 'not player.hasBuff(spells.guardianOfAncientKings) not player.hasBuff(spells.shieldOfTheRighteous) and not player.hasBuff(spells.divineProtection)'},
+    {spells.consecration }, -- cd 8sec
     {spells.eyeOfTyr, 'spells.shieldOfTheRighteous.cooldown > 0' },
 
-    {spells.holyWrath},
-    {spells.holyAvenger},
+    -- "Shield of the Righteous" -- causing (360% of Attack power) Holy damage, and reducing damage you take
+    {spells.shieldOfTheRighteous }, -- cd 14 sec
+    
+    -- "Hand of Reckoning" -- taunt
+    {spells.handOfReckoning, 'not player.isTarget' , "target" , "taunt" },
     {spells.seraphim},
-    {spells.divineProtection, 'player.timeInCombat < 5 or not player.hasTalent(7, 2) or ( not player.hasBuff(spells.seraphim) and spells.seraphim.cooldown > 5 and spells.seraphim.cooldown < 9 )'},
-    {spells.shieldOfTheRighteous, 'player.buffStacks(spells.divinePurpose)'},
-    {spells.shieldOfTheRighteous, '( player.holyPower >= 5 or player.incomingDamage >= player.hpMax * 0.3 ) and ( not player.hasTalent(7, 2) or spells.seraphim.cooldown > 5 )'},
-    {spells.shieldOfTheRighteous, 'player.buffDuration(spells.holyAvenger) > player.timeToNextHolyPower and ( not player.hasTalent(7, 2) or spells.seraphim.cooldown > player.timeToNextHolyPower )'},
-    {spells.crusaderStrike},
-    {spells.holyWrath, 'player.hasTalent(5, 2)'},
-    {spells.lightsHammer, 'not player.hasTalent(7, 2) or player.buffDuration(spells.seraphim) > 10 or spells.seraphim.cooldown < 6'},
-    {spells.holyPrism, 'not player.hasTalent(7, 2) or player.hasBuff(spells.seraphim) or spells.seraphim.cooldown > 5 or player.timeInCombat < 5'},
-    {spells.executionSentence, 'not player.hasTalent(7, 2) or player.hasBuff(spells.seraphim) or player.timeInCombat < 12'},
+
+    {spells.bulwarkOfOrder },
+    -- "Guardian of Ancient Kings" -- Damage taken reduced by 50% 8 seconds remaining
+    {spells.guardianOfAncientKings, 'not player.hasBuff(spells.holyAvenger) and not player.hasBuff(spells.shieldOfTheRighteous) and not player.hasBuff(spells.divineProtection)'},    
+    -- "Divine Shield" -- Protects you from all damage and spells for 8 sec. 
+    {spells.divineShield, 'player.hp < 0.30' },
+    -- "Ardent Defender" -- Damage taken reduced by 20%. The next attack that would otherwise kill you will instead bring you to 12% of your maximum health.
+    {spells.ardentDefender, 'player.incomingDamage > player.incomingHeal and player.hp < 0.30' },
+    {spells.ardentDefender, 'not player.hasBuff(spells.guardianOfAncientKings) not player.hasBuff(spells.shieldOfTheRighteous) and not player.hasBuff(spells.divineProtection)'},
+    -- "Avenging Wrath" -- Increases all damage done by 35% and all healing done by 35% for 20 sec.
+    {spells.avengingWrath, 'player.incomingDamage > player.incomingHeal' },
+
+    {spells.lightOfTheProtector, 'player.hp < 0.82' },
+    {spells.layOnHands, 'player.hp < 0.40' },
+    {spells.handOfTheProtector },
+
+
  
  }
 ,"paladin_protection.simc")

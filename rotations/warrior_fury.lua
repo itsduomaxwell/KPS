@@ -55,7 +55,7 @@ kps.rotations.register("WARRIOR","FURY",
 
     {spells.execute, 'player.hasBuff(spells.stoneHeart)' , "target" , "execute_stoneHeart" },
     {spells.avatar, 'spells.battleCry.cooldown < 4 and target.isAttackable and target.distance < 10' }, -- 90 sec cd
-    {spells.bloodbath, 'spells.battleCry.cooldown < 4 and target.isAttackable and target.distance < 10' }, -- 30 sec cd
+    {spells.bloodbath, 'target.isAttackable and target.distance < 10' }, -- 30 sec cd
     {spells.battleCry, 'target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
 
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
@@ -83,19 +83,19 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.execute, 'player.hasBuff(spells.enrage)' , "target" , "execute_enrage" },
         {spells.bloodthirst, 'player.hasBuff(spells.tasteForBlood)' },
         {spells.ragingBlow, 'player.hasBuff(spells.enrage)' },
+        {spells.execute },
         {spells.furiousSlash },
     }},
 
     -- Meat Cleaver -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.isAttackable and focus.distance < 10 and target.distance < 10' , "target" },
-    {{"nested"}, 'kps.multiTarget', {
-        {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and target.distance < 10' , "target" },
-        {spells.whirlwind, 'player.hasTalent(3,1) and player.hasBuff(spells.wreckingBall) and target.distance < 10' , "target" },
-        {spells.odynsFury, 'player.hasBuff(spells.enrage)' , "target" },
+    {{"nested"}, 'kps.multiTarget or player.plateCount > 3', {
         {spells.rampage, 'player.hasBuff(spells.meatCleaver) and player.hasTalent(5,2) and player.rage == 100' , "target" },
         {spells.rampage, 'player.hasBuff(spells.meatCleaver) and not player.hasTalent(5,2)' , "target" },
+        {spells.odynsFury, 'player.hasBuff(spells.enrage)' , "target" },
         {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
-        {spells.ragingBlow, 'player.hasBuff(spells.enrage)' },
+        {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and target.distance < 10' , "target" },
+        {spells.whirlwind, 'player.hasTalent(3,1) and player.hasBuff(spells.wreckingBall) and target.distance < 10' , "target" },
         {spells.whirlwind, 'target.distance < 10' , "target" },
     }},
 

@@ -1,7 +1,7 @@
 --[[[
 @module Mage Fire Rotation
-@author fourdots
-@version 7.0.3
+@author SwollNMember. Original, fourdots
+@version 7.3.5
 ]]--
 local spells = kps.spells.mage
 local env = kps.env.mage
@@ -9,29 +9,44 @@ local env = kps.env.mage
 
 kps.rotations.register("MAGE","FIRE",
 {
-
+   {spells.shimmer, 'target.distance > 20 and target.distance < 40'},
+   -- interrupts
+    {{"nested"}, 'kps.interrupt',{
+        {spells.counterspell, 'target.isInterruptable' , "target" },
+        {spells.counterspell, 'focus.isInterruptable' , "focus" },
+    }},
+   
     {{"nested"}, 'kps.defensive', {
-        {spells.iceBarrier, 'player.hpIncoming < 0.85'},
+       {spells.invisibility, 'target.isRaidBoss and player.isTarget'},
+       {spells.blazingBarrier, 'player.isTarget'},
+       {spells.frostNova, 'target.distance < 15 and not target.isRaidBoss and not target.isElite and not target.hasDebuff(spells.dragonsBreath)'},
+        {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
         {spells.iceBlock, 'player.hp < 0.15 or player.hpIncoming < 0.25'},
-        {{"macro"}, 'kps.useBagItem and player.hpIncoming < 0.35', "/use Healthstone" },
      }},
+   
     {spells.flamestrike, 'keys.shift and player.hasBuff(spells.hotStreak)'},
-    {spells.iceFloes, 'player.isMoving and not player.hasBuff(spells.iceFloes)'},
+    {{"macro"}, 'target.distance <=5 and player.hasBuff(spells.hotStreak)', "/cast [@player] Flamestrike"},
+   
     {spells.runeOfPower, 'kps.cooldowns and not player.isMoving and spells.combustion.cooldown < 1.5 and player.hasBuff(spells.hotStreak)'},
+   
     {{"nested"}, 'kps.cooldowns and not player.isMoving and spells.combustion.cooldown < 1.5 and spells.runeOfPower.lastCasted(2)', {
-        { {"macro"}, 'kps.useBagItem', "/use 13" },
-        { {"macro"}, 'kps.useBagItem', "/use 14" },
+        {{"macro"}, 'kps.useBagItem', "/use 13" },
+        {{"macro"}, 'kps.useBagItem', "/use 14" },
         {spells.combustion},
     }},
 
     {spells.runeOfPower, 'spells.runeOfPower.charges >= 2 and not player.hasBuff(spells.combustion) and not player.isMoving'},
+    {spells.blazingBarrier},
     {spells.pyroblast, 'player.hasBuff(spells.hotStreak)'},
-    {spells.meteor},
+    --{spells.meteor, 'keys.ctrl'},
+    --{{"macro"}, 'mouseover.isTarget', "/cast [@cursor] Meteor"},
+    {{"macro"}, 'keys.shift', "/cast [@cursor] Meteor" },
+    {{"macro"}, 'target.distance <=5', "/cast [@player] Meteor"},
     {spells.flameOn, 'spells.fireBlast.charges < 1'},
-    {spells.blastWave, '( not player.hasBuff(spells.combustion) ) or ( player.hasBuff(spells.combustion) and spells.fireBlast.charges < 1 ) and target.distanceMax < 6'},
+    {spells.blastWave, '(not player.hasBuff(spells.combustion) ) or ( player.hasBuff(spells.combustion) and spells.fireBlast.charges < 1 ) and target.distanceMax < 6'},
     {spells.cinderstorm, 'not player.hasBuff(spells.combustion)'},
     {spells.fireBlast, 'not spells.fireBlast.isRecastAt("target")'},
-    {spells.dragonsBreath, 'target.distanceMax < 10'},
+    {spells.dragonsBreath, 'target.distanceMax < 10 and not target.hasDebuff(spells.frostNova)'},
     {spells.fireBlast, 'player.hasBuff(spells.heatingUp)'},
 
     {{"nested"}, 'player.isMoving and spells.iceFloes.charges < 1', {
@@ -39,7 +54,8 @@ kps.rotations.register("MAGE","FIRE",
         {spells.scorch},
     }},
 
-    {spells.fireball},
+    {spells.phoenixsFlames},
+    {spells.fireball, 'target.timeToDie ? 3'},
 
 }
-,"Fire Mage 7.0.3")
+,"Fire Mage 7.3.2")
