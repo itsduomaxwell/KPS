@@ -28,7 +28,7 @@ end)
 
 kps.rotations.register("PRIEST","HOLY",{
 
-	--{{"pause"}, 'kps.pauseRotation', 2},
+    --{{"pause"}, 'kps.pauseRotation', 2},
 
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
     env.ScreenMessage,
