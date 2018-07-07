@@ -195,3 +195,9 @@ function Player.timeToNextHolyPower(self)
     return timeToNextHolyPower
 end
 
+
+function Player.pause(self)
+    if kps.timers.check("pauseRotation") > 0 then return true end
+    return false
+end
+

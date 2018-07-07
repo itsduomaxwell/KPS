@@ -45,6 +45,28 @@ kps.useItem = function(bagItem)
     ]]
 end
 
+local function handlePriorityActions(spell)
+    if priorityMacro ~= nil then
+        kps.runMacro(priorityMacro)
+        priorityMacro = nil
+    elseif priorityAction ~= nil then
+        priorityAction()
+        priorityAction = nil
+    elseif prioritySpell ~= nil then
+        if prioritySpell.canBeCastAt("target") then
+            prioritySpell.cast()
+            LOG.warn("Priority Spell %s was casted.", prioritySpell)
+            prioritySpell = nil
+        else
+            if prioritySpell.cooldown > 3 then prioritySpell = nil end
+            return false
+        end
+    else
+        return false
+    end
+    return true
+end
+
 kps.combatStep = function ()
     -- Check for combat
     if not InCombatLockdown() and not kps.autoAttackEnabled then return end
@@ -61,6 +83,7 @@ kps.combatStep = function ()
     if (player.isMounted and not kps.config.dismountInCombat) or player.isDead or player.isDrinking then
         return
     end
+    
 
     if castSequence ~= nil then
         if castSequence[castSequenceIndex] ~= nil and (castSequenceStartTime + kps.maxCastSequenceLength > GetTime()) then
@@ -79,7 +102,11 @@ kps.combatStep = function ()
         local activeRotation = kps.rotations.getActive()
         if not activeRotation then return end
         activeRotation.checkTalents()
+        local spell, target, message = nil, nil, nil
         local spell, target, message = activeRotation.getSpell()
+        
+        if player.pause then return end
+            
         if spell ~= nil and not player.isCasting then
             if priorityMacro ~= nil then
                 kps.runMacro(priorityMacro)

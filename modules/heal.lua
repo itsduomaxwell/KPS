@@ -418,7 +418,7 @@ kps.RaidStatus.prototype.hasBuffStacks = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.hasBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasBuffCount(spells.atonement)
+@function `heal.hasBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasBuffCount(spells.atonement) > 3
 ]]--
 
 local unitBuffCount = function(spell)
@@ -483,8 +483,12 @@ kps.RaidStatus.prototype.hasNotBuffMending = kps.utils.cachedValue(function()
     return unitHasNotBuff(kps.spells.priest.prayerOfMending)
 end)
 
+kps.RaidStatus.prototype.hasNotBuffRenew = kps.utils.cachedValue(function()
+    return unitHasNotBuff(kps.spells.priest.renew)
+end)
+
 --[[[
-@function `heal.countNotBuffAtonementHealth` - e.g. heal.hasNotBuffAtonementHealth(0.85) > 3
+@function `heal.hasBuffAtonementCount` - e.g. heal.hasBuffAtonementCount(0.85) > 3
 ]]--
 
 local unitHasBuffHealth = function(health)
@@ -501,6 +505,10 @@ end
 kps.RaidStatus.prototype.hasBuffAtonementCount = kps.utils.cachedValue(function()
     return unitHasBuffHealth
 end)
+
+--[[[
+@function `heal.hasNotBuffAtonementCount` - e.g. heal.hasNotBuffAtonementCount(0.85) > 3
+]]--
 
 local unitHasNotBuffHealth = function(health)
     local maxcount = 0
@@ -558,12 +566,12 @@ kps.heal = kps.RaidStatus.new(false)
 
 function kpsTest()
 
-for name, unit in pairs(raidStatus) do
-print("|cffffffffName: ",name,"Unit: ",unit.unit,"Guid: ",unit.guid)
-print("|cffff8000isHealable: ",unit.isHealable,"|hp: ",unit.hp,"|hpInc: ",unit.hpIncoming)
+--for name, unit in pairs(raidStatus) do
+--print("|cffffffffName: ",name,"Unit: ",unit.unit,"Guid: ",unit.guid)
+--print("|cffff8000isHealable: ",unit.isHealable,"|hp: ",unit.hp,"|hpInc: ",unit.hpIncoming)
 --print("|cff1eff00HEAL: ",unit.incomingHeal)
 --print("|cFFFF0000DMG: ",unit.incomingDamage)
-end
+--end
 
 print("|cff1eff00LOWEST|cffffffff", kps["env"].heal.lowestInRaid.name,"/",kps["env"].heal.lowestInRaid.hp)
 print("|cffff8000TARGET:|cffffffff", kps["env"].heal.lowestTargetInRaid.name)

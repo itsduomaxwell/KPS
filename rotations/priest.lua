@@ -207,6 +207,21 @@ kps.env.priest.ShouldInterruptCasting = function()
     return ShouldInterruptCasting(interruptTable, countLossInRange)
 end
 
+-- usage in Rotation -- env.FindUnitWithNoRenew,
+local ArenaRBGFriends = { "player", "raid1", "raid2", "raid3", "raid4", "raid5", "raid6", "raid7", "raid8", "raid9", "raid10", "party1", "party2", "party3", "party4", "party5", "partypet1"}
+kps.env.priest.FindUnitWithNoRenew = function()
+    local renewUnit = nil
+    local buff = kps.spells.priest.renew
+    for i=1,#ArenaRBGFriends do
+        local unit = ArenaRBGFriends[i]
+        if UnitExists(unit) and not UnitBuff(unit,buff.name) then
+            renewUnit = unit
+        end
+    end
+    if renewUnit == nil then return nil, nil end
+    return buff, renewUnit
+end
+
 --------------------------------------------------------------------------------------------
 ------------------------------- MESSAGE ON SCREEN
 --------------------------------------------------------------------------------------------

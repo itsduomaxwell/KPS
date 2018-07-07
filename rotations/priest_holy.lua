@@ -21,11 +21,16 @@ kps.runAtEnd(function()
    kps.gui.addCustomToggle("PRIEST","HOLY", "mouseOver", "Interface\\Icons\\priest_spell_leapoffaith_a", "mouseOver")
 end)
 
+--kps.runAtEnd(function()
+--  kps.gui.addCustomToggle("PRIEST","HOLY", "pauseRotation", "Interface\\Icons\\Spell_frost_frost", "pauseRotation")
+--end)
+
 
 kps.rotations.register("PRIEST","HOLY",{
 
-    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+	--{{"pause"}, 'kps.pauseRotation', 2},
 
+    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
     env.ScreenMessage,
     --env.ShouldInterruptCasting,
     {{"macro"}, 'spells.heal.shouldInterrupt(0.95)' , "/stopcasting" },
@@ -40,7 +45,7 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.flashHeal, 'heal.lowestInRaid.hp < 0.90' , kps.heal.lowestInRaid},
         {spells.renew, 'not heal.lowestInRaid.hasBuff(spells.renew)' , kps.heal.lowestInRaid},
     }},
-    
+
     -- "Guardian Spirit" 47788
     {{"nested"}, 'kps.interrupt' ,{
         {spells.guardianSpirit, 'player.hp < 0.30' , kps.heal.lowestTankInRaid},

@@ -126,6 +126,15 @@ local function fnParseCondition(conditions)
     end
 end
 
+local function fnParsePause(conditionFn,macroText)
+    return function ()
+        if conditionFn() then
+            if kps.timers.check("pauseRotation") < kps.gcd then kps.timers.create("pauseRotation",macroText) end
+        end
+        return nil, nil
+    end
+end
+
 local function fnParseMacro(macroText, conditionFn)
     return function ()
         if conditionFn() then
@@ -243,7 +252,6 @@ local function fnParseDefault(spell, condition, target, message)
         return nil, nil
     end
 end
-
 
 
 --[[
@@ -941,6 +949,9 @@ local function compileTable(hydraTable)
             elseif spellTable[1][1] == "nested" then
                 compiledSubTable = compileTable(spellTable[3])
                 table.insert(compiledTable, fnParseSpellTable(compiledSubTable, conditionFn))
+            -- pause Rotation
+            elseif spellTable[1][1] == "pause" then
+                table.insert(compiledTable, fnParsePause(conditionFn,spellTable[3]) )
             -- cast sequence: { {spell_1, spell_2, ...}, [[, condition(Fn)[, target(Fn)]]}
             elseif spellTable[1][1].name ~= nil then
                 table.insert(compiledTable, fnParseDefault(fnParseCastSequence(spellTable[1]), spellTable[2], spellTable[3]))

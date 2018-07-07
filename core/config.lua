@@ -8,4 +8,4 @@ kps.config = {}
 kps.config.updateInterval = 0.10
 kps.config.dismountInCombat = false
 kps.config.iconScale = 1
-kps.config.threshold = 0.75
+kps.config.pause = false
