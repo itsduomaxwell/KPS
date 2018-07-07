@@ -17,7 +17,7 @@ local RingOfFrost  = spells.ringOfFrost.name
 kps.rotations.register("MAGE","FROST",
 {
 
-	--{{"pause"}, 'kps.pauseRotation', 4},
+    --{{"pause"}, 'kps.pauseRotation', 4},
 
     {spells.iceBlock, 'player.hp < 0.20' },
     {spells.iceBarrier, 'not player.hasBuff(spells.iceBarrier)' },
