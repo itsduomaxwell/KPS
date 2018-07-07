@@ -73,7 +73,7 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 _(Might not be fully functional)_
 
 * Hunter: Survival (7.0.3)
-* Mage: Arcane (7.0.3), Frost (7.0.3)
+* Mage: Arcane (7.0.3), Frost (7.3.5)
 * Monk: Brewmaster (7.2), Windwalker (6.2.2)
 * Paladin: Protection (7.2)
 * Priest: Discipline (7.0.3)
@@ -184,11 +184,12 @@ Members:
  * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
  * `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
  * `heal.hasBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasBuffStacks(spells.prayerOfMending) < 10
- * `heal.hasBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasBuffCount(spells.atonement)
+ * `heal.hasBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasBuffCount(spells.atonement) > 3
  * `heal.hasBuffAtonement` - Returns the UNIT with lowest health with Atonement Buff on raid e.g. heal.hasBuffAtonement < 0.90
  * `heal.hasNotBuffAtonement` - Returns the UNIT with lowest health without Atonement Buff on raid e.g. heal.hasNotBuffAtonement.hp < 0.90
  * `heal.hasNotBuffMending` - Returns the lowest health unit without Prayer of Mending Buff on raid e.g. heal.hasNotBuffMending.hp < 0.90
- * `heal.countNotBuffAtonementHealth` - e.g. heal.hasNotBuffAtonementHealth(0.85) > 3
+ * `heal.hasBuffAtonementCount` - e.g. heal.hasBuffAtonementCount(0.85) > 3
+ * `heal.hasNotBuffAtonementCount` - e.g. heal.hasNotBuffAtonementCount(0.85) > 3
  * `heal.hasDamage` - Returns the raid unit with incomingDamage > incomingHeal
 
 
