@@ -272,6 +272,7 @@ Members:
  * `player.gcd` - returns the current global cooldown
  * `player.bloodlust` - returns true if th player has bloodlus (or heroism, time warp...)
  * `player.timeToNextHolyPower` - returns the time until the next holy power (including the gcd or cast time of the next power generating spell)
+ * `player.pause` - internal fct do not use. Usage in rotation is {{"pause"}, 'Conditions', number} . pause the rotation during number seconds
  * `player.runes` - returns the total number of active runes
  * `player.runesCooldown` - returns the cooldown until the next rune is available
  * `player.hasSealOfTruth` - returns if the player has the seal of truth
@@ -363,11 +364,13 @@ Members:
  * `<UNIT>.buffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit
  * `<UNIT>.myDebuffCount(<SPELL>)` - returns the number of different debuffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
  * `<UNIT>.myBuffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
- * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffValue(spells.masteryEchoOfLight)
- * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit has a Debuff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. player.isDispellable("Magic")
- * `<UNIT>.isBuffDispellable(<DISPEL>)` - returns true if the unit has a Buff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. target.isBuffDispellable
+ * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. player.buffValue(spells.masteryEchoOfLight)
+ * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the FRIENDLY unit has a dispellable debuff. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. player.isDispellable("Magic")
+ * `<UNIT>.isBuffDispellable` - returns true if the ENEMY unit has a dispellable "Magic" buff. e.g. target.isBuffDispellable
  * `<UNIT>.absorptionHeal` - returns true if the unit has an Absorption Healing Debuff
  * `<UNIT>.immuneHeal` - returns true if the unit has an Immune Healing Debuff
+ * `<UNIT>.hasBossDebuff` - return true if the FRIENDLY unit has a boss debuff e.g. `target.hasBossDebuff`
+ * `<UNIT>.isStealable` - return true if the ENEMY unit has a stealable buff e.g. `target.isStealable`
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell
@@ -632,7 +635,7 @@ kps.rotations.register(
  * `core/parser.lua:113` - syntax error in
  * `core/parser.lua:120` - Error Handling!
  * `gui/toggle.lua:75` - Right-Click Action
- * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
+ * `modules/unit/unit_auras.lua:53` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:77` - Blacklisted spells?
  * `modules/unit/unit_state.lua:12` - PvP
  * `rotations/mage.lua:52` - Implement pyroChain sequence
