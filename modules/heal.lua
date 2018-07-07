@@ -598,7 +598,10 @@ print("|cffff8000CountLoss_85:|cffffffff", kps["env"].heal.countLossInRange(0.85
 --print(i," - ",j)
 --end
 
---print(kps["env"].player.castTimeLeft)
+--print("|cffff8000isStealable:|cffffffff", kps["env"].target.isStealable)
+--print("|cffff8000isBuffDispellable:|cffffffff", kps["env"].target.isBuffDispellable)
+--print("|cffff8000isDispellable:|cffffffff", kps["env"].player.isDispellable("Magic"))
+--print("|cffff8000hasBossDebuff:|cffffffff", kps["env"].player.hasBossDebuff)
 
 --local Atonement = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
 --print("|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasBuffAtonementCount(2))

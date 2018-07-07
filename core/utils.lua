@@ -10,7 +10,7 @@ kps.utils = {}
 @function kps.utils.cachedFunction
 @description
 This function generates a function which will only be executed every [code]updateInterval[/code] seconds no matter
-how often it is called (i.e. within an onUpdate event).
+how often it is called (within an onUpdate event).
 @param fn function which generates the value
 @param updateInterval [i]Optional:[/i] max age in seconds before the function is called again - defaults to [code]kps.config.updateInterval[/code]
 ]]--

@@ -214,7 +214,7 @@ Members:
  * `player.isSwimming` - returns true if the player is currently swimming.
  * `player.isInRaid` - returns true if the player is currently in Raid.
  * `player.isInGroup` - returns true if the player is currently in Group.
- * `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
+ * `player.hasFullControl` - Checks whether you have full control over your character (you are not feared, etc).
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
  * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
@@ -349,9 +349,9 @@ Provides access to specific unit information. <UNIT> may be one of:
 Members:
 
  * `<UNIT>.exists` - returns true if this unit exists
- * `<UNIT>.hasBuff(<SPELL>)` - return true if the unit has the given buff (i.e. `target.hasBuff(spells.renew)`)
- * `<UNIT>.hasDebuff(<SPELL>)` - returns true if the unit has the given debuff (i.e. `target.hasDebuff(spells.immolate)`)
- * `<UNIT>.hasMyDebuff(<SPELL>)` - returns true if the unit has the given debuff _AND_ the debuff was cast by the player (i.e. `target.hasMyDebuff(spells.immolate)`)
+ * `<UNIT>.hasBuff(<SPELL>)` - return true if the unit has the given buff (`target.hasBuff(spells.renew)`)
+ * `<UNIT>.hasDebuff(<SPELL>)` - returns true if the unit has the given debuff (`target.hasDebuff(spells.immolate)`)
+ * `<UNIT>.hasMyDebuff(<SPELL>)` - returns true if the unit has the given debuff _AND_ the debuff was cast by the player (`target.hasMyDebuff(spells.immolate)`)
  * `<UNIT>.myBuffDuration(<SPELL>)` - returns the remaining duration of the buff on the given unit if the buff was cast by the player
  * `<UNIT>.myDebuffDuration(<SPELL>)` - returns the remaining duration of the debuff on the given unit if the debuff was cast by the player
  * `<UNIT>.myDebuffDurationMax(<SPELL>)` - returns the total duration of the given debuff if it was cast by the player
@@ -365,13 +365,13 @@ Members:
  * `<UNIT>.myBuffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
  * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffValue(spells.masteryEchoOfLight)
  * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit has a Debuff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. player.isDispellable("Magic")
- * `<UNIT>.isBuffDispellable(<DISPEL>)` - returns true if the unit has a Buff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. target.isBuffDispellable("Magic")
+ * `<UNIT>.isBuffDispellable(<DISPEL>)` - returns true if the unit has a Buff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. target.isBuffDispellable
  * `<UNIT>.absorptionHeal` - returns true if the unit has an Absorption Healing Debuff
  * `<UNIT>.immuneHeal` - returns true if the unit has an Immune Healing Debuff
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell
- * `<UNIT>.isCastingSpell(<SPELL>)` - returns true if the unit is casting (or channeling) the given <SPELL> (i.e. `target.isCastingSpell(spells.immolate)`)
+ * `<UNIT>.isCastingSpell(<SPELL>)` - returns true if the unit is casting (or channeling) the given <SPELL> (`target.isCastingSpell(spells.immolate)`)
  * `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.
  * `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
  * `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds

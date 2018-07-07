@@ -51,7 +51,7 @@ kps.rotations.register("PRIEST","SHADOW",{
         {spells.mindBomb, 'IsEquippedItem(132452) and player.hasBuff(spells.voidform) and spells.mindbender.lastCasted(15)'},
     }},
     -- "Dissipation de la magie" -- Dissipe la magie sur la cible ennemie, supprimant ainsi 1 effet magique bénéfique.
-    {spells.dispelMagic, 'target.isAttackable and target.isBuffDispellable("Magic")' , "target" },
+    {spells.dispelMagic, 'target.isAttackable and target.isBuffDispellable' , "target" },
 
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
     {{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},

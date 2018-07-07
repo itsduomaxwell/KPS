@@ -194,8 +194,8 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
 
     -- "Dissipation de la magie" -- Dissipe la magie sur la cible ennemie, supprimant ainsi 1 effet magique bénéfique.
-    {spells.dispelMagic, 'target.isAttackable and target.isBuffDispellable("Magic")' , "target" },
-    {spells.dispelMagic, 'mouseover.isAttackable and mouseover.isBuffDispellable("Magic")' , "mouseover" },
+    {spells.dispelMagic, 'target.isAttackable and target.isBuffDispellable' , "target" },
+    {spells.dispelMagic, 'mouseover.isAttackable and mouseover.isBuffDispellable' , "mouseover" },
     -- DAMAGE
     {spells.holyWordChastise, 'target.isAttackable and target.isInterruptable' , "target" },
     {spells.holyWordChastise, 'mouseover.isAttackable and mouseover.isInterruptable' , "mouseover" },

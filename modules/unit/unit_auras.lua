@@ -4,10 +4,17 @@ Functions which handle unit auras
 ]]--
 
 local Unit = kps.Unit.prototype
+local UnitLevel = UnitLevel
+local UnitBuff = UnitBuff
+local UnitDebuff = UnitDebuff
+local UnitCanAssist = UnitCanAssist
 
+-- name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, ... = UnitAura("unit", "name")
+-- name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, ... = UnitBuff("unit", "name")
+-- name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, ... = UnitDebuff("unit", "name")
 
 --[[[
-@function `<UNIT>.hasBuff(<SPELL>)` - return true if the unit has the given buff (i.e. `target.hasBuff(spells.renew)`)
+@function `<UNIT>.hasBuff(<SPELL>)` - return true if the unit has the given buff (`target.hasBuff(spells.renew)`)
 ]]--
 local hasBuff = setmetatable({}, {
     __index = function(t, unit)
@@ -22,7 +29,7 @@ function Unit.hasBuff(self)
 end
 
 --[[[
-@function `<UNIT>.hasDebuff(<SPELL>)` - returns true if the unit has the given debuff (i.e. `target.hasDebuff(spells.immolate)`)
+@function `<UNIT>.hasDebuff(<SPELL>)` - returns true if the unit has the given debuff (`target.hasDebuff(spells.immolate)`)
 ]]--
 local hasDebuff = setmetatable({}, {
     __index = function(t, unit)
@@ -38,7 +45,7 @@ function Unit.hasDebuff(self)
 end
 
 --[[[
-@function `<UNIT>.hasMyDebuff(<SPELL>)` - returns true if the unit has the given debuff _AND_ the debuff was cast by the player (i.e. `target.hasMyDebuff(spells.immolate)`)
+@function `<UNIT>.hasMyDebuff(<SPELL>)` - returns true if the unit has the given debuff _AND_ the debuff was cast by the player (`target.hasMyDebuff(spells.immolate)`)
 ]]--
 local hasMyDebuff = setmetatable({}, {
     __index = function(t, unit)
@@ -288,7 +295,7 @@ function Unit.myBuffCount(self)
 end
 
 --[[[
-@function `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffValue(spells.masteryEchoOfLight)
+@function `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. player.buffValue(spells.masteryEchoOfLight)
 ]]--
 
 local buffValue = setmetatable({}, {
@@ -309,14 +316,13 @@ function Unit.buffValue(self)
 end
 
 --[[[
-@function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit has a Debuff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. player.isDispellable("Magic")
+@function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the FRIENDLY unit has a dispellable debuff. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. player.isDispellable("Magic")
 ]]--
 local UnitCanAssist = UnitCanAssist
 local isDebuffDispellable = setmetatable({}, {
     __index = function(t, unit)
         local val = function (dispelType)
             if not UnitCanAssist("player", unit) then return false end
-            --if dispelType == nil then dispelType = "Magic" end
             local auraName, debuffType, expTime, spellId
             local i = 1
             auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i) 
@@ -336,58 +342,23 @@ function Unit.isDispellable(self)
     return isDebuffDispellable[self.unit]
 end
 
-
-local hasBossDebuff = setmetatable({}, {
-    __index = function(t, unit)
-        local val = function (dispelType)
-            if not UnitCanAssist("player", unit) then return false end
-            --if dispelType == nil then dispelType = "Magic" end
-            local auraName, debuffType, spellId, unitCaster
-            local i = 1
-            auraName, _, _, _, debuffType, _, _, unitCaster, _, _, spellId = UnitDebuff(unit,i)
-            while auraName do
-                if debuffType ~= nil and unitCaster ~= nil then
-                    if UnitLevel(unitCaster) == -1 then return true end
-                end
-                i = i + 1
-                auraName, _, _, _, debuffType, _, _, unitCaster, _, _, spellId = UnitDebuff(unit,i)
-            end
-            return false
-        end
-        t[unit] = val
-        return val
-    end})
-function Unit.hasBossDebuff(self)
-    return hasBossDebuff[self.unit]
-end
-
-
 --[[[
-@function `<UNIT>.isBuffDispellable(<DISPEL>)` - returns true if the unit has a Buff dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". e.g. target.isBuffDispellable("Magic")
+@function `<UNIT>.isBuffDispellable` - returns true if the ENEMY unit has a dispellable "Magic" buff. e.g. target.isBuffDispellable
 ]]--
 
-local isBuffDispellable = setmetatable({}, {
-    __index = function(t, unit)
-        local val = function (dispelType)
-            if UnitCanAssist("player", unit) then return false end
-            --if dispelType == nil then dispelType = "Magic" end
-            local auraName, debuffType, expTime, spellId
-            local i = 1
-            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitBuff(unit,i) 
-            while auraName do
-                if debuffType ~= nil and debuffType == dispelType then
-                    return true
-                end
-                i = i + 1
-                auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitBuff(unit,i)
-            end
-            return false
-        end
-        t[unit] = val
-        return val
-    end})
 function Unit.isBuffDispellable(self)
-    return isBuffDispellable[self.unit]
+    if UnitCanAssist("player", self.unit) then return false end
+    local auraName, debuffType, expTime, spellId
+    local i = 1
+    auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitBuff(self.unit,i) 
+        while auraName do
+            if debuffType ~= nil and debuffType == "Magic" then
+                return true
+            end
+            i = i + 1
+            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitBuff(self.unit,i)
+        end
+    return false
 end
 
 --[[[
@@ -406,6 +377,44 @@ end
 function Unit.immuneHeal(self)
     for _,spell in pairs(kps.spells.immuneHeal) do
         if self.hasDebuff(spell) then return true end
+    end
+    return false
+end
+
+--[[[
+@function `<UNIT>.hasBossDebuff` - return true if the FRIENDLY unit has a boss debuff e.g. `target.hasBossDebuff`
+]]--
+
+function Unit.hasBossDebuff(self)
+    if not UnitCanAssist("player", self.unit) then return false end
+    local auraName, debuffType, spellId, unitCaster
+    local i = 1
+    auraName, _, _, _, debuffType, _, _, unitCaster, _, _, spellId = UnitDebuff(self.unit,i)
+    while auraName do
+        if debuffType ~= nil and UnitLevel(unitCaster) == -1 then
+            return true
+        end
+        i = i + 1
+        auraName, _, _, _, debuffType, _, _, unitCaster, _, _, spellId = UnitDebuff(self.unit,i)
+    end
+    return false
+end
+
+--[[[
+@function `<UNIT>.isStealable` - return true if the ENEMY unit has a stealable buff e.g. `target.isStealable`
+]]--
+
+function Unit.isStealable(self)
+    if UnitCanAssist("player", self.unit) then return false end
+    local auraName, debuffType, spellId, unitCaster, isStealable
+    local i = 1
+    auraName, _, _, _, debuffType, _, _, unitCaster, isStealable, _, spellId = UnitBuff(self.unit,i)
+    while auraName do
+        if debuffType ~= nil and isStealable then
+            return true
+        end
+        i = i + 1
+         auraName, _, _, _, debuffType, _, _, unitCaster, isStealable, _, spellId = UnitBuff(self.unit,i)
     end
     return false
 end

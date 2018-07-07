@@ -41,7 +41,7 @@ function Unit.isCasting(self)
 end
 
 --[[[
-@function `<UNIT>.isCastingSpell(<SPELL>)` - returns true if the unit is casting (or channeling) the given <SPELL> (i.e. `target.isCastingSpell(spells.immolate)`)
+@function `<UNIT>.isCastingSpell(<SPELL>)` - returns true if the unit is casting (or channeling) the given <SPELL> (`target.isCastingSpell(spells.immolate)`)
 ]]--
 local isCastingSpell = setmetatable({}, {
     __index = function(t, unit)

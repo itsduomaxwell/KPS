@@ -70,7 +70,7 @@ function Player.isInGroup(self)
 end
 
 --[[[
-@function `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
+@function `player.hasFullControl` - Checks whether you have full control over your character (you are not feared, etc).
 ]]--
 
 -- locType, spellID, text, iconTexture, startTime, timeRemaining, duration, lockoutSchool, priority, displayType = C_LossOfControl.GetEventInfo(eventIndex)

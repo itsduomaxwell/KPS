@@ -65,8 +65,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable , "DISPEL" },
     }},
     -- "Dissipation de la magie" -- Dissipe la magie sur la cible ennemie, supprimant ainsi 1 effet magique bénéfique.
-    {spells.dispelMagic, 'target.isAttackable and target.isBuffDispellable("Magic")' , "target" },
-    {spells.dispelMagic, 'mouseover.isAttackable and mouseover.isBuffDispellable("Magic")' , "mouseover" },
+    {spells.dispelMagic, 'target.isAttackable and target.isBuffDispellable' , "target" },
+    {spells.dispelMagic, 'mouseover.isAttackable and mouseover.isBuffDispellable' , "mouseover" },
     
     -- TRINKETS -- SLOT 0 /use 13
     -- "Carafe de lumière incendiaire" "Carafe of Searing Light"
