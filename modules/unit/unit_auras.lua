@@ -4,7 +4,6 @@ Functions which handle unit auras
 ]]--
 
 local Unit = kps.Unit.prototype
-local UnitLevel = UnitLevel
 local UnitBuff = UnitBuff
 local UnitDebuff = UnitDebuff
 local UnitCanAssist = UnitCanAssist
@@ -387,15 +386,15 @@ end
 
 function Unit.hasBossDebuff(self)
     if not UnitCanAssist("player", self.unit) then return false end
-    local auraName, debuffType, spellId, unitCaster
+    local auraName, debuffType, spellId, isBossDebuff
     local i = 1
-    auraName, _, _, _, debuffType, _, _, unitCaster, _, _, spellId = UnitDebuff(self.unit,i)
+    auraName, _, _, _, debuffType, _, _, _, _, _, spellId, _, isBossDebuff = UnitDebuff(self.unit,i)
     while auraName do
-        if debuffType ~= nil and UnitLevel(unitCaster) == -1 then
+        if debuffType ~= nil and isBossDebuff then
             return true
         end
         i = i + 1
-        auraName, _, _, _, debuffType, _, _, unitCaster, _, _, spellId = UnitDebuff(self.unit,i)
+        auraName, _, _, _, debuffType, _, _, _, _, _, spellId,_, isBossDebuff = UnitDebuff(self.unit,i)
     end
     return false
 end
@@ -406,15 +405,15 @@ end
 
 function Unit.isStealable(self)
     if UnitCanAssist("player", self.unit) then return false end
-    local auraName, debuffType, spellId, unitCaster, isStealable
+    local auraName, debuffType, spellId, isStealable
     local i = 1
-    auraName, _, _, _, debuffType, _, _, unitCaster, isStealable, _, spellId = UnitBuff(self.unit,i)
+    auraName, _, _, _, debuffType, _, _, _, isStealable, _, spellId = UnitBuff(self.unit,i)
     while auraName do
         if debuffType ~= nil and isStealable then
             return true
         end
         i = i + 1
-         auraName, _, _, _, debuffType, _, _, unitCaster, isStealable, _, spellId = UnitBuff(self.unit,i)
+         auraName, _, _, _, debuffType, _, _, _, isStealable, _, spellId = UnitBuff(self.unit,i)
     end
     return false
 end

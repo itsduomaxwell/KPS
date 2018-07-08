@@ -107,12 +107,15 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
 
     -- NOT ISINGROUP
     {{"nested"}, 'not player.isInGroup' , {
-        {spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
+        --{spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
         {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield)' , "player" },
+        --{spells.schism, 'player.hasTalent(1,3) and target.isAttackable' , "target" }, -- 30% increased damage from the Priest. 6 seconds remaining
         {spells.penance, 'player.hasBuff(spells.atonement) and target.isAttackable' , "target" },
         {spells.lightsWrath, 'not player.isMoving and player.hasBuff(spells.atonement) and target.isAttackable' , "target" },
-        {spells.shadowMend, 'not player.isMoving and player.hp < 0.40 and not spells.shadowMend.isRecastAt("player")' , "player" },  
+        {spells.shadowMend, 'not player.isMoving and player.hp < 0.40 and not spells.shadowMend.isRecastAt("player")' , "player" }, 
         {spells.plea, 'not player.hasBuff(spells.atonement)' , "player" },
+        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable' , "target" },
+        {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable' , "target" },
         {spells.smite,'not player.isMoving and target.isAttackable' , "target" },
     }},
     
