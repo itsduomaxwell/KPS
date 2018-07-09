@@ -363,7 +363,24 @@ end)
 --------------------------------------------------------------------------------------------
 
 --[[[
-@function `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
+@function `heal.hasDebuffDispellable` - Returns the raid unit with dispellable debuff e.g. {spells.purify, 'heal.hasDebuffDispellable() ~= nil' , kps.heal.hasDebuffDispellable("Magic") },
+]]--
+
+
+local dispelDebuffRaid = function (dispelType)
+    local lowestUnit = nil
+    for name, player in pairs(raidStatus) do
+        if player.isHealable and player.isDispellable(dispelType) then lowestUnit = player end
+    end
+    return lowestUnit
+end
+
+kps.RaidStatus.prototype.hasDebuffDispellable = kps.utils.cachedValue(function()
+    return dispelDebuffRaid
+end)
+
+--[[[
+@function `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel e.g. {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable },
 ]]--
 
 kps.RaidStatus.prototype.isMagicDispellable = kps.utils.cachedValue(function()
@@ -590,6 +607,9 @@ print("|cffff8000TANK:|cffffffff", kps["env"].heal.lowestTankInRaid.name)
 print("|cffff8000CountLoss_85:|cffffffff", kps["env"].heal.countLossInRange(0.85),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
 
 --print(kps["env"].heal.hasBuffStacks(kps.spells.priest.prayerOfMending))
+--print(kps["env"].player.isControlled)
+
+
 
 --local spell = kps.Spell.fromId(6572)
 --local spellname = spell.name -- tostring(kps.spells.warrior.revenge)

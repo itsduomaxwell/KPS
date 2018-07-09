@@ -18,6 +18,9 @@ kps.rotations.register("MAGE","FROST",
 {
 
     --{{"pause"}, 'kps.pauseRotation', 4},
+    
+    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
 
     {spells.iceBlock, 'player.hp < 0.20' },
     {spells.iceBarrier, 'not player.hasBuff(spells.iceBarrier)' },
@@ -25,7 +28,8 @@ kps.rotations.register("MAGE","FROST",
 
     --Opening
     --{{spells.ebonbolt,spells.runeOfPower,spells.icyVeins,spells.flurry,spells.iceLance,spells.frozenOrb}, 'player.timeInCombat < 4' , "target" },
-
+    {spells.frostNova, 'target.distanceMax < 10' , "target" },
+    {spells.spellsteal, 'target.isStealable' , "target" },
    -- interrupts
     {{"nested"}, 'kps.interrupt',{
         {spells.counterspell, 'target.isInterruptable' , "target" },
@@ -33,6 +37,7 @@ kps.rotations.register("MAGE","FROST",
     }},
 
     {spells.iceLance, 'player.hasBuff(spells.fingersOfFrost)' , "target" , "fingersOfFrost" },
+    {spells.iceFloes, 'player.isMoving and not player.hasBuff(spells.iceFloes)' },
     {{spells.frostbolt,spells.flurry,spells.iceLance}, 'player.hasBuff(spells.brainFreeze)' },
     {spells.icyVeins, 'spells.ebonbolt.cooldown < 20' },    
     {spells.ebonbolt },
@@ -40,7 +45,6 @@ kps.rotations.register("MAGE","FROST",
 
     {spells.runeOfPower, 'player.hasTalent(3,2) and spells.frozenOrb.cooldown < kps.gcd' },
     {spells.mirrorImage, 'player.hasTalent(3,1)' },
-    {spells.iceFloes, 'player.isMoving and not player.hasBuff(spells.iceFloes)' },
 
     --{spells.rayOfFrost, 'player.hasTalent(1,1)' , "target" , "rayOfFrost" }, 
     --{spells.freeze, 'not player.hasTalent(7,2) and target.distance < 10' }, -- familier

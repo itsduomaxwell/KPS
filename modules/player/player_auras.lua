@@ -81,7 +81,17 @@ function kps.Player.prototype.hasFullControl(self)
     if kps.timers.check("LossOfControl") == 0 then return true end
     return false
 end
-kps.events.register("LOSS_OF_CONTROL_ADDED", function ()
+
+--[[[
+@function `player.isControlled` - Checks whether you are controlled over your character (you are feared, etc).
+]]--
+
+function kps.Player.prototype.isControlled(self)
+    if kps.timers.check("LossOfControl") > 0 then return true end
+    return false
+end
+
+kps.events.register("LOSS_OF_CONTROL_UPDATE", function ()
     local i = C_LossOfControl.GetNumEvents()
     local locType, spellID, _, _, _, _, duration,lockoutSchool,_,_ = C_LossOfControl.GetEventInfo(i)
     if spellID and duration then
@@ -91,6 +101,18 @@ kps.events.register("LOSS_OF_CONTROL_ADDED", function ()
     end
 end)
 
+kps.events.register("LOSS_OF_CONTROL_ADDED", function ()
+    local i = C_LossOfControl.GetNumEvents()
+    while i > 0 do
+        local locType, spellID, _, _, _, _, duration,lockoutSchool,_,_ = C_LossOfControl.GetEventInfo(i)
+        if spellID and duration then
+            if duration > 0 then 
+                if kps.timers.check("LossOfControl") == 0 then kps.timers.create("LossOfControl",duration) end
+            end
+        end
+        i = i - 1
+    end
+end)
 
 --[[[
 @function `player.timeInCombat` - returns number of seconds in combat

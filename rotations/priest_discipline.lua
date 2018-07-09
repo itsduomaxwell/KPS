@@ -34,6 +34,7 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     -- "Fade" 586 "Disparition"
     {spells.fade, 'player.isTarget' },
     {spells.shiningForce, 'player.isTarget and target.distance < 10' , "player" },
+    {spells.psychicScream, 'player.isTarget and spells.shiningForce.cooldown > 0 and target.distance < 10' , "player" },
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.90' ,"/use item:5512" },
     -- "Prière du désespoir" 19236 "Desperate Prayer"

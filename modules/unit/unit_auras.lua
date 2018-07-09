@@ -324,7 +324,8 @@ local isDebuffDispellable = setmetatable({}, {
             if not UnitCanAssist("player", unit) then return false end
             local auraName, debuffType, expTime, spellId
             local i = 1
-            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i) 
+            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i)
+            if dispelType == nil then dispelType = "Magic" end
             while auraName do
                 if debuffType ~= nil and debuffType == dispelType then
                     return true

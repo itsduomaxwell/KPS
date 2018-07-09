@@ -11,6 +11,9 @@ local Meteor = spells.meteor.name
 kps.rotations.register("MAGE","FIRE",
 {
 
+    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+
     {{"macro"}, 'keys.shift', "/cast [@cursor] "..Meteor },
     {{"macro"}, 'target.distance <=5', "/cast [@cursor] "..Meteor },
     --{spells.shimmer, 'target.distance > 20 and target.distance < 40'},
@@ -19,7 +22,7 @@ kps.rotations.register("MAGE","FIRE",
         {spells.counterspell, 'target.isInterruptable' , "target" },
         {spells.counterspell, 'focus.isInterruptable' , "focus" },
     }},
-   
+
     {{"nested"}, 'kps.defensive', {
        {spells.invisibility, 'target.isRaidBoss and player.isTarget'},
        {spells.blazingBarrier, 'player.isTarget'},
