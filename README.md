@@ -180,7 +180,8 @@ Members:
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
  * `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
- * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
+ * `heal.hasDebuffDispellable` - Returns the raid unit with dispellable debuff e.g. {spells.purify, 'heal.hasDebuffDispellable() ~= nil' , kps.heal.hasDebuffDispellable("Magic") },
+ * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel e.g. {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable },
  * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
  * `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
  * `heal.hasBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasBuffStacks(spells.prayerOfMending) < 10
@@ -215,6 +216,7 @@ Members:
  * `player.isInRaid` - returns true if the player is currently in Raid.
  * `player.isInGroup` - returns true if the player is currently in Group.
  * `player.hasFullControl` - Checks whether you have full control over your character (you are not feared, etc).
+ * `player.isControlled` - Checks whether you are controlled over your character (you are feared, etc).
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
  * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
@@ -635,7 +637,7 @@ kps.rotations.register(
  * `core/parser.lua:113` - syntax error in
  * `core/parser.lua:120` - Error Handling!
  * `gui/toggle.lua:75` - Right-Click Action
- * `modules/unit/unit_auras.lua:53` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
+ * `modules/unit/unit_auras.lua:52` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:77` - Blacklisted spells?
  * `modules/unit/unit_state.lua:12` - PvP
  * `rotations/mage.lua:52` - Implement pyroChain sequence
