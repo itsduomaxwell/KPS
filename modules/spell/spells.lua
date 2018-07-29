@@ -120,6 +120,11 @@ kps.spells.flask.greaterDraenicStrengthFlask = kps.Spell.fromId(156572) -- Great
 kps.spells.flask.greaterDraenicStaminaFlask = kps.Spell.fromId(156576) -- Greater Draenic Stamina Flask
 
 
+-- Immune Heal
+kps.spells.immuneHeal = {}
+kps.spells.immuneHeal.misery = kps.Spell.fromId(243961) -- Misery
+
+
 -- Battle Rez
 kps.spells.battlerez = {}
 kps.spells.battlerez.rebirth = kps.Spell.fromId(20484) -- Rebirth
