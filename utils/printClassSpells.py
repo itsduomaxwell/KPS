@@ -103,7 +103,7 @@ def load_html_page(class_id, cache_age):
     except:
         pass
 
-    url = "http://www.wowhead.com/class=%s" % class_id
+    url = "http://www.bfa.wowhead.com/class=%s" % class_id
     html_data = urllib.urlopen(url).read()
     LOG.info("Class %s loaded from Thottbot: %s", class_id, url)
 

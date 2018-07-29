@@ -18,6 +18,22 @@ kps.Spell.metatable = {}
 
 local GetUnitName = GetUnitName
 
+function _CastSpellByName(spell, target)
+   target = target or "target"
+   secured = false
+   while not secured do
+      RunScript([[
+         for index = 1, 100 do
+            if not issecure() then
+               return
+            end
+         end
+         secured = true
+         CastSpellByName("]] .. spell .. [[", "]] .. target .. [[")
+      ]])
+   end
+end
+
 local castAt = setmetatable({}, {
     __index = function(t, self)
         local val = function (target,message)
@@ -35,7 +51,7 @@ local castAt = setmetatable({}, {
 --              CameraOrSelectOrMoveStop(1)
 --              SetCVar("deselectOnClick", "1")
             else
-                CastSpellByName(self.name,target)
+                _CastSpellByName(self.name,target)
             end
 
             if kps.debug then print(self.name,"|cff1eff00","|",GetUnitName(target),"|cffffffff|",target,"|cffff8000",message) end

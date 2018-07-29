@@ -18,7 +18,13 @@ local UnitCanAssist = UnitCanAssist
 local hasBuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            return spell~=nil and select(1,UnitBuff(unit,spell.name)) ~= nil
+            --if select(1,UnitBuff(unit,spell.name)) then return true end
+            --return false
+            for i=1,40 do
+                local name,_ = UnitBuff(unit,i)
+                if name ~= nil and name == spell.name then return true end
+            end
+            return false
         end
         t[unit] = val
         return val
@@ -33,7 +39,12 @@ end
 local hasDebuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            if select(1,UnitDebuff(unit,spell.name)) then return true end
+--            if select(1,UnitDebuff(unit,spell.name)) then return true end
+--            return false
+            for i=1,40 do
+                local name,_ = UnitDebuff(unit,i)
+                if name ~= nil and name == spell.name then return true end
+            end
             return false
         end
         t[unit] = val
