@@ -33,8 +33,8 @@ local function updateRaidStatus()
         raidType = "group"
     end
     for i=1,newRaidStatusSize do
-    	if damageTargets[i].exists then 
-        	_raidTarget[_raidTargetIdx][damageTargets[i].guid] = damageTargets[i]
+        if damageTargets[i].exists then 
+            _raidTarget[_raidTargetIdx][damageTargets[i].guid] = damageTargets[i]
         end
     end
     raidTarget = _raidTarget[_raidTargetIdx]
@@ -123,6 +123,6 @@ kps.damage = kps.RaidTarget.new(false)
 
 function kpsTarget()
     for name, player in pairs(raidTarget) do
-    	print("|cffffffffName: ",name,"|Unit: ",player.unit,"|Name: ",player.name)
+        print("|cffffffffName: ",name,"|Unit: ",player.unit,"|Name: ",player.name)
     end
 end
