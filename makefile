@@ -33,11 +33,11 @@ integration_test:
 # Rotations Directory (Spells & SimC Profiles)
 rotations: class_spells # Rotations disabled for now: class_rotations
 
-# Global Spells
+# Global Spells -- make global_spells
 global_spells:
 	./utils/printGlobalSpells.py > modules/spell/spells.lua
-
-# Rotation Spells for each class
+ 
+# Rotation Spells for each class -- make class_spells
 class_spells: deathknight_spells demonhunter_spells druid_spells hunter_spells mage_spells monk_spells paladin_spells priest_spells rogue_spells shaman_spells warlock_spells warrior_spells
 %_spells: rotations/%_spells.lua
 	./utils/printClassSpells.py -c $(subst _spells,,$@) -o $<

@@ -60,8 +60,12 @@ end
 local hasMyDebuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            -- TODO: Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
-            if select(1,UnitDebuff(unit,spell.name)) and select(8,UnitDebuff(unit,spell.name))=="player" then return true end
+--            if select(1,UnitDebuff(unit,spell.name)) and select(8,UnitDebuff(unit,spell.name))=="player" then return true end
+--            return false
+             for i=1,40 do
+                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
+                if name ~= nil and caster == "player" and name == spell.name then return true end
+            end
             return false
         end
         t[unit] = val

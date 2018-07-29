@@ -192,6 +192,8 @@ Members:
  * `heal.hasBuffAtonementCount` - e.g. heal.hasBuffAtonementCount(0.85) > 3
  * `heal.hasNotBuffAtonementCount` - e.g. heal.hasNotBuffAtonementCount(0.85) > 3
  * `heal.hasDamage` - Returns the raid unit with incomingDamage > incomingHeal
+ * `heal.atonementHealthRaid` - Returns the loss Health for all raid members with buff atonement
+ * `heal.enemyTarget` - Returns the lowest Health enemy for all raid members
 
 
 #### Keys
@@ -637,7 +639,6 @@ kps.rotations.register(
  * `core/parser.lua:113` - syntax error in
  * `core/parser.lua:120` - Error Handling!
  * `gui/toggle.lua:75` - Right-Click Action
- * `modules/unit/unit_auras.lua:52` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:77` - Blacklisted spells?
  * `modules/unit/unit_state.lua:12` - PvP
  * `rotations/mage.lua:52` - Implement pyroChain sequence

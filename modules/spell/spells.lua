@@ -30,7 +30,7 @@ kps.spells.ae.holyWordSanctify = kps.Spell.fromId(34861) -- Holy Word: Sanctify
 kps.spells.ae.deathAndDecay = kps.Spell.fromId(43265) -- Death and Decay
 kps.spells.ae.powerWordBarrier = kps.Spell.fromId(62618) -- Power Word: Barrier
 kps.spells.ae.flamestrike = kps.Spell.fromId(2120) -- Flamestrike
-kps.spells.ae.lightsHammer = kps.Spell.fromId(114158) -- Light&#039;s Hammer
+kps.spells.ae.lightsHammer = kps.Spell.fromId(114158) -- Light's Hammer
 kps.spells.ae.summonJadeSerpentStatue = kps.Spell.fromId(115313) -- Summon Jade Serpent Statue
 kps.spells.ae.heroicLeap = kps.Spell.fromId(6544) -- Heroic Leap
 kps.spells.ae.freeze = kps.Spell.fromId(33395) -- Freeze
@@ -127,15 +127,11 @@ kps.spells.battlerez.raiseAlly = kps.Spell.fromId(61999) -- Raise Ally
 kps.spells.battlerez.soulstone = kps.Spell.fromId(20707) -- Soulstone
 kps.spells.battlerez.eternalGuardian = kps.Spell.fromId(126393) -- Eternal Guardian
 
--- Healing Absorption Debuff
+
+-- Absorption Heal
 kps.spells.absorptionHeal = {}
-kps.spells.absorptionHeal.necroticEmbrace = kps.Spell.fromId(244093)-- Necrotic Embrace Varimathras corrupts a random player, inflicting 1500000 Shadow damage after 6 sec. When Necrotic Embrace expires, it spreads to all players within 10 yards.
-kps.spells.absorptionHeal.spearOfAnguish = kps.Spell.fromId(235933) -- Spear of Anguish -- Lance d'angoisse -- TOS Hote desolé Moteur des ames
-kps.spells.absorptionHeal.embraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse -- Etreinte de l'éclipse -- TOS Soeurs de la lune
-kps.spells.absorptionHeal.soulblight = kps.Spell.fromId(248396) -- Fléau de l’âme -- Soulblight -- Argus -- Inflicts 1004625 Shadow damage every 2 sec. for 8 sec and creates a pool of Death Fog at the affected player's location when it expires.
-kps.spells.absorptionHeal.chilledBlood = kps.Spell.fromId(245586) -- Sang gelé -- Chilled Blood -- Coven of Shivarra -- Diima applies a healing absorb to random enemy players. When the effect ends, the target is frozen for a duration based on the amount of heal absorption remaining.
-
-kps.spells.immuneHeal = {}
-kps.spells.immuneHeal.misery = kps.Spell.fromId(243961) -- Misery -- Varimathras -- prevents all healing effects for 7 sec. In addition, all Physical damage taken is increased by 200%.
-
-
+kps.spells.absorptionHeal.necroticEmbrace = kps.Spell.fromId(244093) -- Necrotic Embrace
+kps.spells.absorptionHeal.spearOfAnguish = kps.Spell.fromId(235933) -- Spear of Anguish
+kps.spells.absorptionHeal.embraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse
+kps.spells.absorptionHeal.soulblight = kps.Spell.fromId(248396) -- Soulblight
+kps.spells.absorptionHeal.chilledBlood = kps.Spell.fromId(245586) -- Chilled Blood
