@@ -105,7 +105,7 @@ kps.rotations.register("WARRIOR","FURY",
     -- Buff Taste for Blood. Furious Slash increases the critical strike chance of Bloodthirst by 15%. Stacks up to 6 times 8 seconds remaining
     {spells.furiousSlash },
     
-    --{{"macro"}, 'true' , "/startattack" },
+    {{"macro"}, 'true' , "/startattack" },
 
 }
 ,"Warrior Fury 7.3")

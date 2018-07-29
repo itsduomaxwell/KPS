@@ -62,8 +62,10 @@ end
 -- REMOVING GRYPHONS FROM ACTION BAR
 
 function removeGriffons()
-    MainMenuBarLeftEndCap:Hide()
-    MainMenuBarRightEndCap:Hide()
+--    MainMenuBarLeftEndCap:Hide()
+--    MainMenuBarRightEndCap:Hide()
+    MainMenuBarArtFrame.LeftEndCap:Hide()
+    MainMenuBarArtFrame.RightEndCap:Hide()
 end
 
 

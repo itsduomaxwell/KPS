@@ -213,7 +213,8 @@ kps.RaidStatus.prototype.lossHealthRaid = kps.utils.cachedValue(function()
     local hpTotal = 0
     for name, unit in pairs(raidStatus) do
         if unit.isHealable then
-            local hpLoss = unit.hpMax - unit.hpTotal
+            -- UnitHealthMax - UnitHealth
+            local hpLoss = unit.hpMax - unit.hpTotal 
             hpTotal = hpTotal + hpLoss
         end
     end
@@ -223,6 +224,7 @@ end)
 --[[[
 @function `heal.incomingHealRaid` - Returns the incoming Heal for all raid members
 ]]--
+
 kps.RaidStatus.prototype.incomingHealRaid = kps.utils.cachedValue(function()
     local hpIncTotal = 0
     for name,player in pairs(raidStatus) do
@@ -365,7 +367,6 @@ end)
 --[[[
 @function `heal.hasDebuffDispellable` - Returns the raid unit with dispellable debuff e.g. {spells.purify, 'heal.hasDebuffDispellable() ~= nil' , kps.heal.hasDebuffDispellable("Magic") },
 ]]--
-
 
 local dispelDebuffRaid = function (dispelType)
     local lowestUnit = nil
@@ -559,10 +560,53 @@ end)
 
 kps.RaidStatus.prototype.hasDamage = kps.utils.cachedValue(function()
     local damageUnit = damageInRaid()
-    tsort(damageUnit, function(a,b) return a.hp < b.hp end)
-    local myUnit = damageUnit[1]
-    if myUnit == nil then myUnit = kps["env"].player end
-    return myUnit
+    local myTank = kps["env"].player
+    if #damageUnit > 1 then
+        tsort(damageUnit, function(a,b) return a.hp < b.hp end)
+        myTank = damageUnit[1]
+    end
+    return myTank
+end)
+
+kps.RaidStatus.prototype.offTankInRaid = kps.utils.cachedValue(function()
+    local damageUnit = tanksInRaid()
+    local myTank = kps.RaidStatus.prototype.lowestTankInRaid()
+    if #damageUnit > 1 then 
+        tsort(damageUnit, function(a,b) return a.hp < b.hp end)
+        myTank = damageUnit[2]
+    end
+    return myTank
+end)
+
+
+--[[[
+@function `heal.atonementHealthRaid` - Returns the loss Health for all raid members with buff atonement
+]]--
+kps.RaidStatus.prototype.atonementHealthRaid = kps.utils.cachedValue(function()
+    local hpTotal = 0
+    local spell = kps.spells.priest.atonement -- kps.Spell.fromId(81749)
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hasBuff(spell) then
+            local hpLoss = unit.hpMax - unit.hpTotal
+            hpTotal = hpTotal + hpLoss
+        end
+    end
+    return hpTotal
+end)
+
+--[[[
+@function `heal.enemyTarget` - Returns the lowest Health enemy for all raid members
+]]--
+kps.RaidStatus.prototype.enemyTarget = kps.utils.cachedValue(function()
+    local lowestUnit = "target"
+    for name, player in pairs(raidStatus) do
+        if player.isHealable and player.hasAttackableTarget then
+            local friendUnit = player.unit
+            local enemyTarget = friendUnit.."target"
+            lowestUnit = enemyTarget
+        end
+    end
+    return lowestUnit
 end)
 
 
@@ -598,18 +642,16 @@ print("|cffff8000TANK:|cffffffff", kps["env"].heal.lowestTankInRaid.name)
 --print("|cff1eff00HEAL:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingHeal)
 --print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
 
-
---print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
+--print("|cffff8000averageHeal:|cffffffff", kps["env"].heal.averageHealthRaid)
 --print("|cffff8000incomingHeal:|cffffffff", kps["env"].heal.incomingHealRaid)
 --print("|cffff8000lossHealth:|cffffffff", kps["env"].heal.lossHealthRaid)
+--print("|cffff8000atonementHealth:|cffffffff", kps["env"].heal.atonementHealthRaid)
 
 --print("|cffff8000CountLossDistance_85:|cffffffff", kps["env"].heal.countLossInDistance(0.85,10))
 print("|cffff8000CountLoss_85:|cffffffff", kps["env"].heal.countLossInRange(0.85),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
 
 --print(kps["env"].heal.hasBuffStacks(kps.spells.priest.prayerOfMending))
 --print(kps["env"].player.isControlled)
-
-
 
 --local spell = kps.Spell.fromId(6572)
 --local spellname = spell.name -- tostring(kps.spells.warrior.revenge)

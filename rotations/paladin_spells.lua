@@ -234,5 +234,5 @@ kps.spells.paladin.wordOfGlory = kps.Spell.fromId(210191)
 kps.spells.paladin.wrathOfTheAshbringer = kps.Spell.fromId(186945)
 kps.spells.paladin.zeal = kps.Spell.fromId(217020)
 
-kps.spells.paladin.avengingWrath = kps.Spell.fromId(31884)
+kps.spells.paladin.everyManForHimself = kps.Spell.fromId(59752)
 

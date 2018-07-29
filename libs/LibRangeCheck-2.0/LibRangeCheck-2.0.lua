@@ -905,17 +905,17 @@ function lib:PLAYER_TALENT_UPDATE()
     self:scheduleInit()
 end
 
-function lib:GLYPH_ADDED()
-    self:scheduleInit()
-end
+--function lib:GLYPH_ADDED()
+--    self:scheduleInit()
+--end
 
-function lib:GLYPH_REMOVED()
-    self:scheduleInit()
-end
+--function lib:GLYPH_REMOVED()
+--    self:scheduleInit()
+--end
 
-function lib:GLYPH_UPDATED()
-    self:scheduleInit()
-end
+--function lib:GLYPH_UPDATED()
+--    self:scheduleInit()
+--end
 
 function lib:SPELLS_CHANGED()
     self:scheduleInit()
@@ -1014,9 +1014,9 @@ function lib:activate()
         frame:RegisterEvent("LEARNED_SPELL_IN_TAB")
         frame:RegisterEvent("CHARACTER_POINTS_CHANGED")
         frame:RegisterEvent("PLAYER_TALENT_UPDATE")
-        frame:RegisterEvent("GLYPH_ADDED")
-        frame:RegisterEvent("GLYPH_REMOVED")
-        frame:RegisterEvent("GLYPH_UPDATED")
+        --frame:RegisterEvent("GLYPH_ADDED")
+        --frame:RegisterEvent("GLYPH_REMOVED")
+        --frame:RegisterEvent("GLYPH_UPDATED")
         frame:RegisterEvent("SPELLS_CHANGED")
         local _, playerClass = UnitClass("player")
         if playerClass == "MAGE" or playerClass == "SHAMAN" then
