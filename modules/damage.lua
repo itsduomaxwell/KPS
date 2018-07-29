@@ -1,7 +1,5 @@
 --[[[
-@module Heal/Raid Status
-Helper functions for Raiders in Groups or Raids mainly aimed for healing rotations, but might be useful
-for some DPS Rotations too.
+@module Damage/Raid Status
 ]]--
 
 local _raidTarget = {}
@@ -88,7 +86,7 @@ end
 
 
 --[[[
-@function `damage.count` - return the size of the current group
+@function `damage.count` - return the size of the current raidtarget group
 ]]--
 function kps.RaidTarget.prototype.count(self)
     return raidStatusSize

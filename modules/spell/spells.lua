@@ -16,12 +16,6 @@ kps.spells.potion.draenicStrengthPotion = kps.Spell.fromId(156428) -- Draenic St
 
 
 -- Spells which require a select (cast ond ground) - usually AE Spells
-
-kps.spells.aeg = {}
-kps.spells.aeg.holyWordSanctify = kps.Spell.fromId(34861) -- Holy Word: Sanctify
-kps.spells.aeg.powerWordBarrier = kps.Spell.fromId(62618) -- Power Word: Barrier
-
-
 kps.spells.ae = {}
 kps.spells.ae.bindingShot = kps.Spell.fromId(109248) -- Binding Shot
 kps.spells.ae.shadowfury = kps.Spell.fromId(30283) -- Shadowfury
@@ -103,7 +97,7 @@ kps.spells.ignore.flyingSerpentKick = kps.Spell.fromId(101545) -- Flying Serpent
 kps.spells.ignore.expelHarm = kps.Spell.fromId(115072) -- Expel Harm (below 35%, brewmasters ignores cooldown on this spell)
 kps.spells.ignore.breathOfFire = kps.Spell.fromId(115181) -- Breath of Fire (if you are chi capped, this can make you burn all your chi)
 kps.spells.ignore.provoke = kps.Spell.fromId(115546) -- Provoke (prevents you from wasting your taunt)
-kps.spells.ignore.tigereyeBrew = kps.Spell.fromId(116740) -- Tigereye Brew (prevents you from wasting your stacks and resetting your buff)
+kps.spells.ignore.spellsWorldOfWarcraft</Title = kps.Spell.fromId(116740) -- Tigereye Brew (prevents you from wasting your stacks and resetting your buff)
 kps.spells.ignore.burningRush = kps.Spell.fromId(111400) -- warlock burning rush
 kps.spells.ignore.evocation = kps.Spell.fromId(12051) -- Evocation
 kps.spells.ignore.blink = kps.Spell.fromId(1953) -- Blink
@@ -120,12 +114,17 @@ kps.spells.flask.greaterDraenicStrengthFlask = kps.Spell.fromId(156572) -- Great
 kps.spells.flask.greaterDraenicStaminaFlask = kps.Spell.fromId(156576) -- Greater Draenic Stamina Flask
 
 
+-- Immune Heal
+kps.spells.immuneHeal = {}
+kps.spells.immuneHeal.misery = kps.Spell.fromId(243961) -- Misery
+
+
 -- Battle Rez
 kps.spells.battlerez = {}
 kps.spells.battlerez.rebirth = kps.Spell.fromId(20484) -- Rebirth
 kps.spells.battlerez.raiseAlly = kps.Spell.fromId(61999) -- Raise Ally
 kps.spells.battlerez.soulstone = kps.Spell.fromId(20707) -- Soulstone
-kps.spells.battlerez.eternalGuardian = kps.Spell.fromId(126393) -- Eternal Guardian
+kps.spells.battlerez.spellsWorldOfWarcraft</Title = kps.Spell.fromId(126393) -- Spells - World of Warcraft</title
 
 
 -- Absorption Heal
