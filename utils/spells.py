@@ -45,7 +45,7 @@ class Spell(object):
             self.__name = None
 
     def __resolve_name(self):
-        data = urllib.urlopen("http://www.wowhead.com/spell=%s" % self.id)
+        data = urllib.urlopen("http://www.bfa.wowhead.com/spell=%s" % self.id)
         if data.getcode() != 404:
             for line in data.read().split("\n"):
                 if "<title>" in line:
