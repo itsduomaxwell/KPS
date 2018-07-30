@@ -96,6 +96,7 @@ local combatLogUpdate = function () -- CombatLogGetCurrentEventInfo()
 
     -- HEAL TABLE -- Incoming Heal on Enemy from Enemy Healers UnitGUID
     if healEvents[event] then
+    	--print("time",time,"event", event, "hidding", hidding, "sourceGUID", sourceGUID, "sourceName", sourceName, sourceFlags, sourceFlag2, "destGUID",destGUID, "destName",destName, destFlags, destFlag2, "spellID", spellID, "spellName", spellName, spellType, "amount", amount)
         if isDestEnemy and isSourceEnemy then
             local addEnemyHealer = false
             local classHealer = kps.spells.healer[spellID]
@@ -106,7 +107,7 @@ local combatLogUpdate = function () -- CombatLogGetCurrentEventInfo()
         end
     -- HEAL TABLE -- Incoming Heal on Friend from Friend Healers UnitGUID
         if isDestFriend and UnitCanAssist("player",destName) then
-            local heal = select(15,...)
+            local heal = amount
             -- Table of Incoming Heal on Friend IncomingHeal[destGUID] = ( {GetTime(),heal,destName}, ... )
             if incomingHeal[destGUID] == nil then incomingHeal[destGUID] = {} end
             tinsert(incomingHeal[destGUID],1,{time,heal,destName})

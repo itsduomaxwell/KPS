@@ -221,6 +221,8 @@ local function hideStaticPopup(addon, eventBlocked)
 end
 kps.events.register("ADDON_ACTION_FORBIDDEN", hideStaticPopup)
 kps.events.register("ADDON_ACTION_BLOCKED", hideStaticPopup)
+kps.events.register("MACRO_ACTION_FORBIDDEN", hideStaticPopup)
+
 
 kps.events.register("PLAYER_ENTER_COMBAT", function()
     kps.autoAttackEnabled = true
