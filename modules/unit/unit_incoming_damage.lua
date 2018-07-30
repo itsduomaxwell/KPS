@@ -75,15 +75,19 @@ local bitband = bit.band
 local GetUnitName = GetUnitName
 local GetTime = GetTime
 
-local combatLogUpdate = function ( ... )
+local combatLogUpdate = function () -- CombatLogGetCurrentEventInfo()
     local currentTime = GetTime()
-    local event = select(2,...)
-    local sourceGUID = select(4,...)
-    local sourceFlags = select(6,...)
-    local destGUID = select(8,...)
-    local destFlags = select(10,...)
-    local sourceName = select(5,...)
-    local destName = select(9,...)
+    --local event = select(2,...)
+    --local sourceGUID = select(4,...)
+    --local sourceFlags = select(6,...)
+    --local destGUID = select(8,...)
+    --local destFlags = select(10,...)
+    --local sourceName = select(5,...)
+    --local destName = select(9,...)
+    --local spellID = select(12, ...)
+    
+    local time, event, hidding, sourceGUID, sourceName, sourceFlags, sourceFlag2, destGUID, destName, destFlags, destFlag2, spellID, spellName, spellType, amount, overKill, school, resisted, blocked, absorbed, isCritical = CombatLogGetCurrentEventInfo()
+	
 
     local isSourceEnemy = bitband(sourceFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE
     local isDestEnemy = bitband(destFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE
@@ -93,7 +97,6 @@ local combatLogUpdate = function ( ... )
     -- HEAL TABLE -- Incoming Heal on Enemy from Enemy Healers UnitGUID
     if healEvents[event] then
         if isDestEnemy and isSourceEnemy then
-            local spellID = select(12, ...)
             local addEnemyHealer = false
             local classHealer = kps.spells.healer[spellID]
             if classHealer and UnitCanAttack("player",destName) then
@@ -106,7 +109,7 @@ local combatLogUpdate = function ( ... )
             local heal = select(15,...)
             -- Table of Incoming Heal on Friend IncomingHeal[destGUID] = ( {GetTime(),heal,destName}, ... )
             if incomingHeal[destGUID] == nil then incomingHeal[destGUID] = {} end
-            tinsert(incomingHeal[destGUID],1,{GetTime(),heal,destName})
+            tinsert(incomingHeal[destGUID],1,{time,heal,destName})
         end
     end
 
@@ -118,24 +121,20 @@ local combatLogUpdate = function ( ... )
             local spelldmg = 0
             local envdmg = 0
             if event == "SWING_DAMAGE" then
-                local dmg = select(12, ...)
+                --the damage is passed in the spellID argument position -- select(12, ...)
+                local dmg = spellID
                 if dmg == nil then dmg = 0 end
                 swingdmg = dmg
             else
-                local dmg = select(15, ...)
+                local dmg = amount -- select(15, ...)
                 if dmg == nil then dmg = 0 end
                 spelldmg = dmg
             end
-            if event == "ENVIRONMENTAL_DAMAGE" then
-                local env = select(13, ...)
-                if env == nil then env = 0 end
-                envdmg = env
-            end
-            damage = swingdmg + spelldmg + envdmg
+            damage = swingdmg + spelldmg
 
             -- Table of Incoming Damage on Friend IncomingDamage[destGUID] = { {GetTime(),damage,destName}, ... }
             if incomingDamage[destGUID] == nil then incomingDamage[destGUID] = {} end
-            table.insert(incomingDamage[destGUID],1,{GetTime(),damage,destName})
+            table.insert(incomingDamage[destGUID],1,{time,damage,destName})
         end
     end
 end

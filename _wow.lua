@@ -79,7 +79,7 @@ function debugstack(a,b,c)
 end
 function UnitBuff( ... )
     -- local auraName, _, _, count, _, duration, expirationTime, castBy, _, _, buffId = UnitBuff(unit, i)
-    return  nil, nil, nil, 3, nil, 50, 1001, "me", nil, nil, 5
+    return  "UnitBuffAuraName", nil, nil, 3, nil, 50, 1001, "me", nil, nil, 5
 end
 function UnitDebuff( ... )
     -- local auraName, _, _, count, _, duration, expirationTime, castBy, _, _, buffId = UnitDebuff(unit, i)

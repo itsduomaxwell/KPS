@@ -18,13 +18,13 @@ local UnitCanAssist = UnitCanAssist
 local hasBuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            --if select(1,UnitBuff(unit,spell.name)) then return true end
-            --return false
-            for i=1,40 do
-                local name,_ = UnitBuff(unit,i)
-                if name ~= nil and name == spell.name then return true end
-            end
-            return false
+--            if select(1,AuraUtil.FindAuraByName(spell.name, unit, "HELPFUL")) then return true end
+--            return false
+           for i=1,40 do
+               local name,_ = UnitBuff(unit,i)
+               if name ~= nil and name == spell.name then return true end
+           end
+           return false
         end
         t[unit] = val
         return val
@@ -39,13 +39,13 @@ end
 local hasDebuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
---            if select(1,UnitDebuff(unit,spell.name)) then return true end
+--            if select(1,AuraUtil.FindAuraByName(spell.name, unit, "HARMFUL")) then return true end
 --            return false
-            for i=1,40 do
-                local name,_ = UnitDebuff(unit,i)
-                if name ~= nil and name == spell.name then return true end
-            end
-            return false
+           for i=1,40 do
+               local name,_ = UnitDebuff(unit,i)
+               if name ~= nil and name == spell.name then return true end
+           end
+           return false
         end
         t[unit] = val
         return val
@@ -60,12 +60,10 @@ end
 local hasMyDebuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
---            if select(1,UnitDebuff(unit,spell.name)) and select(8,UnitDebuff(unit,spell.name))=="player" then return true end
---            return false
-             for i=1,40 do
-                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
-                if name ~= nil and caster == "player" and name == spell.name then return true end
-            end
+            for i=1,40 do
+               local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
+               if name ~= nil and caster == "player" and name == spell.name then return true end
+           end
             return false
         end
         t[unit] = val
@@ -83,7 +81,7 @@ local myBuffDuration = setmetatable({}, {
         local val = function (spell)
             for i=1,40 do
                 local name,_,_,_,_,duration,endTime,caster,_,_ = UnitBuff(unit,i)
-                if caster=="player" and name == spell.name then
+                if caster == "player" and name == spell.name then
                     if endTime==nil then return 0 end
                     local timeLeft = endTime-GetTime() -- lag?
                     if timeLeft < 0 then return 0 end
@@ -107,7 +105,7 @@ local myDebuffDuration = setmetatable({}, {
         local val = function (spell)
             for i=1,40 do
                 local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
-                if caster=="player" and name == spell.name then
+                if caster == "player" and name == spell.name then
                     if endTime==nil then return 0 end
                     local timeLeft = endTime-GetTime() -- lag?
                     if timeLeft < 0 then return 0 end
@@ -131,7 +129,7 @@ local myDebuffDurationMax = setmetatable({}, {
         local val = function (spell)
             for i=1,40 do
                 local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
-                if caster=="player" and name == spell.name then
+                if caster == "player" and name == spell.name then
                     if endTime==nil then return 0 end
                     return duration
                 end
@@ -229,7 +227,7 @@ local debuffCount = setmetatable({}, {
             local count = 0
             for i=1,40 do
                 local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
-                if caster=="player" and name == spell.name then
+                if caster == "player" and name == spell.name then
                     count = count + 1
                 end
             end

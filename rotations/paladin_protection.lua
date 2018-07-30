@@ -14,20 +14,20 @@ end)
 kps.rotations.register("PALADIN","PROTECTION",
 {
 
-    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    env.FocusMouseover,
-    {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
-    {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
+    --{{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
+    --{{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
+    --env.FocusMouseover,
+    --{{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
+    --{{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
     
     {spells.everyManForHimself , 'player.isControlled' },
     {spells.cleanseToxins, 'player.isDispellable("Disease")' , "player" },
     {spells.cleanseToxins, 'player.isDispellable("Poison")' , "player" },
     
     -- "Pierre de soins" 5512
-    {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
+    --{{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
     
-        -- Interrupts
+    -- Interrupts
     {{"nested"}, 'kps.interrupt',{
         {spells.rebuke, 'target.isInterruptable' , "target" },
         {spells.rebuke, 'focus.isInterruptable' , "focus" },
@@ -50,7 +50,6 @@ kps.rotations.register("PALADIN","PROTECTION",
     {spells.blessingOfProtection, 'mouseover.hp < 0.40 and mouseover.isFriend' , "mouseover"},
 
     -- "Avenging Wrath" -- "Courroux vengeur" -- Increases all damage done by 35% and all healing done by 35% for 20 sec.
-    {spells.avengingWrath, 'player.incomingDamage > player.incomingHeal and spells.handOfTheProtector.cooldown < kps.gcd' },
     {spells.avengingWrath, 'player.incomingDamage > player.incomingHeal and spells.lightOfTheProtector.cooldown < kps.gcd' },
 
     {spells.judgment, 'not target.hasMyDebuff(spells.judgment)' },
@@ -59,21 +58,22 @@ kps.rotations.register("PALADIN","PROTECTION",
     -- "Avengers Shield" -- "Bouclier du gives buff "Bulwark Of Order" "Rempart de l’ordre" absorbing 20% of Avenger's Shield damage.
     {spells.avengersShield },
     -- "Bouclier du vertueux" -- "Shield of the Righteous" -- degats reduits de 40%
-    {spells.shieldOfTheRighteous, 'player.hasBuff(spells.blessedStalwart) and player.incomingDamage > player.incomingHeal' },
+    {spells.shieldOfTheRighteous, 'player.hasBuff(spells.blessedStalwart)' },
+    --{spells.shieldOfTheRighteous, 'player.hasBuff(spells.blessedStalwart) and player.incomingDamage > player.incomingHeal' },
     -- "Jugement" vous confère "Pilier béni" "Blessed Stalwart", Caractéristique d'arme prodigieuse qui augmente de 8% les dégâts et la réduction de dégâts de votre prochain Bouclier du vertueux.
     {spells.judgment, 'not player.hasBuff(spells.blessedStalwart)' },
     {spells.blessedHammer, 'target.myDebuffDuration(spells.blessedHammer) < 2' }, -- cd 4 sec
     --{spells.seraphim},
 
 
-   {{"nested"}, 'not player.hasBuff(spells.shieldOfTheRighteous) and player.incomingDamage > player.incomingHeal', {
+   {{"nested"}, 'not player.hasBuff(spells.shieldOfTheRighteous)', {
        {spells.eyeOfTyr },
        -- "Guardian of Ancient Kings" -- 5 min cd Damage taken reduced by 50% 8 seconds remaining
        {spells.guardianOfAncientKings, 'player.hp < 0.55 and spells.ardentDefender.cooldown > 0' },
        -- "Ardent Defender" -- 1,33 min cd Damage taken reduced by 20%. The next attack that would otherwise kill you will instead bring you to 12% of your maximum health.
        {spells.ardentDefender, 'player.hp < 0.80' },
    }},
-    {{"macro"}, 'true' , "/startattack" },
+    --{{"macro"}, 'true' , "/startattack" },
  
 
  }

@@ -19,12 +19,12 @@ kps.rotations.register("MAGE","FROST",
 
     --{{"pause"}, 'kps.pauseRotation', 4},
     
-    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
-    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    --{{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    --{{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
 
     {spells.iceBlock, 'player.hp < 0.20' },
     {spells.iceBarrier, 'not player.hasBuff(spells.iceBarrier)' },
-    {{"macro"}, 'keys.shift', "/cast [@cursor] "..Blizzard },
+    --{{"macro"}, 'keys.shift', "/cast [@cursor] "..Blizzard },
 
     --Opening
     --{{spells.ebonbolt,spells.runeOfPower,spells.icyVeins,spells.flurry,spells.iceLance,spells.frozenOrb}, 'player.timeInCombat < 4' , "target" },

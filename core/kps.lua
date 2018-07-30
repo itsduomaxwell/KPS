@@ -10,23 +10,21 @@ local priorityAction = nil
 local priorityMacro = nil
 
 function _RunMacroText(macroText)
-   secured = false
-   while not secured do
-      RunScript([[
-         for index = 1, 100 do
-            if not issecure() then
-               return
-            end
-         end
-         secured = true
-         RunMacroText(macroText)
-      ]])
+    macroText = macroText or ""
+    secured = false
+    while not secured do
+        RunScript([[
+        for index = 1, 100 do
+            if not issecure() then return end
+        end
+        secured = true
+        RunMacroText(macroText)
+    ]])
    end
 end
 
-kps.runMacro = function(macroText)
-    -- Call Macro Text
-    _RunMacroText(macroText)
+function kps.runMacro(macroText)
+    return _RunMacroText(macroText)
 end
 
 function kps.write(...)

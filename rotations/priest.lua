@@ -145,11 +145,11 @@ end
 function kps.env.priest.FocusMouseover()
     if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
         if not UnitHasBuff(VampiricTouch,"mouseover") then
-            kps.runMacro("/focus mouseover")
+            _RunMacroText("/focus mouseover")
         elseif not UnitHasBuff(ShadowWordPain,"mouseover") then
-            kps.runMacro("/focus mouseover")
+            _RunMacroText("/focus mouseover")
         else
-            kps.runMacro("/focus mouseover")
+            _RunMacroText("/focus mouseover")
         end
     end
     return nil, nil
@@ -176,7 +176,7 @@ end
 
 local ShouldInterruptCasting = function (interruptTable, countLossInRange)
     if kps.lastTargetGUID == nil then return false end
-    local spellCasting, _, _, _, _, endTime, _ = UnitCastingInfo("player")
+    local spellCasting, _, _, _, endTime, _ = UnitCastingInfo("player")
     if spellCasting == nil then return false end
     if endTime == nil then return false end
     local targetHealth = UnitHealth(kps.lastTarget) / UnitHealthMax(kps.lastTarget)
