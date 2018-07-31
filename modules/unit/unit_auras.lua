@@ -44,33 +44,33 @@ end
 @function `<UNIT>.hasBuff(<SPELL>)` - return true if the unit has the given buff (`target.hasBuff(spells.renew)`)
 ]]--
 
-local hasBuff = setmetatable({}, {
-__index = function(t, unit)
-    local val = function (spell)
-        local auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = kpsUnitBuff(unit,spell.name)
-    	if auraName ~= nil and auraName == spell.name then return true end
-		return false
-    end
-    t[unit] = val
-    return val
-end})
-
 --local hasBuff = setmetatable({}, {
 --__index = function(t, unit)
 --    local val = function (spell)
---        local auraName,count,debuffType,duration,endTime,caster,spellid,isBossDebuff
---        local i = 1
---        auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = UnitBuff(unit,i)
---        while auraName do
---            if auraName == spell.name then return true end
---            i = i + 1
---            auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = UnitBuff(unit,i)
---        end
---       return false
+--        local auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = kpsUnitBuff(unit,spell.name)
+--    	if auraName ~= nil and auraName == spell.name then return true end
+--		return false
 --    end
 --    t[unit] = val
 --    return val
 --end})
+
+local hasBuff = setmetatable({}, {
+__index = function(t, unit)
+   local val = function (spell)
+       local auraName,count,debuffType,duration,endTime,caster,spellid,isBossDebuff
+       local i = 1
+       auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = UnitBuff(unit,i)
+       while auraName do
+           if auraName == spell.name then return true end
+           i = i + 1
+           auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = UnitBuff(unit,i)
+       end
+      return false
+   end
+   t[unit] = val
+   return val
+end})
 function Unit.hasBuff(self)
     return hasBuff[self.unit]
 end
