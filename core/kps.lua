@@ -24,7 +24,26 @@ function _RunMacroText(macroText)
 end
 
 function kps.runMacro(macroText)
-    return _RunMacroText(macroText)
+    _RunMacroText(macroText)
+end
+
+function _SpellStopCasting()
+   secured = false
+   while not secured do
+      RunScript([[
+         for index = 1, 100 do
+            if not issecure() then
+               return
+            end
+         end
+         secured = true
+         SpellStopCasting()
+      ]])
+   end
+end
+
+kps.stopCasting = function()
+    _SpellStopCasting()
 end
 
 function kps.write(...)
@@ -33,29 +52,9 @@ end
 
 kps.useItem = function(bagItem)
     return function ()
-
+    
     end
     -- TODO: Return a FUNCTION which uses Item!
-    --[[
-
-            if res == nil and IsEquippedItem(id) then
-                slot = select(9, GetItemInfo(id))
-                if string.find(slot, "TRINKET") ~= nil then
-                    s1 = select(1,GetInventorySlotInfo("Trinket0Slot"))
-                    s2 = select(1,GetInventorySlotInfo("Trinket1Slot"))
-                    t1 = GetInventoryItemID("player", s1)
-                    t2 = GetInventoryItemID("player", s2)
-
-                    if t1 == id then
-                        priorityMacro = "/use "..s1
-                    end
-                    if t2 == id then
-                        priorityMacro = "/use "..s2
-                    end
-
-                end
-
-    ]]
 end
 
 local function handlePriorityActions(spell)
@@ -171,7 +170,3 @@ hooksecurefunc("UseAction", function(...)
         end
     end
 end)
-
-kps.stopCasting = function()
-    SpellStopCasting()
-end

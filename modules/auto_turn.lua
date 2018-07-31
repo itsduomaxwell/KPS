@@ -34,6 +34,21 @@ function _CameraOrSelectOrMoveStop()
    end
 end
 
+function _CameraOrSelectOrMoveStart()
+   secured = false
+   while not secured do
+      RunScript([[
+         for index = 1, 100 do
+            if not issecure() then
+               return
+            end
+         end
+         secured = true
+         CameraOrSelectOrMoveStart()
+      ]])
+   end
+end
+
 function _TurnLeftStart()
    secured = false
    while not secured do

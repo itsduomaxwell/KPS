@@ -19,8 +19,8 @@ kps.rotations.register("MAGE","FROST",
 
     --{{"pause"}, 'kps.pauseRotation', 4},
     
-    --{{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
-    --{{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
 
     {spells.iceBlock, 'player.hp < 0.20' },
     {spells.iceBarrier, 'not player.hasBuff(spells.iceBarrier)' },

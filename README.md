@@ -542,7 +542,7 @@ local function deactivateBurningRush()
     else
         local nonMovingDuration = GetTime() - burningRushLastMovement
         if nonMovingDuration >= 1 then
-            RunMacroText("/cancelaura " .. kps.spells.warlock.burningRush)
+            kps.runMacro("/cancelaura " .. kps.spells.warlock.burningRush)
         end
     end
 end

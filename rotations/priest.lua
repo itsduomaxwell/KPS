@@ -145,11 +145,11 @@ end
 function kps.env.priest.FocusMouseover()
     if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
         if not UnitHasBuff(VampiricTouch,"mouseover") then
-            _RunMacroText("/focus mouseover")
+            kps.runMacro("/focus mouseover")
         elseif not UnitHasBuff(ShadowWordPain,"mouseover") then
-            _RunMacroText("/focus mouseover")
+            kps.runMacro("/focus mouseover")
         else
-            _RunMacroText("/focus mouseover")
+            kps.runMacro("/focus mouseover")
         end
     end
     return nil, nil
