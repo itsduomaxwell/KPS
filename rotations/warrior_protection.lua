@@ -69,7 +69,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {spells.neltharionsFury, 'not player.isMoving and not player.hasBuff(spells.shieldBlock) and target.isAttackable and target.distance < 10' },
 
     -- "Vengeance: Ignore Pain" -- Rage cost of Ignore Pain reduced by 35%. 15 seconds remaining -- 13 à 39 rage -- cap 0,58 healthMax
-    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 14 and player.buffValue(spells.ignorePain) < player.hpMax * 0.40' , "target", "ignorePain_buffvalue" },
+    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 14 and player.buffValue(spells.ignorePain) < player.hpMax * 0.50' , "target", "ignorePain_buffvalue" },
     {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 2' , "target", "ignorePain_duration" },
     {spells.ignorePain, 'player.myBuffDuration(spells.ignorePain) < 2 and player.incomingDamage > player.incomingHeal' , "target", "ignorePain" },
     -- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining -- 19 rage

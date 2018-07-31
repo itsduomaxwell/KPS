@@ -24,7 +24,7 @@ kps.rotations.register("MAGE","FROST",
 
     {spells.iceBlock, 'player.hp < 0.20' },
     {spells.iceBarrier, 'not player.hasBuff(spells.iceBarrier)' },
-    --{{"macro"}, 'keys.shift', "/cast [@cursor] "..Blizzard },
+    {{"macro"}, 'keys.shift', "/cast [@cursor] "..Blizzard },
 
     --Opening
     --{{spells.ebonbolt,spells.runeOfPower,spells.icyVeins,spells.flurry,spells.iceLance,spells.frozenOrb}, 'player.timeInCombat < 4' , "target" },

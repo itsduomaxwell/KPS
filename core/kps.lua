@@ -18,7 +18,7 @@ function _RunMacroText(macroText)
             if not issecure() then return end
         end
         secured = true
-        RunMacroText(macroText)
+        RunMacroText("]] .. macroText .. [[")
     ]])
    end
 end
