@@ -650,7 +650,7 @@ print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamag
 --print("|cffff8000CountLossDistance_85:|cffffffff", kps["env"].heal.countLossInDistance(0.85,10))
 print("|cffff8000CountLoss_85:|cffffffff", kps["env"].heal.countLossInRange(0.85),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
 
---print(kps["env"].heal.hasBuffStacks(kps.spells.priest.prayerOfMending))
+--print(kps["env"].player.hasBuff(kps.spells.paladin.consecration))
 --print(kps["env"].player.isControlled)
 
 --local spell = kps.Spell.fromId(6572)

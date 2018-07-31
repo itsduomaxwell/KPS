@@ -8,19 +8,11 @@ local Unit = kps.Unit.prototype
 --[[[
 @function `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
 ]]--
---function Unit.castTimeLeft(self)
---    local name,_,_,_,endTime,_,_,_ = UnitCastingInfo(self.unit)
---    if endTime == nil then return 0 end
---    return ((endTime - (GetTime() * 1000 ) )/1000)
---end
-
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId = UnitCastingInfo("unit")
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible = UnitChannelInfo("unit")
 function Unit.castTimeLeft(self)
-    local name,_,_,_,endTime,_,_,_= UnitCastingInfo(self.unit)
-    if endTime == nil then 
-        local name,_,_,_,endTime,_,_ = UnitChannelInfo(self.unit)
-        if endTime == nil then return 0 end
-        return ((endTime - (GetTime() * 1000 ) )/1000)
-    end
+    local name,_,_,_,endTime,_,_,_,_= UnitCastingInfo(self.unit)
+    if endTime == nil then return 0 end
     return ((endTime - (GetTime() * 1000 ) )/1000)
 end
 
@@ -28,7 +20,7 @@ end
 @function `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
 ]]--
 function Unit.channelTimeLeft(self)
-    local name,_,_,_,endTime,_,_,_ = UnitChannelInfo(self.unit)
+    local name,_,_,_,endTime,_,_ = UnitChannelInfo(self.unit)
     if endTime == nil then return 0 end
     return ((endTime - (GetTime() * 1000 ) )/1000)
 end
@@ -43,10 +35,12 @@ end
 --[[[
 @function `<UNIT>.isCastingSpell(<SPELL>)` - returns true if the unit is casting (or channeling) the given <SPELL> (`target.isCastingSpell(spells.immolate)`)
 ]]--
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId = UnitCastingInfo("unit")
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible = UnitChannelInfo("unit")
 local isCastingSpell = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local name,_,_,_,endTime,_,_,_= UnitCastingInfo(unit)
+            local name,_,_,_,endTime,_,_,_,_= UnitCastingInfo(unit)
             if endTime == nil then 
                 local name,_,_,_,endTime,_,_ = UnitChannelInfo(unit)
                 if endTime == nil then return false end
@@ -65,14 +59,12 @@ end
 --[[[
 @function `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.
 ]]--
--- name, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("unit")
--- notInterruptible Boolean - if true, indicates that this cast cannot be interrupted with abilities
--- name, nameSubtext, text, texture, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo("unit")
--- notInterruptible Boolean - if true, indicates that this cast cannot be interrupted with abilities
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId = UnitCastingInfo("unit")
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible = UnitChannelInfo("unit")
 function Unit.isInterruptable(self)
     if UnitCanAttack("player", self.unit) == false then return false end
     if UnitIsEnemy("player",self.unit) == false then return false end
-    local targetSpell, _, _, _, _, _, _, spellInterruptable = UnitCastingInfo(self.unit)
+    local targetSpell, _, _, _, _, _, _, spellInterruptable,_ = UnitCastingInfo(self.unit)
     local targetChannel, _, _, _, _, _, channelInterruptable = UnitChannelInfo(self.unit)
     -- TODO: Blacklisted spells?
     if targetSpell and spellInterruptable == false then return true

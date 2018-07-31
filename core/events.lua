@@ -219,15 +219,20 @@ local function hideStaticPopup(addon, eventBlocked)
         LOG.debug("Addon Action Blocked: %s", eventBlocked)
     end
 end
+
 kps.events.register("ADDON_ACTION_FORBIDDEN", hideStaticPopup)
 kps.events.register("ADDON_ACTION_BLOCKED", hideStaticPopup)
 kps.events.register("MACRO_ACTION_FORBIDDEN", hideStaticPopup)
 
+--PLAYER_ENTER_COMBAT and PLAYER_LEAVE_COMBAT are for *MELEE* combat only.
+--They fire when you initiate autoattack and when you turn it off.
+--However, any spell or ability that does not turn on autoattack does not trigger it. Nor does it trigger when you get aggro.
+--You probably want PLAYER_REGEN_DISABLED (happens when you get aggro) and PLAYER_REGEN_ENABLED (happens when you lose aggro). 
 
-kps.events.register("PLAYER_ENTER_COMBAT", function()
+kps.events.register("PLAYER_REGEN_DISABLED", function()
     kps.autoAttackEnabled = true
 end)
-kps.events.register("PLAYER_LEAVE_COMBAT", function()
+kps.events.register("PLAYER_REGEN_ENABLED", function()
     kps.autoAttackEnabled = false
 end)
 

@@ -8,6 +8,34 @@ local UnitBuff = UnitBuff
 local UnitDebuff = UnitDebuff
 local UnitCanAssist = UnitCanAssist
 
+local kpsUnitBuff = function(unit,spellName)
+        local auraName,count,debuffType,duration,endTime,caster,isStealable,spellid,isBossDebuff,value
+        local i = 1
+        auraName,_,count,debuffType,duration,endTime,caster,isStealable,_,spellid,_,isBossDebuff,_,_,value1,value2,value3 = UnitBuff(unit,i)
+        while auraName do
+        	if auraName == spellName then
+        		return auraName,_,count,debuffType,duration,endTime,caster,isStealable,_,spellid,_,isBossDebuff,_,_,value1,value2,value3
+        	end
+        	i = i + 1
+        	auraName,_,count,debuffType,duration,endTime,caster,isStealable,_,spellid,_,isBossDebuff,_,_,value1,value2,value3 = UnitBuff(unit,i)
+        end
+	return "UnitBuffAuraName",nil,0,nil,0,0,"me",false, nil,0,false, false,nil,nil,0,0,0
+end
+
+local kpsUnitDebuff = function(unit,spellName)
+        local auraName,count,debuffType,duration,endTime,caster,isStealable,spellid,isBossDebuff,value
+        local i = 1
+        auraName,_,count,debuffType,duration,endTime,caster,isStealable,_,spellid,_,isBossDebuff,_,_,value1,value2,value3 = UnitDebuff(unit,i)
+        while auraName do
+        	if auraName == spellName then
+        		return auraName,_,count,debuffType,duration,endTime,caster,isStealable,_,spellid,_,isBossDebuff,_,_,value1,value2,value3
+        	end
+        	i = i + 1
+        	auraName,_,count,debuffType,duration,endTime,caster,isStealable,_,spellid,_,isBossDebuff,_,_,value1,value2,value3 = UnitDebuff(unit,i)
+        end
+	return "UnitDebuffAuraName",nil,0,nil,0,0,"me",false, nil,0,false, false,nil,nil,0,0,0
+end
+
 -- name, icon, count, debuffType, duration, expirationTime, unitCaster, canStealOrPurge, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, isCastByPlayer, nameplateShowAll, timeMod, ... = AuraUtil.FindAuraByName(auraName, unit, filter)
 -- name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3 = UnitBuff("unit", index[, "filter"])
 -- name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3 = UnitDebuff("unit", index[, "filter"]])
@@ -19,19 +47,30 @@ local UnitCanAssist = UnitCanAssist
 local hasBuff = setmetatable({}, {
 __index = function(t, unit)
     local val = function (spell)
-        local auraName,count,debuffType,duration,endTime,caster,spellid,isBossDebuff
-        local i = 1
-        auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = UnitBuff(unit,i)
-        while auraName do
-            if auraName == spell.name then return true end
-            i = i + 1
-            auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = UnitBuff(unit,i)
-        end
-       return false
+        local auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = kpsUnitBuff(unit,spell.name)
+    	if auraName ~= nil and auraName == spell.name then return true end
+		return false
     end
     t[unit] = val
     return val
 end})
+
+--local hasBuff = setmetatable({}, {
+--__index = function(t, unit)
+--    local val = function (spell)
+--        local auraName,count,debuffType,duration,endTime,caster,spellid,isBossDebuff
+--        local i = 1
+--        auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = UnitBuff(unit,i)
+--        while auraName do
+--            if auraName == spell.name then return true end
+--            i = i + 1
+--            auraName,_,count,debuffType,duration,endTime,caster,_,_,spellid,_,isBossDebuff = UnitBuff(unit,i)
+--        end
+--       return false
+--    end
+--    t[unit] = val
+--    return val
+--end})
 function Unit.hasBuff(self)
     return hasBuff[self.unit]
 end

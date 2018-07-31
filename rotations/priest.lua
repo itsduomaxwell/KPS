@@ -160,6 +160,8 @@ end
 --------------------------------------------------------------------------------------------
 
 local UnitCastingInfo = UnitCastingInfo
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId = UnitCastingInfo("unit")
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible = UnitChannelInfo(self.unit)
 
 function kps.env.priest.holyWordSerenityOnCD()
     if kps.spells.priest.holyWordSerenity.cooldown > kps.gcd then return true end
@@ -176,7 +178,7 @@ end
 
 local ShouldInterruptCasting = function (interruptTable, countLossInRange)
     if kps.lastTargetGUID == nil then return false end
-    local spellCasting, _, _, _, endTime, _ = UnitCastingInfo("player")
+    local spellCasting, _, _, _, endTime, _, _, _, _ = UnitCastingInfo("player")
     if spellCasting == nil then return false end
     if endTime == nil then return false end
     local targetHealth = UnitHealth(kps.lastTarget) / UnitHealthMax(kps.lastTarget)

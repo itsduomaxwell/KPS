@@ -1,6 +1,11 @@
 local Spell = kps.Spell.prototype
 
+-- API UnitChannelInfo Patch 8.0.1 (2018-07-17): Removed the second parameter, "nameSubtext". Second parameter is now "text" (former third parameter).
+-- API UnitCastingInfo Patch 8.0.1 (2018-07-17): Removed the second parameter, "nameSubtext". Second parameter is now "text" (former third parameter).
 local UnitCastingInfo = UnitCastingInfo
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId = UnitCastingInfo("unit")
+local UnitChannelInfo = UnitChannelInfo
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible = UnitChannelInfo("unit")
 
 --[[[
 @function `<SPELL>.charges` - returns the current charges left of this spell if it has charges or 0 if this spell has no charges
@@ -84,13 +89,15 @@ end
 --[[[
 @function `<SPELL>.castTimeLeft(<UNIT-STRING>)` - returns the castTimeLeft or channelTimeLeft in seconds the spell has if casted (e.g.: 'spells.mindFlay.castTimeLeft("player") > 0.5' )
 ]]--
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId = UnitCastingInfo("unit")
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible = UnitChannelInfo("unit")
 local castTimeLeft = setmetatable({}, {
     __index = function(t, self)
         local val = function(unit)
             if unit == nil then unit = "player" end
-            local name,_,_,_,_,endTime,_,_,_ = UnitCastingInfo(unit)
+            local name,_,_,_,endTime,_,_,_,_ = UnitCastingInfo(unit)
             if endTime == nil then
-                local name,_,_,_,_,endTime,_,_,_ = UnitChannelInfo(unit)
+                local name,_,_,_,endTime,_,_ = UnitChannelInfo(unit)
                 if endTime == nil then return 0 end
                 if tostring(self.name) == tostring(name) then return ((endTime - (GetTime() * 1000 ) )/1000) end
             end
@@ -188,13 +195,14 @@ end
 --[[[
 @function `<SPELL>.shouldInterrupt(<BREAKPOINT)` - returns true if the casting spell overheals above brealpoint (e.g.: `spells.heal.shouldInterrupt(0.90)`).
 ]]--
-
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId = UnitCastingInfo("unit")
+-- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible = UnitChannelInfo("unit")
 local shouldInterrupt = setmetatable({}, {
     __index = function(t, self)
         local val = function(breakpoint)
 
         if kps.lastTargetGUID == nil then return false end
-        local spellCasting, _, _, _, _, endTime, _ = UnitCastingInfo("player")
+        local spellCasting, _, _, _, endTime, _, _, _, _ = UnitCastingInfo("player")
         if spellCasting == nil then return false end
         if endTime == nil then return false end
         if kps.defensive then return false end

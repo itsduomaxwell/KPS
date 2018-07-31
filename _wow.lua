@@ -67,23 +67,23 @@ function GetUnitSpeed(unit)
     return 0
 end
 function UnitCastingInfo(unit)
-    -- name, subText, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("unit")
-    return "SpellNameCasting", "SpellText", "SpellSubText", "SpellTexture", 1, 1000, nil, false, nil
+    -- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, castID, notInterruptible, spellId = UnitCastingInfo("unit")
+    return "SpellNameCasting", "SpellText", nil, 1, 1000, nil, 0, false, 0
 end
 function UnitChannelInfo( ... )
-    -- name, subtext, text, texture, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo(self.unit)
-    return "SpellChanneled", nil, nil, nil, 1, 5, nil, nil
+    -- name, text, texture, startTimeMS, endTimeMS, isTradeSkill, notInterruptible = UnitChannelInfo("unit")
+    return "SpellChanneled", "SpellText", nil, 1, 5, nil, false
 end
 function debugstack(a,b,c)
     return "file.lua:1"
 end
 function UnitBuff( ... )
-    -- local auraName, _, _, count, _, duration, expirationTime, castBy, _, _, buffId = UnitBuff(unit, i)
-    return  "UnitBuffAuraName", nil, nil, 3, nil, 50, 1001, "me", nil, nil, 5
+    -- auraName,_,count,debuffType,duration,endTime,caster,isStealable,_,spellid,_,isBossDebuff,_,_,value1,value2,value3 = UnitBuff(unit, i)
+    return  "UnitBuffAuraName",nil,0,nil,0,0,"me",false, nil,0,false, false,nil,nil,0,0,0
 end
 function UnitDebuff( ... )
-    -- local auraName, _, _, count, _, duration, expirationTime, castBy, _, _, buffId = UnitDebuff(unit, i)
-    return "UnitDebuffAuraName", nil, nil, 3, nil, 50, 1001, "me", nil, nil, 5
+    -- auraName,_,count,debuffType,duration,endTime,caster,isStealable,_,spellid,_,isBossDebuff,_,_,value1,value2,value3 = UnitDebuff(unit, i)
+    return "UnitDebuffAuraName",nil,0,nil,0,0,"me",false, nil,0,false, false,nil,nil,0,0,0
 end
 function GetSpellCharges( ... )
     return 1
